@@ -69,9 +69,15 @@ export default function Footer() {
           <p className="text-slate-600 text-xs">
             © {year} inovaSensor. Todos os direitos reservados.
           </p>
-          <p className="text-slate-600 text-xs">
-            Vale do Paraíba · São Paulo · Brasil
-          </p>
+          <div className="flex items-center gap-4">
+            <a href="/privacidade" className="text-slate-600 hover:text-slate-400 text-xs transition-colors">
+              Política de Privacidade
+            </a>
+            <span className="text-slate-700 text-xs">·</span>
+            <p className="text-slate-600 text-xs">
+              Vale do Paraíba · São Paulo · Brasil
+            </p>
+          </div>
         </div>
       </div>
     </footer>
