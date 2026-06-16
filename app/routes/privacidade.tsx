@@ -298,11 +298,12 @@ function Privacidade() {
       <Navbar />
 
       {/* Header */}
-      <section className="relative pt-32 pb-16 px-6">
+      <section className="relative pt-44 pb-16 px-6">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_35%_at_50%_-5%,rgba(225,62,107,0.12),transparent)]" />
         <div className="max-w-4xl mx-auto relative">
           <a
             href="/"
+            onClick={(e) => { e.preventDefault(); window.location.href = '/'; }}
             className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-300 transition-colors text-sm mb-8"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
