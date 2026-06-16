@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 
@@ -301,15 +301,15 @@ function Privacidade() {
       <section className="relative pt-32 pb-16 px-6">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_35%_at_50%_-5%,rgba(225,62,107,0.12),transparent)]" />
         <div className="max-w-4xl mx-auto relative">
-          <Link
-            to="/"
+          <a
+            href="/"
             className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-300 transition-colors text-sm mb-8"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
             Voltar ao início
-          </Link>
+          </a>
 
           <span className="badge badge-brand mb-4">Privacidade & LGPD</span>
           <h1

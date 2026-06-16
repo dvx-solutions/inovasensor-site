@@ -73,7 +73,7 @@ export default function Navbar() {
       >
         <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center flex-shrink-0 group">
+          <a href="/" className="flex items-center flex-shrink-0 group">
             <img
               src="/logo.png"
               alt="inovaSensor"
