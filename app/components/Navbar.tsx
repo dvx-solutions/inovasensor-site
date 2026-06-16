@@ -8,7 +8,7 @@ const products = [
     icon: Trophy,
     name: "Palpite Bar",
     desc: "Gamificação de futebol para bares",
-    href: "#palpite-bar",
+    href: "/#palpite-bar",
     color: "text-amber-400",
     bg: "bg-amber-500/10",
     badge: "Ao vivo",
@@ -18,7 +18,7 @@ const products = [
     icon: Satellite,
     name: "Monitoramento",
     desc: "Alertas preditivos de cianobactérias",
-    href: "#monitoramento",
+    href: "/#monitoramento",
     color: "text-emerald-400",
     bg: "bg-emerald-500/10",
     badge: "TRL 4",
@@ -28,7 +28,7 @@ const products = [
     icon: Bot,
     name: "BPO-AI",
     desc: "Gestão contábil com WhatsApp AI",
-    href: "#bpoai",
+    href: "/#bpoai",
     color: "text-violet-400",
     bg: "bg-violet-500/10",
     badge: "Em breve",
@@ -37,9 +37,9 @@ const products = [
 ];
 
 const navLinks = [
-  { label: "Sobre", href: "#sobre" },
-  { label: "Equipe", href: "#equipe" },
-  { label: "Contato", href: "#contato" },
+  { label: "Sobre", href: "/#sobre" },
+  { label: "Equipe", href: "/#equipe" },
+  { label: "Contato", href: "/#contato" },
 ];
 
 export default function Navbar() {
@@ -146,7 +146,7 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
-            <a href="#contato">
+            <a href="/#contato">
               <Button size="sm" variant="brand" className="px-5 h-9 shadow-[0_0_20px_rgba(225,62,107,0.3)]">
                 Fale Conosco
               </Button>
@@ -210,7 +210,7 @@ export default function Navbar() {
             ))}
 
             <div className="mt-auto pt-4">
-              <a href="#contato" onClick={() => setMobileOpen(false)}>
+              <a href="/#contato" onClick={() => setMobileOpen(false)}>
                 <Button variant="brand" className="w-full">Fale Conosco</Button>
               </a>
             </div>
