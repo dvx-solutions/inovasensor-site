@@ -9,12 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as FiemsConectaPrivacidadeRouteImport } from './routes/fiems-conecta-privacidade'
 import { Route as IndexRouteImport } from './routes/index'
 
-const PrivacidadeRoute = PrivacidadeRouteImport.update({
-  id: '/privacidade',
-  path: '/privacidade',
+const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
+  id: '/fiems-conecta-privacidade',
+  path: '/fiems-conecta-privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,37 +25,37 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/privacidade': typeof PrivacidadeRoute
+  '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/privacidade': typeof PrivacidadeRoute
+  '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/privacidade': typeof PrivacidadeRoute
+  '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/privacidade'
+  fullPaths: '/' | '/fiems-conecta-privacidade'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacidade'
-  id: '__root__' | '/' | '/privacidade'
+  to: '/' | '/fiems-conecta-privacidade'
+  id: '__root__' | '/' | '/fiems-conecta-privacidade'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  PrivacidadeRoute: typeof PrivacidadeRoute
+  FiemsConectaPrivacidadeRoute: typeof FiemsConectaPrivacidadeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/privacidade': {
-      id: '/privacidade'
-      path: '/privacidade'
-      fullPath: '/privacidade'
-      preLoaderRoute: typeof PrivacidadeRouteImport
+    '/fiems-conecta-privacidade': {
+      id: '/fiems-conecta-privacidade'
+      path: '/fiems-conecta-privacidade'
+      fullPath: '/fiems-conecta-privacidade'
+      preLoaderRoute: typeof FiemsConectaPrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,7 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PrivacidadeRoute: PrivacidadeRoute,
+  FiemsConectaPrivacidadeRoute: FiemsConectaPrivacidadeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

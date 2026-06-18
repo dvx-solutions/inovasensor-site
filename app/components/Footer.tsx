@@ -70,7 +70,7 @@ export default function Footer() {
             © {year} inovaSensor. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-4">
-            <a href="/privacidade" className="text-slate-600 hover:text-slate-400 text-xs transition-colors">
+            <a href="/fiems-conecta-privacidade" className="text-slate-600 hover:text-slate-400 text-xs transition-colors">
               Política de Privacidade
             </a>
             <span className="text-slate-700 text-xs">·</span>

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 
-export const Route = createFileRoute("/privacidade")({
+export const Route = createFileRoute("/fiems-conecta-privacidade")({
   component: Privacidade,
 });
 
