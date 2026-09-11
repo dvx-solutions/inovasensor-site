@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Navbar from "~/components/Navbar";
-import Footer from "~/components/Footer";
+
+/**
+ * Política de privacidade do FIEMS Conecta.
+ *
+ * Esta rota NÃO pertence ao AlgEye: é o documento legal de outro
+ * aplicativo, referenciado pelas lojas. Fica deliberadamente fora da
+ * navegação do AlgEye e sem a marca dele — só a entidade operadora.
+ */
 
 export const Route = createFileRoute("/fiems-conecta-privacidade")({
   component: Privacidade,
@@ -294,25 +300,11 @@ const sections = [
 
 function Privacidade() {
   return (
-    <main className="min-h-screen" style={{ background: "#020c1b" }}>
-      <Navbar />
-
+    <main className="legal-page min-h-screen">
       {/* Header */}
-      <section className="relative pt-44 pb-16 px-6">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_35%_at_50%_-5%,rgba(225,62,107,0.12),transparent)]" />
-        <div className="max-w-4xl mx-auto relative">
-          <a
-            href="/"
-            onClick={(e) => { e.preventDefault(); window.location.href = '/'; }}
-            className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-300 transition-colors text-sm mb-8"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-            Voltar ao início
-          </a>
-
-          <span className="badge badge-brand mb-4">Privacidade & LGPD</span>
+      <section className="relative px-6 pb-16 pt-24">
+        <div className="relative mx-auto max-w-4xl">
+          <span className="badge badge-brand mb-4">Privacidade &amp; LGPD</span>
           <h1
             className="text-4xl md:text-5xl font-bold mb-4"
             style={{ fontFamily: "var(--font-heading)" }}
@@ -364,7 +356,13 @@ function Privacidade() {
         </div>
       </section>
 
-      <Footer />
+      <footer className="border-t px-6 py-10" style={{ borderColor: "var(--color-shelf)" }}>
+        <div className="mx-auto max-w-4xl">
+          <p className="label" style={{ lineHeight: 1.7 }}>
+            FIEMS Conecta · operado por Inova Sensor LTDA · CNPJ 47.164.317/0001-27
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

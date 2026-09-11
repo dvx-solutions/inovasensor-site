@@ -5,3 +5,6 @@ dist/
 .env
 .env.local
 *.log
+
+# leads recebidos pelo formulário (não versionar)
+.data/

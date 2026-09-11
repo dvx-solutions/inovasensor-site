@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FiemsConectaPrivacidadeRouteImport } from './routes/fiems-conecta-privacidade'
+import { Route as EnRouteImport } from './routes/en'
 import { Route as IndexRouteImport } from './routes/index'
 
 const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
   id: '/fiems-conecta-privacidade',
   path: '/fiems-conecta-privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnRoute = EnRouteImport.update({
+  id: '/en',
+  path: '/en',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/en': typeof EnRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/en': typeof EnRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/en': typeof EnRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fiems-conecta-privacidade'
+  fullPaths: '/' | '/en' | '/fiems-conecta-privacidade'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fiems-conecta-privacidade'
-  id: '__root__' | '/' | '/fiems-conecta-privacidade'
+  to: '/' | '/en' | '/fiems-conecta-privacidade'
+  id: '__root__' | '/' | '/en' | '/fiems-conecta-privacidade'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EnRoute: typeof EnRoute
   FiemsConectaPrivacidadeRoute: typeof FiemsConectaPrivacidadeRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/fiems-conecta-privacidade'
       fullPath: '/fiems-conecta-privacidade'
       preLoaderRoute: typeof FiemsConectaPrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en': {
+      id: '/en'
+      path: '/en'
+      fullPath: '/en'
+      preLoaderRoute: typeof EnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EnRoute: EnRoute,
   FiemsConectaPrivacidadeRoute: FiemsConectaPrivacidadeRoute,
 }
 export const routeTree = rootRouteImport

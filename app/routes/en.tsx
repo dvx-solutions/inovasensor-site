@@ -2,15 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import Page from "~/components/Page";
 import { copy } from "~/lib/copy";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/en")({
   head: () => ({
     meta: [
-      { title: copy.pt.meta.title },
-      { name: "description", content: copy.pt.meta.description },
-      { property: "og:title", content: copy.pt.meta.title },
-      { property: "og:description", content: copy.pt.meta.description },
+      { title: copy.en.meta.title },
+      { name: "description", content: copy.en.meta.description },
+      { property: "og:title", content: copy.en.meta.title },
+      { property: "og:description", content: copy.en.meta.description },
       { property: "og:type", content: "website" },
-      { property: "og:locale", content: "pt_BR" },
+      { property: "og:locale", content: "en" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -19,5 +19,5 @@ export const Route = createFileRoute("/")({
       { rel: "alternate", hrefLang: "x-default", href: "/" },
     ],
   }),
-  component: () => <Page lang="pt" />,
+  component: () => <Page lang="en" />,
 });

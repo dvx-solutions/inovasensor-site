@@ -1,4 +1,4 @@
-import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
+import { HeadContent, Outlet, Scripts, createRootRoute, useRouterState } from "@tanstack/react-router";
 import "../styles/app.css";
 
 export const Route = createRootRoute({
@@ -6,17 +6,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "inovaSensor — Inteligência Artificial para Desafios Reais" },
-      { name: "description", content: "inovaSensor desenvolve plataformas de IA que transformam dados complexos em decisões simples — monitoramento ambiental, gestão contábil e entretenimento." },
+      { name: "theme-color", content: "#05161b" },
     ],
     links: [
-      { rel: "icon", type: "image/png", href: "/logo.png" },
-      { rel: "apple-touch-icon", href: "/logo.png" },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
+        href:
+          "https://fonts.googleapis.com/css2?" +
+          "family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&" +
+          "family=JetBrains+Mono:wght@400;500&display=swap",
       },
     ],
   }),
@@ -24,10 +25,15 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const lang = pathname.startsWith("/en") ? "en" : "pt-BR";
+
   return (
-    <html lang="pt-BR">
-      <head><HeadContent /></head>
-      <body className="bg-[#020c1b] text-[#f8fafc] overflow-x-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <html lang={lang}>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
         <Outlet />
         <Scripts />
       </body>
