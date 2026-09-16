@@ -8,32 +8,29 @@ import type { ReactNode } from "react";
  * e por isso ela vive no contorno, não num detalhe interno — assim nada
  * essencial se perde quando reduz.
  *
- * Herda a cor do texto ao redor (`currentColor`), então um único desenho
- * serve colorido, mono-escuro e mono-claro.
+ * A marca oficial: um olho contendo o globo e um satélite. Ela existe
+ * hoje só em raster, então entra como <img> e não como SVG inline.
  *
- * PROVISÓRIA: a marca definitiva já foi escolhida — um olho contendo globo
- * e satélite, em verde #0A5B45 — mas só existe em PNG, esperando vetor.
- * Enquanto não houver SVG, este desenho segura o cabeçalho e o favicon.
+ * O arquivo é exportado a 4× o tamanho de uso (96 px de altura para 24 em
+ * tela), o que a deixa nítida em retina e pesa 6 kB. Quando houver vetor,
+ * isto vira um SVG inline e o `size` continua sendo a única medida.
+ *
+ * Só a versão branca vive aqui porque a marca sempre aparece sobre o
+ * fundo escuro do site. A verde (#0A5B45) está ao lado, em
+ * `public/marca/`, para material impresso e fundo claro.
  */
 export function AlgEyeMark({ size = 22, className = "" }: { size?: number; className?: string }) {
   return (
-    <svg
-      width={size}
+    <img
+      src="/marca/algeye-branco.png"
+      width={Math.round(size * 1.786)}
       height={size}
-      viewBox="0 0 100 100"
-      fill="none"
       className={className}
-      style={{ color: "var(--color-cyan)" }}
+      alt=""
       aria-hidden="true"
-    >
-      <path
-        d="M6 50C20 24 36 14 50 14C64 14 80 24 94 50C90 63 83 72 72 74C61 76 54 68 42 70C30 72 14 63 6 50Z"
-        stroke="currentColor"
-        strokeWidth="7"
-        strokeLinejoin="round"
-      />
-      <circle cx="50" cy="44" r="12" fill="currentColor" />
-    </svg>
+      decoding="async"
+      style={{ height: size, width: "auto" }}
+    />
   );
 }
 
