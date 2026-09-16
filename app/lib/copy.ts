@@ -157,37 +157,47 @@ const pt = {
     h2: "O alerta chega assim.",
     lede:
       "Um painel por reservatório: estado atual, série histórica do índice, mapa de calor da mancha e o alerta com data e hora. Sem instalar nada, sem estação em campo, acessível de qualquer navegador.",
-    mock: {
-      brand: "Algeye",
-      picker: "Reservatório Norte",
-      nav: ["Mapa", "Previsão", "Alertas", "Coletas", "Relatórios", "Ajustes", "Entenda", "Pedidos"],
-      readouts: [["Passagem", "08 ago"], ["Nuvem", "2%"], ["GSD", "3 m"]],
-      user: { name: "A. Ribeiro", initials: "AR" },
-      card: {
-        title: "Reservatório Norte",
-        meta: "26 km² · Sudeste · 90 passagens",
-        archiveLabel: "Preparando o acervo",
-        archiveNote: "615 de 644 dias prontos, 27 sem imagem útil",
-        mirrorLabel: "Espelho acima de moderado",
-        mirrorValue: "1,4",
-        mirrorUnit: "% do visível",
-        classes: [["Baix", "90%"], ["Mode", "9%"], ["Alto", "1%"], ["Crít", "0%"]],
-      },
-      layers: ["NDCI", "Clorofila", "Cor verdadeira", "Máscara"],
-      legend: {
-        title: "NDCI — índice",
-        scale: ["-0,20", "0,20", "0,60"],
-        classes: [
-          ["Crítico", "≥ 0,28"],
-          ["Alto", "0,16–0,28"],
-          ["Moderado", "0,08–0,16"],
-          ["Baixo", "< 0,08"],
-        ],
-      },
-      marker: "EF20",
-      series: { label: "Série de passagens", date: "08/08/2026", note: "NDCI médio 0,020 · 100% visível" },
+    telas: {
+      caption:
+        "Represa de Guarapiranga, São Paulo · três passagens do mesmo reservatório",
+      shots: [
+        {
+          src: "/sistema/guarapiranga-moderada",
+          alt: "Painel do AlgEye em 11 de maio de 2026: manchas alaranjadas nas margens do espelho da Guarapiranga.",
+          date: "11/05/2026",
+          state: "Moderado",
+          value: "10,6",
+          unit: "% do espelho acima de moderado",
+          note: "NDCI médio 0,077 · 100% visível",
+          body:
+            "A mancha aparece primeiro nas margens, onde a água fica parada. Nada que se enxergue da estrada, e nada que uma coleta pontual no meio do espelho fosse encontrar.",
+        },
+        {
+          src: "/sistema/guarapiranga-limpa",
+          alt: "Painel do AlgEye em 14 de maio de 2026: o espelho da Guarapiranga quase todo em azul, índice na faixa baixa.",
+          date: "14/05/2026",
+          state: "Dentro da faixa",
+          value: "3,8",
+          unit: "% do espelho acima de moderado",
+          note: "NDCI médio 0,007 · 91% visível",
+          body:
+            "Três dias depois o índice despenca e o espelho volta ao azul. Uma campanha de coleta marcada para esta data teria voltado ao laboratório dizendo que estava tudo bem.",
+        },
+        {
+          src: "/sistema/guarapiranga-critica",
+          alt: "Painel do AlgEye em 22 de junho de 2026: o espelho da Guarapiranga quase todo em laranja e vermelho, com alerta crítico.",
+          date: "22/06/2026",
+          state: "Alerta crítico",
+          value: "84,7",
+          unit: "% do espelho acima de moderado",
+          note: "NDCI médio 0,288 · 100% visível",
+          body:
+            "Trinta e nove dias depois, 84,7% do espelho acima de moderado e mais da metade em crítico. Entre uma coleta e a próxima, é esta a curva que ninguém estava vendo.",
+        },
+      ],
     },
-    disclaimer: "Reconstrução da interface do AlgEye. Reservatório e usuário descaracterizados.",
+    disclaimer:
+      "Telas reais do AlgEye, sem edição. Guarapiranga é reservatório público; o usuário na barra superior é de uma conta de teste.",
   },
 
   /* 05 ─────────────────────────────────────────────────────── */
@@ -441,37 +451,47 @@ const en: typeof pt = {
     h2: "This is how the alert arrives.",
     lede:
       "One dashboard per reservoir: current state, index history, heat map of the patch, and the alert with a date and time. Nothing to install, no field station, reachable from any browser.",
-    mock: {
-      brand: "Algeye",
-      picker: "North Reservoir",
-      nav: ["Map", "Forecast", "Alerts", "Sampling", "Reports", "Settings", "Learn", "Orders"],
-      readouts: [["Overpass", "08 Aug"], ["Cloud", "2%"], ["GSD", "3 m"]],
-      user: { name: "A. Ribeiro", initials: "AR" },
-      card: {
-        title: "North Reservoir",
-        meta: "26 km² · Southeast Brazil · 90 overpasses",
-        archiveLabel: "Building the archive",
-        archiveNote: "615 of 644 days ready, 27 with no usable image",
-        mirrorLabel: "Surface above moderate",
-        mirrorValue: "1.4",
-        mirrorUnit: "% of visible",
-        classes: [["Low", "90%"], ["Mod", "9%"], ["High", "1%"], ["Crit", "0%"]],
-      },
-      layers: ["NDCI", "Chlorophyll", "True colour", "Mask"],
-      legend: {
-        title: "NDCI — index",
-        scale: ["-0.20", "0.20", "0.60"],
-        classes: [
-          ["Critical", "≥ 0.28"],
-          ["High", "0.16–0.28"],
-          ["Moderate", "0.08–0.16"],
-          ["Low", "< 0.08"],
-        ],
-      },
-      marker: "EF20",
-      series: { label: "Overpass series", date: "2026-08-08", note: "mean NDCI 0.020 · 100% visible" },
+    telas: {
+      caption:
+        "Guarapiranga reservoir, São Paulo · three overpasses of the same water body",
+      shots: [
+        {
+          src: "/sistema/guarapiranga-moderada",
+          alt: "AlgEye dashboard on 11 May 2026: orange patches along the margins of the Guarapiranga surface.",
+          date: "11 May 2026",
+          state: "Moderate",
+          value: "10.6",
+          unit: "% of the surface above moderate",
+          note: "mean NDCI 0.077 · 100% visible",
+          body:
+            "The patch shows up first along the margins, where the water sits still. Nothing you would see from the road, and nothing a spot sample in the middle of the reservoir would have found.",
+        },
+        {
+          src: "/sistema/guarapiranga-limpa",
+          alt: "AlgEye dashboard on 14 May 2026: the Guarapiranga surface almost entirely blue, index in the low band.",
+          date: "14 May 2026",
+          state: "Within range",
+          value: "3.8",
+          unit: "% of the surface above moderate",
+          note: "mean NDCI 0.007 · 91% visible",
+          body:
+            "Three days later the index collapses and the surface is blue again. A sampling campaign scheduled for this date would have gone back to the lab reporting that all was well.",
+        },
+        {
+          src: "/sistema/guarapiranga-critica",
+          alt: "AlgEye dashboard on 22 June 2026: the Guarapiranga surface almost entirely orange and red, critical alert raised.",
+          date: "22 June 2026",
+          state: "Critical alert",
+          value: "84.7",
+          unit: "% of the surface above moderate",
+          note: "mean NDCI 0.288 · 100% visible",
+          body:
+            "Thirty-nine days later, 84.7% of the surface above moderate and more than half of it critical. Between one campaign and the next, this is the curve nobody was watching.",
+        },
+      ],
     },
-    disclaimer: "Reconstruction of the AlgEye interface. Reservoir and user anonymised.",
+    disclaimer:
+      "Real AlgEye screens, unedited. Guarapiranga is a public reservoir; the user in the top bar belongs to a test account.",
   },
 
   operacao: {

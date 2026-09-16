@@ -1,267 +1,219 @@
+import { useEffect, useRef, useState } from "react";
 import { SectionHead } from "~/components/ui/Section";
+import { canAnimate, ensureGsap, isCompact } from "~/lib/motion";
 import type { Copy } from "~/lib/copy";
 
 /**
  * Bloco 04 — o painel.
  *
- * Reconstrução da interface real do AlgEye a partir de captura do time,
- * com reservatório e usuário descaracterizados: nenhum nome real existe
- * neste arquivo. Foi reconstruída em vez de embutida como imagem porque
- * assim fica nítida em qualquer tela, pesa alguns kB em vez de centenas,
- * herda a paleta do site e não corre risco de carregar junto qualquer
- * coisa que estivesse na tela no momento do print.
+ * O bloco 03 explica a lógica com a cena 3D; aqui embaixo vem a prova,
+ * que são três passagens reais do mesmo reservatório. O scroll pina a
+ * seção e atravessa as três, na mesma mecânica do bloco anterior.
  *
- * Para trocar pela captura real: salve em `public/painel.png` e troque
- * <PanelMock/> por <img src="/painel.png" alt="" />.
+ * Duas regras que vieram de uma tentativa que deu errado: a tela NUNCA
+ * fica atrás do texto e NUNCA é cortada. Quando a captura vira fundo,
+ * a tipografia do site briga com a do sistema e o corte come justamente
+ * o que a pessoa veio ver. Por isso a imagem é `object-contain` com teto
+ * de altura — encolhe, nunca recorta — e todo o texto vive abaixo dela.
+ *
+ * A opacidade é escrita direto no DOM dentro do onUpdate: passar isso
+ * por estado do React re-renderizaria a cada quadro do scrub.
+ *
+ * Imagens em WebP com um `-1x` para telas não-retina; o PNG mestre fica
+ * ao lado, em `public/sistema/`, para reexportar quando precisar.
  */
 
-/* ── série de passagens do rodapé ───────────────────────────── */
-const BARS = 92;
-/* Determinística: calma quase o ano inteiro, com picos isolados. */
-const series = Array.from({ length: BARS }, (_, i) => {
-  const base = 0.18 + 0.1 * Math.abs(Math.sin(i * 0.7)) + 0.06 * Math.abs(Math.sin(i * 2.3));
-  const spikes: Record<number, number> = { 47: 0.55, 74: 0.62, 79: 0.5, 85: 1.0, 88: 0.42 };
-  return spikes[i] ?? base;
-});
-const barColor = (v: number) =>
-  v >= 0.9 ? "var(--color-flare)" : v >= 0.5 ? "#c9a227" : "var(--color-cyan-d)";
+type Shot = Copy["painel"]["telas"]["shots"][number];
 
-/* ── mancha do reservatório, em falsa cor do índice ─────────── */
-const LAKE =
-  "M300 74 C352 44, 420 58, 470 52 C520 46, 560 66, 566 108 C572 152, 548 186, 520 214 " +
-  "C498 236, 486 268, 470 300 C452 336, 408 352, 372 338 C338 324, 322 292, 312 258 " +
-  "C300 216, 268 190, 256 152 C246 118, 262 86, 300 74 Z";
-
-function PanelMock({ t }: { t: Copy }) {
-  const m = t.painel.mock;
-
+function Tela({ s, eager, modo }: { s: Shot; eager: boolean; modo: "pinado" | "lista" }) {
   return (
-    <div className="panel overflow-hidden">
-      {/* ── barra de aplicação ── */}
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-edge bg-deep px-4 py-2.5">
-        <span className="flex items-center gap-2">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" stroke="var(--color-cyan)" strokeWidth="1.6" />
-            <circle cx="12" cy="12" r="4" fill="var(--color-cyan)" />
-          </svg>
-          <span className="text-[13px] font-medium text-fg">{m.brand}</span>
-        </span>
+    <img
+      src={`${s.src}.webp`}
+      srcSet={`${s.src}-1x.webp 921w, ${s.src}.webp 1842w`}
+      sizes="(min-width: 768px) 92vw, 94vw"
+      width={1842}
+      height={895}
+      alt={s.alt}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      className={
+        modo === "pinado"
+          ? /* Pinado a altura é o recurso escasso, então o teto é vertical
+               e a largura segue. `object-contain` garante que encolher
+               nunca vire recorte. */
+            "panel mx-auto block max-h-[40svh] w-auto max-w-full object-contain"
+          : /* Na lista há largura de sobra e as imagens abaixo da dobra são
+               lazy: `w-full h-auto` deixa o navegador reservar a caixa pela
+               proporção antes de carregar. Com `w-auto` elas nascem com 2 px
+               e saltam ao carregar. */
+            "panel block h-auto w-full"
+      }
+    />
+  );
+}
 
-        <span className="flex items-center gap-2 border border-edge px-2.5 py-1">
-          <span className="readout text-[11px] text-fg">{m.picker}</span>
-          <span className="text-fg-dim" aria-hidden="true">⌄</span>
-        </span>
-
-        <nav className="hidden items-center gap-4 lg:flex">
-          {m.nav.map((item, i) => (
-            <span
-              key={item}
-              className="text-[12px]"
-              style={
-                i === 0
-                  ? { color: "var(--color-fg)", background: "var(--color-shelf)", padding: "3px 9px" }
-                  : { color: "var(--color-fg-dim)" }
-              }
-            >
-              {item}
-            </span>
-          ))}
-        </nav>
-
-        <span className="ml-auto hidden items-center gap-4 xl:flex">
-          {m.readouts.map(([k, v]) => (
-            <span key={k} className="label flex items-center gap-1.5">
-              {k} <b className="readout font-normal text-fg">{v}</b>
-            </span>
-          ))}
-        </span>
-
-        <span className="flex items-center gap-2">
+function Leitura({ s, alerta }: { s: Shot; alerta: boolean }) {
+  return (
+    <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+      <div>
+        <span className="label label-cyan readout">{s.date}</span>
+        <p className="mt-3 flex items-baseline gap-2">
           <span
-            className="readout flex h-6 w-6 items-center justify-center rounded-full text-[11px] text-abyss"
-            style={{ background: "var(--color-cyan)" }}
+            className="text-[2.4rem] leading-none md:text-[2.9rem]"
+            style={{
+              fontFamily: "var(--font-display)",
+              /* Laranja é a cor de alerta do índice, não enfeite: só
+                 acende na passagem que de fato estourou a faixa. */
+              color: alerta ? "var(--color-flare)" : "var(--color-cyan)",
+            }}
           >
-            {m.user.initials}
+            {s.value}
           </span>
-          <span className="hidden text-[12px] text-fg-mute sm:inline">{m.user.name}</span>
-        </span>
+          <span className="text-fg-mute text-sm">{s.unit}</span>
+        </p>
+        <p className="text-fg-dim mt-2 text-sm">
+          {s.state} · {s.note}
+        </p>
       </div>
-
-      {/* ── corpo: mapa + sobreposições ── */}
-      <div className="relative">
-        <div className="relative aspect-[16/8] w-full overflow-hidden" style={{ background: "#e8ece6" }}>
-          <svg viewBox="0 0 820 410" className="absolute inset-0 h-full w-full" aria-hidden="true">
-            <rect width="820" height="410" fill="#e8ece6" />
-            {[60, 150, 240, 330].map((y) => (
-              <rect key={y} x="0" y={y} width="820" height="34" fill="#dfe6db" />
-            ))}
-            {[120, 300, 640, 760].map((x) => (
-              <rect key={x} x={x} width="26" height="410" fill="#dfe6db" />
-            ))}
-            <path d="M0 96 L820 84" stroke="#f2c14e" strokeWidth="3" fill="none" />
-            <path d="M690 0 L640 410" stroke="#f2c14e" strokeWidth="3" fill="none" />
-            <path d="M150 410 L210 0" stroke="#ffffff" strokeWidth="4" fill="none" />
-            <path
-              d="M256 152 C228 196, 236 268, 262 330 L300 410 L392 410 L356 330 C330 272, 300 208, 300 152 Z"
-              fill="#bcd9e6"
-            />
-
-            <defs>
-              <linearGradient id="ndci-fill" x1="0" y1="0" x2="0.3" y2="1">
-                <stop offset="0%" stopColor="#1f6b6d" />
-                <stop offset="62%" stopColor="#20706b" />
-                <stop offset="100%" stopColor="#2f7a63" />
-              </linearGradient>
-              <pattern id="ndci-grain" width="4" height="4" patternUnits="userSpaceOnUse">
-                <rect width="4" height="4" fill="transparent" />
-                <circle cx="1" cy="1" r="0.7" fill="#2f8f86" opacity="0.55" />
-                <circle cx="3" cy="3" r="0.6" fill="#17595c" opacity="0.5" />
-              </pattern>
-            </defs>
-            <path d={LAKE} fill="url(#ndci-fill)" />
-            <path d={LAKE} fill="url(#ndci-grain)" />
-
-            {/* franjas acima de moderado, nas bordas rasas */}
-            <path
-              d="M470 300 C452 336, 408 352, 372 338 C348 328, 332 308, 322 284 C344 306, 372 320, 402 318 C432 316, 454 308, 470 300 Z"
-              fill="#c9a227"
-              opacity="0.75"
-            />
-            <path d="M312 258 C316 276, 320 292, 328 306 C314 292, 306 274, 306 256 Z" fill="#c9a227" opacity="0.6" />
-
-            {/* ponto de coleta */}
-            <circle cx="404" cy="140" r="15" fill="none" stroke="#ffffff" strokeWidth="2" opacity="0.9" />
-            <circle cx="404" cy="140" r="3.5" fill="#ffffff" />
-          </svg>
-
-          <span
-            className="readout absolute left-[46%] top-[38%] px-1.5 py-0.5 text-[11px] text-fg"
-            style={{ background: "rgba(5,22,27,0.82)" }}
-          >
-            {m.marker}
-          </span>
-
-          {/* camadas disponíveis */}
-          <div className="absolute left-1/2 top-3 flex -translate-x-1/2 gap-1.5">
-            {m.layers.map((layer, i) => (
-              <span
-                key={layer}
-                className="readout px-2.5 py-1 text-[11px]"
-                style={
-                  i === 0
-                    ? {
-                        background: "var(--color-abyss)",
-                        color: "var(--color-fg)",
-                        border: "1px solid var(--color-edge)",
-                      }
-                    : { background: "rgba(5,22,27,0.55)", color: "var(--color-fg-mute)", border: "1px solid transparent" }
-                }
-              >
-                {layer}
-              </span>
-            ))}
-          </div>
-
-          {/* ficha do reservatório */}
-          <div
-            className="absolute left-3 top-3 w-[16.5rem] max-w-[46%] border border-edge p-4"
-            style={{ background: "rgba(5,22,27,0.94)" }}
-          >
-            <p className="text-[15px] font-medium text-fg">{m.card.title}</p>
-            <p className="label mt-1.5">{m.card.meta}</p>
-
-            <p className="label mt-4">
-              {m.card.archiveLabel} <b className="readout font-normal text-fg">95%</b>
-            </p>
-            <div className="mt-2 h-1 w-full" style={{ background: "var(--color-shelf)" }}>
-              <div className="h-full" style={{ width: "95%", background: "var(--color-cyan)" }} />
-            </div>
-            <p className="mt-2 text-[12px] leading-snug text-fg-mute">{m.card.archiveNote}</p>
-
-            <p className="label mt-5">{m.card.mirrorLabel}</p>
-            <p className="mt-1 flex items-baseline gap-2">
-              <span className="readout text-[2rem] leading-none text-cyan">{m.card.mirrorValue}</span>
-              <span className="text-[13px] text-fg-mute">{m.card.mirrorUnit}</span>
-            </p>
-            <div className="mt-3 flex h-1 w-full overflow-hidden">
-              <span style={{ width: "90%", background: "var(--color-cyan-d)" }} />
-              <span style={{ width: "9%", background: "#c9a227" }} />
-              <span style={{ width: "1%", background: "var(--color-flare)" }} />
-            </div>
-            <div className="mt-2 flex justify-between gap-1">
-              {m.card.classes.map(([k, v]) => (
-                <span key={k} className="label" style={{ letterSpacing: "0.05em" }}>
-                  {k} {v}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* legenda do índice */}
-          <div
-            className="absolute right-3 top-3 hidden w-[14rem] border border-edge p-4 md:block"
-            style={{ background: "rgba(5,22,27,0.94)" }}
-          >
-            <p className="label">{m.legend.title}</p>
-            <div
-              className="mt-3 h-2 w-full"
-              style={{ background: "linear-gradient(90deg,#1f6b6d,#2f8f86,#c9a227,#ff6b3d)" }}
-            />
-            <div className="mt-1.5 flex justify-between">
-              {m.legend.scale.map((v) => (
-                <span key={v} className="label">
-                  {v}
-                </span>
-              ))}
-            </div>
-            <ul className="mt-4 flex flex-col gap-2">
-              {m.legend.classes.map(([k, v], i) => (
-                <li key={k} className="flex items-center gap-2.5">
-                  <span
-                    className="h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                    style={{ background: ["var(--color-flare)", "#e08b3a", "#c9a227", "var(--color-cyan)"][i] }}
-                  />
-                  <span className="text-[12px] text-fg-mute">
-                    {k} · {v}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* ── série de passagens ── */}
-        <div className="grid gap-px border-t border-edge bg-edge lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]">
-          <div className="bg-abyss px-5 py-4">
-            <p className="label">{m.series.label}</p>
-            <p className="readout mt-2 text-[1.2rem] text-fg">{m.series.date}</p>
-            <p className="mt-1 text-[12px] text-fg-mute">{m.series.note}</p>
-          </div>
-          <div className="flex items-end gap-[2px] bg-abyss px-5 py-4" style={{ height: "6.5rem" }}>
-            {series.map((v, i) => (
-              <span
-                key={i}
-                className="flex-1"
-                style={{ height: `${Math.round(v * 100)}%`, background: barColor(v), minWidth: 2 }}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      <p className="prose-body max-w-[38rem] text-[1rem]">{s.body}</p>
     </div>
   );
 }
 
 export default function Painel({ t }: { t: Copy }) {
-  return (
-    <section id="painel" className="rule-top">
-      <div className="shell py-24 md:py-32">
-        <SectionHead index={t.painel.index} eyebrow={t.painel.eyebrow} title={t.painel.h2} lede={t.painel.lede} />
+  const { caption, shots } = t.painel.telas;
+  const section = useRef<HTMLElement>(null);
+  const frames = useRef<(HTMLDivElement | null)[]>([]);
+  const [active, setActive] = useState(0);
+  const [pinned, setPinned] = useState(false);
 
-        <figure className="reveal mt-14">
-          <PanelMock t={t} />
-          <figcaption className="label mt-3.5 block">{t.painel.disclaimer}</figcaption>
-        </figure>
+  useEffect(() => {
+    if (!canAnimate() || isCompact()) return;
+    const { gsap, ScrollTrigger } = ensureGsap();
+    setPinned(true);
+
+    const ctx = gsap.context(() => {
+      const st = ScrollTrigger.create({
+        trigger: section.current,
+        start: "top top",
+        // Uma viewport de scroll por transição, como no bloco 03.
+        end: `+=${(shots.length - 1) * 100}%`,
+        pin: ".painel-pin",
+        scrub: 0.5,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          const raw = self.progress * (shots.length - 1);
+          frames.current.forEach((el, i) => {
+            if (!el) return;
+            // Cruzada linear: a vizinha entra na mesma proporção em que a
+            // atual sai, então o fundo nunca aparece entre as duas.
+            el.style.opacity = String(Math.max(0, 1 - Math.abs(raw - i)));
+          });
+          setActive(Math.round(raw));
+        },
+      });
+      return () => st.kill();
+    }, section);
+
+    return () => {
+      ctx.revert();
+      setPinned(false);
+    };
+  }, [shots.length]);
+
+  const atual = shots[active] ?? shots[0];
+  const ultima = shots.length - 1;
+
+  return (
+    <section ref={section} id="painel" className="rule-top relative">
+      <div className="painel-pin relative overflow-hidden">
+        <div className="shell flex min-h-[100svh] flex-col justify-center py-14">
+          {pinned ? (
+            /* Cabeçalho enxuto: pinado, cada linha de texto disputa altura
+               com a tela — e é a tela que a pessoa veio ver. A lede volta
+               inteira no modo lista, onde há espaço de sobra. */
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="label label-cyan readout">{t.painel.index}</span>
+                <span className="h-px w-8 bg-edge" />
+                <span className="label">{t.painel.eyebrow}</span>
+              </div>
+              <h2 className="display-m mt-3">{t.painel.h2}</h2>
+            </div>
+          ) : (
+            <SectionHead
+              index={t.painel.index}
+              eyebrow={t.painel.eyebrow}
+              title={t.painel.h2}
+              lede={t.painel.lede}
+            />
+          )}
+
+          {pinned ? (
+            /* ── modo pinado: uma passagem por vez, trocando no scroll ── */
+            <>
+              <div className="relative mt-8">
+                {/* A primeira fica no fluxo e dá altura à pilha; as outras
+                    empilham por cima, centralizadas para coincidirem. */}
+                {shots.map((s, i) => (
+                  <div
+                    key={s.src}
+                    ref={(el) => {
+                      frames.current[i] = el;
+                    }}
+                    className={
+                      i === 0 ? "relative" : "absolute inset-0 flex items-center justify-center"
+                    }
+                    style={{ opacity: i === 0 ? 1 : 0 }}
+                  >
+                    <Tela s={s} eager={i === 0} modo={pinned ? "pinado" : "lista"} />
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 flex gap-1.5" role="presentation">
+                {shots.map((s, i) => (
+                  <span
+                    key={s.src}
+                    className="h-0.5 flex-1 transition-colors duration-300"
+                    style={{
+                      background:
+                        i <= active
+                          ? i === ultima
+                            ? "var(--color-flare)"
+                            : "var(--color-cyan)"
+                          : "var(--color-shelf)",
+                    }}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-5">
+                <Leitura s={atual} alerta={active === ultima} />
+              </div>
+            </>
+          ) : (
+            /* ── modo lista: as três empilhadas, cada uma inteira ── */
+            <div className="mt-12 flex flex-col gap-16">
+              {shots.map((s, i) => (
+                <figure key={s.src} className="reveal">
+                  <Tela s={s} eager={i === 0} modo={pinned ? "pinado" : "lista"} />
+                  <figcaption className="mt-6">
+                    <Leitura s={s} alerta={i === ultima} />
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+
+          {/* Crédito e ressalva numa linha só: pinado, cada parágrafo
+              extra rouba altura da tela. */}
+          <p className="text-fg-dim mt-7 max-w-[92ch] text-[12.5px] leading-relaxed">
+            <span className="label">{caption}</span>
+            <span className="mx-2 opacity-40">—</span>
+            {t.painel.disclaimer}
+          </p>
+        </div>
       </div>
     </section>
   );

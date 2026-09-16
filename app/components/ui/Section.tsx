@@ -1,15 +1,46 @@
 import type { ReactNode } from "react";
 
-/** Marca provisória: uma íris com faixa de varredura. Ponte até a identidade oficial. */
+/**
+ * Marca do AlgEye — "Pálpebra d'água".
+ *
+ * A pálpebra de baixo ondula: ela é a superfície da água. Manter essa
+ * ondulação é o que separa a marca de um olho de empresa de vigilância,
+ * e por isso ela vive no contorno, não num detalhe interno — assim nada
+ * essencial se perde quando reduz.
+ *
+ * Herda a cor do texto ao redor (`currentColor`), então um único desenho
+ * serve colorido, mono-escuro e mono-claro.
+ *
+ * PROVISÓRIA: a marca definitiva já foi escolhida — um olho contendo globo
+ * e satélite, em verde #0A5B45 — mas só existe em PNG, esperando vetor.
+ * Enquanto não houver SVG, este desenho segura o cabeçalho e o favicon.
+ */
+export function AlgEyeMark({ size = 22, className = "" }: { size?: number; className?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="none"
+      className={className}
+      style={{ color: "var(--color-cyan)" }}
+      aria-hidden="true"
+    >
+      <path
+        d="M6 50C20 24 36 14 50 14C64 14 80 24 94 50C90 63 83 72 72 74C61 76 54 68 42 70C30 72 14 63 6 50Z"
+        stroke="currentColor"
+        strokeWidth="7"
+        strokeLinejoin="round"
+      />
+      <circle cx="50" cy="44" r="12" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="12" cy="12" r="10.25" stroke="var(--color-cyan)" strokeWidth="1.4" />
-        <circle cx="12" cy="12" r="4" fill="var(--color-cyan)" opacity="0.9" />
-        <path d="M1.75 12h20.5" stroke="var(--color-abyss)" strokeWidth="2.6" />
-        <path d="M1.75 12h20.5" stroke="var(--color-cyan)" strokeWidth="1.1" opacity="0.55" />
-      </svg>
+      <AlgEyeMark size={24} />
       <span
         className="text-fg"
         style={{

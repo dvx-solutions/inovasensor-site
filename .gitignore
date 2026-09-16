@@ -8,3 +8,6 @@ dist/
 
 # leads recebidos pelo formulário (não versionar)
 .data/
+
+# rascunhos de design (canvas)
+.design/
