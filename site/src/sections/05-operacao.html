@@ -1,0 +1,127 @@
+<section id="operacao" class="sec sec--operacao" data-theme="dark" data-rail="Na operação" aria-labelledby="op-title">
+  <div class="op-bg" aria-hidden="true"></div>
+  <div class="wrap op-grid">
+
+    <header class="op-head" data-reveal>
+      <p class="eyebrow">Na operação</p>
+      <h2 class="h2" id="op-title">Do alerta à resposta <span class="op-accent">registrada.</span></h2>
+      <p class="lead">Uma regra de alerta acionada numa passagem abre uma ocorrência. A equipe assume, atribui, comenta, agenda coleta e resolve, e o histórico guarda quem fez cada ação e quando.</p>
+      <p class="op-note">Não é uma sequência obrigatória: o registro acompanha o protocolo de cada equipe.</p>
+    </header>
+
+    <!-- Demonstração interativa: ocorrência fictícia. Nada aqui é dado real. -->
+    <div class="op-demo" data-reveal role="group" aria-labelledby="op-demo-title" data-op-demo>
+      <div class="op-demo__bar">
+        <span class="op-demo__tag mono">Demonstração · dados fictícios</span>
+        <button type="button" class="op-demo__reset mono" data-op-reset>Recomeçar</button>
+      </div>
+
+      <div class="op-demo__top">
+        <div class="op-demo__id">
+          <p class="mono op-demo__code">OC-0417 · Ponto P3</p>
+          <h3 class="h3" id="op-demo-title">Sinal acima do esperado no ponto P3</h3>
+          <p class="op-demo__origin">Regra de alerta acionada na avaliação da passagem 7.</p>
+        </div>
+        <span class="op-level mono"><i aria-hidden="true"></i>Nível moderado</span>
+      </div>
+
+      <ol class="op-track" aria-label="Estado da ocorrência">
+        <li data-s="aberta" class="is-on" aria-current="step">Aberta</li>
+        <li data-s="analise">Em análise</li>
+        <li data-s="coleta">Coleta agendada</li>
+        <li data-s="resolvida">Resolvida</li>
+      </ol>
+      <p class="op-desc" data-op-desc>Ninguém assumiu ainda.</p>
+
+      <dl class="op-meta">
+        <div><dt class="mono">Assumida por</dt><dd data-op-owner>ninguém ainda</dd></div>
+        <div><dt class="mono">Responsável</dt><dd data-op-assignee>não atribuído</dd></div>
+        <div><dt class="mono">Coleta</dt><dd data-op-coleta>não agendada</dd></div>
+      </dl>
+
+      <div class="op-actions" role="toolbar" aria-label="Ações na ocorrência">
+        <button type="button" class="op-act" data-act="assumir"><span class="op-act__ic" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="10" cy="7" r="3.2"/><path d="M4 17c.8-3 3.2-4.6 6-4.6s5.2 1.6 6 4.6"/></svg></span>Assumir</button>
+        <button type="button" class="op-act" data-act="atribuir" aria-expanded="false" aria-controls="op-composer"><span class="op-act__ic" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="7.5" cy="7.5" r="2.8"/><path d="M2.5 16.5c.6-2.5 2.6-3.8 5-3.8 1.4 0 2.6.4 3.5 1.2"/><path d="M14 9.5v6M11 12.5h6"/></svg></span>Atribuir responsável</button>
+        <button type="button" class="op-act" data-act="comentar" aria-expanded="false" aria-controls="op-composer"><span class="op-act__ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3.5 5.5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-3.5 3v-3h0a2 2 0 0 1-2-2z"/></svg></span>Comentar</button>
+        <button type="button" class="op-act" data-act="agendar" aria-expanded="false" aria-controls="op-composer"><span class="op-act__ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M8 3h4M9 3v4.2L5.2 14a2 2 0 0 0 1.8 3h6a2 2 0 0 0 1.8-3L11 7.2V3"/><path d="M6.5 12h7"/></svg></span>Agendar coleta</button>
+        <button type="button" class="op-act op-act--resolve" data-act="resolver" aria-expanded="false" aria-controls="op-composer"><span class="op-act__ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg></span>Resolver</button>
+      </div>
+
+      <div class="op-composer" id="op-composer" data-op-composer hidden></div>
+
+      <div class="op-log">
+        <div class="op-log__head">
+          <p class="mono">Histórico</p>
+          <p class="mono op-log__count" data-op-count>1 registro</p>
+        </div>
+        <ol class="op-log__list" data-op-log aria-live="polite" aria-relevant="additions" data-lenis-prevent tabindex="0" aria-label="Histórico da ocorrência"></ol>
+        <p class="op-log__empty" data-op-empty>Use as ações acima, na ordem que quiser. Cada uma vira uma linha deste histórico.</p>
+      </div>
+
+      <p class="op-path"><span class="mono">Caminho desta ocorrência</span> <span data-op-path>Aberta</span></p>
+      <p class="op-sr" data-op-status aria-live="polite"></p>
+    </div>
+
+    <div class="op-more" role="region" aria-label="Coletas e relatórios">
+    <article class="op-card op-card--coletas" data-reveal>
+      <div class="op-card__txt">
+        <p class="mono op-card__k">Coletas</p>
+        <h3 class="h3">O resultado do laboratório entra no mesmo registro.</h3>
+        <p class="op-card__x">A equipe registra o resultado de campo ou de laboratório no ponto, e o Algeye confronta esse valor com a estimativa da passagem. Quando os dois divergem, a diferença aparece como sinal para investigar, não como veredito.</p>
+        <p class="op-card__x op-card__limit">Quem coleta é a sua equipe. O Algeye complementa o trabalho de campo e não substitui a análise de laboratório.</p>
+      </div>
+      <figure class="op-fig op-fig--confronto" aria-labelledby="op-conf-cap">
+        <span class="op-demo__tag mono">Demonstração · dados fictícios</span>
+        <table class="op-conf">
+          <caption class="op-sr">Coleta e estimativa da mesma passagem, por ponto (dados fictícios)</caption>
+          <thead>
+            <tr><th scope="col">Ponto</th><th scope="col">Coleta</th><th scope="col">Estimativa</th><th scope="col">Registro</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><span class="mono">P1</span><small>passagem 5</small><em class="op-conf__flag">investigar</em></th><td><i style="--c:var(--r-baixo)"></i>Baixo</td><td><i style="--c:var(--r-moderado)"></i>Moderado</td><td class="is-dif">investigar</td></tr>
+            <tr><th scope="row"><span class="mono">P3</span><small>passagem 7</small></th><td><i style="--c:var(--r-alto)"></i>Alto</td><td><i style="--c:var(--r-alto)"></i>Alto</td><td>registrado</td></tr>
+            <tr class="op-conf__more"><th scope="row"><span class="mono">P2</span><small>passagem 7</small><em class="op-conf__flag">investigar</em></th><td><i style="--c:var(--r-moderado)"></i>Moderado</td><td><i style="--c:var(--r-leve)"></i>Leve</td><td class="is-dif">investigar</td></tr>
+            <tr class="op-conf__more"><th scope="row"><span class="mono">P4</span><small>passagem 6</small></th><td><i style="--c:var(--r-leve)"></i>Leve</td><td><i style="--c:var(--r-leve)"></i>Leve</td><td>registrado</td></tr>
+          </tbody>
+        </table>
+        <figcaption id="op-conf-cap" class="op-fig__cap"><span class="op-fig__cap-x">Cada linha põe a coleta ao lado da estimativa da mesma passagem. </span>Ilustra o confronto; não indica precisão.</figcaption>
+      </figure>
+    </article>
+
+    <article class="op-card op-card--relatorios" data-reveal>
+      <div class="op-card__txt">
+        <p class="mono op-card__k">Relatórios em HTML</p>
+        <h3 class="h3">Um relatório para entregar à equipe e ao órgão.</h3>
+        <p class="op-card__x">O período vira um documento em HTML, emitido e guardado no sistema: resumo, ocorrências com as respostas dadas e coletas confrontadas. As recomendações vêm do protocolo cadastrado pela sua organização, não de texto livre de IA.</p>
+      </div>
+      <figure class="op-fig op-fig--paper" aria-label="Recorte de um relatório do período em HTML, com dados fictícios">
+        <span class="op-demo__tag mono">Demonstração · dados fictícios</span>
+        <div class="op-paper" aria-hidden="true">
+          <div class="op-paper__sheet op-paper__sheet--back"></div>
+          <div class="op-paper__sheet">
+            <div class="op-paper__head">
+              <img src="assets/brand/logo-algeye.png" alt="" width="34" height="22" loading="lazy" decoding="async">
+              <span>Relatório do período</span>
+              <span class="op-paper__no">HTML</span>
+            </div>
+            <p class="op-paper__h">Resumo · passagens 1 a 7</p>
+            <span class="op-paper__ln" style="--w:92%"></span><span class="op-paper__ln" style="--w:78%"></span>
+            <p class="op-paper__h">Ocorrências e respostas</p>
+            <div class="op-paper__row"><span>OC-0417 · P3</span><b class="is-ok">Resolvida</b></div>
+            <div class="op-paper__row"><span>OC-0412 · P1</span><b class="is-mid">Coleta agendada</b></div>
+            <p class="op-paper__h">Coletas confrontadas</p>
+            <div class="op-paper__bars"><i style="--h:40%"></i><i style="--h:62%"></i><i style="--h:48%"></i><i style="--h:70%"></i><i style="--h:55%"></i><i style="--h:66%"></i></div>
+            <p class="op-paper__h">Recomendações</p>
+            <p class="op-paper__note">Conforme o protocolo da equipe.</p>
+          </div>
+        </div>
+      </figure>
+    </article>
+    </div>
+
+    <footer class="op-foot" data-reveal>
+      <a class="btn btn--primary" href="#avaliacao" data-cta="avaliacao">Avaliar meu reservatório <span class="arr" aria-hidden="true">→</span></a>
+    </footer>
+
+  </div>
+</section>

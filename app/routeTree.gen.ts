@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FiemsConectaPrivacidadeRouteImport } from './routes/fiems-conecta-privacidade'
 import { Route as EnRouteImport } from './routes/en'
-import { Route as IndexRouteImport } from './routes/index'
 
 const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
   id: '/fiems-conecta-privacidade',
@@ -23,38 +22,29 @@ const EnRoute = EnRouteImport.update({
   path: '/en',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/en': typeof EnRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/en': typeof EnRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/en': typeof EnRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/en' | '/fiems-conecta-privacidade'
+  fullPaths: '/en' | '/fiems-conecta-privacidade'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/en' | '/fiems-conecta-privacidade'
-  id: '__root__' | '/' | '/en' | '/fiems-conecta-privacidade'
+  to: '/en' | '/fiems-conecta-privacidade'
+  id: '__root__' | '/en' | '/fiems-conecta-privacidade'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   EnRoute: typeof EnRoute
   FiemsConectaPrivacidadeRoute: typeof FiemsConectaPrivacidadeRoute
 }
@@ -75,18 +65,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   EnRoute: EnRoute,
   FiemsConectaPrivacidadeRoute: FiemsConectaPrivacidadeRoute,
 }

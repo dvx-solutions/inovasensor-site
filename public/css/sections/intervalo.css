@@ -1,0 +1,291 @@
+/* 02 intervalo: o problema. Represa genérica com 3 pontos de coleta fixos e uma mancha fictícia
+   que se desloca entre passagens. Tudo escopado em .sec--intervalo. */
+
+.sec--intervalo { overflow: clip; }
+/* Cores: só tokens de base.css. Os únicos literais restantes são #fff/#000 dentro das <mask> do SVG
+   (valores de luminância da máscara, não cor de interface). */
+.sec--intervalo .iv {
+  display: grid; gap: 24px;
+  grid-template-areas: "head" "facts" "plate" "bridge" "who";
+}
+.sec--intervalo .iv__head { grid-area: head; max-width: 640px; }
+.sec--intervalo .iv__title-em { color: var(--brand-2); }
+.sec--intervalo .iv__lead { margin-top: .9em; }
+
+/* ---------- três constatações ---------- */
+.sec--intervalo .iv__facts { grid-area: facts; display: grid; gap: 0; }
+.sec--intervalo .iv__fact { padding: 10px 0 12px; border-top: 1px solid var(--mist); display: grid; gap: 4px; }
+.sec--intervalo .iv__fact dt { font-family: var(--f-display); font-weight: 600; font-size: 1.08rem; letter-spacing: -.01em; color: var(--ink); }
+.sec--intervalo .iv__fact dd { margin: 0; color: var(--slate); font-size: 1rem; line-height: 1.55; max-width: 46ch; }
+.sec--intervalo .iv__short { display: none; }
+
+/* ---------- prancha do mapa ---------- */
+.sec--intervalo .iv__plate {
+  grid-area: plate; position: relative; min-width: 0;
+  background: var(--white); border: 1px solid var(--mist); border-radius: var(--r-lg);
+  padding: 14px; box-shadow: var(--shadow);
+}
+/* marcas de corte nos cantos: prancha de levantamento */
+.sec--intervalo .iv__plate::before, .sec--intervalo .iv__plate::after {
+  content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none;
+  border-color: var(--areia); border-style: solid;
+}
+.sec--intervalo .iv__plate::before { top: -7px; left: -7px; border-width: 1.5px 0 0 1.5px; }
+.sec--intervalo .iv__plate::after { bottom: -7px; right: -7px; border-width: 0 1.5px 1.5px 0; }
+
+.sec--intervalo .iv__plate-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 2px 4px 12px; }
+.sec--intervalo .iv__plate-title { color: var(--slate); text-transform: uppercase; }
+.sec--intervalo .iv__demo {
+  color: var(--ink); background: var(--areia-2); border: 1px solid var(--areia);
+  padding: 4px 10px; border-radius: 999px; letter-spacing: .06em;
+}
+
+.sec--intervalo .iv__map { border-radius: var(--r); background: var(--paper); border: 1px solid var(--mist); overflow: hidden; }
+.sec--intervalo .iv__stage { position: relative; }
+.sec--intervalo .iv__svg { width: 100%; height: auto; aspect-ratio: 800 / 520; }
+
+.sec--intervalo .iv__grid path { fill: none; stroke: var(--mist); stroke-width: 1; stroke-dasharray: 2 6; }
+.sec--intervalo .iv__river { fill: none; stroke: var(--previsao); stroke-opacity: .6; stroke-width: 4; stroke-linecap: round; }
+.sec--intervalo .iv__water { fill: url(#iv-water); }
+.sec--intervalo .iv__water-a { stop-color: var(--r-baixo); stop-opacity: .10; }
+.sec--intervalo .iv__water-b { stop-color: var(--r-baixo); stop-opacity: .22; }
+.sec--intervalo .iv__hatch-bg { fill: var(--mist); fill-opacity: .55; }
+.sec--intervalo .iv__hatch-ln { stroke: var(--slate-2); stroke-width: 1.4; }
+.sec--intervalo .iv__shoreline { fill: none; stroke: var(--slate); stroke-width: 1.6; stroke-linejoin: round; }
+.sec--intervalo .iv__dam path { fill: none; stroke: var(--ink); stroke-width: 7; stroke-linecap: round; }
+.sec--intervalo .iv__north path { fill: var(--ink); }
+
+/* geometria só por transform: o <g> leva a posição (translate), o círculo r=1 leva o tamanho (scale).
+   Mancha que não muda de lugar não recebe transform novo e anima só fill/opacity. */
+.sec--intervalo .iv__bg { transition: transform .9s var(--ease); }
+.sec--intervalo .iv__blob {
+  fill: var(--r-leve); opacity: .9;
+  transition: transform .9s var(--ease), fill .9s ease, opacity .9s ease;
+}
+.sec--intervalo .iv__blob[data-l="1"] { fill: var(--r-leve); opacity: .9; }
+.sec--intervalo .iv__blob[data-l="2"] { fill: var(--r-moderado); opacity: .9; }
+.sec--intervalo .iv__blob[data-l="3"] { fill: var(--r-alto); opacity: .95; }
+.sec--intervalo .iv__blob[data-l="4"] { fill: var(--r-critico); opacity: .95; }
+
+/* modo "só os pontos": a mancha fica escondida fora das lentes e a represa vira hachura */
+.sec--intervalo .iv__mask-all { transition: opacity .7s var(--ease); }
+.sec--intervalo .iv__fog { fill: url(#iv-hatch); opacity: 0; transition: opacity .7s var(--ease); }
+.sec--intervalo .iv__map[data-view="pontos"] .iv__mask-all { opacity: 0; }
+.sec--intervalo .iv__map[data-view="pontos"] .iv__fog { opacity: 1; }
+.sec--intervalo .iv__map[data-view="pontos"] .iv__trail { opacity: 0; }
+
+.sec--intervalo .iv__trail { transition: opacity .5s; }
+.sec--intervalo .iv__trail-line { fill: none; stroke: var(--ink); stroke-opacity: .55; stroke-width: 1.6; stroke-dasharray: 5 6; stroke-linecap: round; stroke-linejoin: round; }
+.sec--intervalo .iv__trail-dot { fill: var(--white); stroke: var(--ink); stroke-width: 1.6; }
+.sec--intervalo .iv__trail-n { font-family: var(--f-mono); font-size: 15px; font-weight: 500; fill: var(--ink); text-anchor: middle; }
+
+.sec--intervalo .iv__lens { fill: var(--white); fill-opacity: .18; stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 3 4; transition: stroke .4s, stroke-width .4s; }
+.sec--intervalo .iv__cross { stroke: var(--ink); stroke-width: 1.5; }
+.sec--intervalo .iv__dot { fill: var(--ink); }
+.sec--intervalo .iv__pt.is-hit .iv__lens { stroke: var(--hit, var(--r-alto)); stroke-width: 3; stroke-dasharray: none; }
+.sec--intervalo .iv__map[data-view="pontos"] .iv__lens { stroke-dasharray: none; stroke-width: 2.2; fill-opacity: 0; }
+
+/* rótulos HTML sobre o mapa (legíveis em qualquer largura) */
+.sec--intervalo .iv__labels { position: absolute; inset: 0; pointer-events: none; }
+.sec--intervalo .iv__lbl, .sec--intervalo .iv__tag {
+  position: absolute; left: calc(var(--x) / 800 * 100%); top: calc(var(--y) / 520 * 100%);
+  font-family: var(--f-mono); line-height: 1; white-space: nowrap;
+}
+.sec--intervalo .iv__lbl { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); transform: translate(-50%, -50%); }
+/* rótulos de braço com fundo próprio: legíveis mesmo perto de mancha ou margem */
+.sec--intervalo .iv__lbl--arm, .sec--intervalo .iv__lbl--dam {
+  background: var(--white); padding: 3px 5px; border-radius: 4px; box-shadow: 0 0 0 1px var(--mist);
+}
+.sec--intervalo .iv__lbl--n { font-weight: 500; color: var(--ink); }
+.sec--intervalo .iv__tag {
+  transform: translate(10px, calc(-100% - 10px));
+  font-size: 12px; font-weight: 500; color: var(--white); background: var(--ink);
+  min-width: 22px; height: 22px; padding: 0 6px; border-radius: 6px;
+  display: grid; place-items: center; transition: box-shadow .4s;
+}
+/* ponto atingido: fundo continua ink (texto branco AA); o nível aparece como anel */
+.sec--intervalo .iv__tag.is-hit { box-shadow: 0 0 0 2px var(--white), 0 0 0 5px var(--hit, var(--r-alto)); }
+
+.sec--intervalo .iv__legend {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+  padding: 10px 12px; border-top: 1px solid var(--mist); background: var(--white);
+}
+.sec--intervalo .iv__legend-label { color: var(--slate); text-transform: uppercase; }
+.sec--intervalo .iv__legend-bar { display: flex; gap: 2px; }
+.sec--intervalo .iv__legend-bar i { width: 22px; height: 8px; border-radius: 2px; background: var(--c); }
+.sec--intervalo .iv__legend-ends { display: flex; gap: 8px; color: var(--slate); }
+.sec--intervalo .iv__legend-ends span + span::before { content: "a "; }
+
+/* ---------- controles ---------- */
+.sec--intervalo .iv__controls { display: grid; gap: 10px; padding: 14px 2px 4px; }
+.sec--intervalo .iv__ctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sec--intervalo .iv__ctl-label { color: var(--slate); text-transform: uppercase; min-width: 5.6em; }
+.sec--intervalo .iv__seg {
+  display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px;
+  background: var(--paper); border: 1px solid var(--mist);
+}
+.sec--intervalo .iv__seg button {
+  position: relative; overflow: hidden; height: 40px; padding: 0 14px; border-radius: 999px;
+  font-size: .92rem; font-weight: 600; color: var(--slate);
+  transition: background-color .3s var(--ease), color .3s;
+}
+.sec--intervalo .iv__seg--pass button { min-width: 44px; padding: 0 10px; font-family: var(--f-mono); }
+.sec--intervalo .iv__seg button:hover { color: var(--ink); }
+.sec--intervalo .iv__seg button[aria-checked="true"] { background: var(--ink); color: var(--white); }
+.sec--intervalo .iv__tick {
+  position: absolute; left: 10px; right: 10px; bottom: 5px; height: 2px; border-radius: 2px;
+  background: var(--agua-2); transform: scaleX(0); transform-origin: left; opacity: 0;
+}
+.sec--intervalo .iv.is-playing .iv__seg--pass button[aria-checked="true"] .iv__tick {
+  opacity: 1; animation: iv-tick var(--iv-step, 3400ms) linear forwards;
+}
+@keyframes iv-tick { to { transform: scaleX(1); } }
+
+.sec--intervalo .iv__play {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--mist); background: var(--white);
+  display: grid; place-items: center; color: var(--ink); transition: background-color .25s, border-color .25s;
+}
+.sec--intervalo .iv__play:hover { border-color: var(--ink); }
+.sec--intervalo .iv__play svg { width: 14px; height: 14px; fill: currentColor; }
+.sec--intervalo .iv__play .iv__pause-i { display: none; }
+.sec--intervalo .iv__play[aria-pressed="true"] .iv__pause-i { display: block; }
+.sec--intervalo .iv__play[aria-pressed="true"] .iv__play-i { display: none; }
+
+/* ---------- leitura ---------- */
+.sec--intervalo .iv__read { padding: 14px 2px 2px; }
+.sec--intervalo .iv__caption {
+  font-family: var(--f-display); font-weight: 500; font-size: 1.05rem; line-height: 1.4; letter-spacing: -.01em;
+  color: var(--ink); min-height: 2.8em; text-wrap: pretty;
+}
+.sec--intervalo .iv__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.sec--intervalo .iv__col { border-radius: var(--r); padding: 12px; background: var(--paper); min-width: 0; }
+.sec--intervalo .iv__col--all { background: var(--grad-soft); }
+.sec--intervalo .iv__col-h { color: var(--slate); text-transform: uppercase; font-size: .68rem; line-height: 1.35; min-height: 2.7em; }
+.sec--intervalo .iv__list { display: grid; gap: 8px; margin-top: 8px; }
+.sec--intervalo .iv__list li {
+  display: grid; grid-template-columns: 10px 1fr; column-gap: 8px; align-items: center;
+  font-size: .9rem; line-height: 1.3;
+}
+.sec--intervalo .iv__sw { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--previsao); background: transparent; transition: background-color .4s, border-color .4s; }
+.sec--intervalo .iv__k { font-weight: 600; color: var(--ink); }
+.sec--intervalo .iv__v { grid-column: 2; color: var(--slate); font-size: .85rem; }
+.sec--intervalo .iv__list li[data-l="1"] .iv__sw { background: var(--r-leve); border-color: var(--r-leve); }
+.sec--intervalo .iv__list li[data-l="2"] .iv__sw { background: var(--r-moderado); border-color: var(--r-moderado); }
+.sec--intervalo .iv__list li[data-l="3"] .iv__sw { background: var(--r-alto); border-color: var(--r-alto); }
+.sec--intervalo .iv__list li:not([data-l="0"]):not([data-l="x"]) .iv__v { color: var(--ink); font-weight: 500; }
+
+/* modo "só os pontos": fora dos pontos não há dado. A coluna vira hachura e os valores "Sem dado"
+   (texto continua AA; o esmaecimento fica no fundo e nos marcadores, não no texto). */
+.sec--intervalo .iv__col--all { transition: background .5s var(--ease); }
+.sec--intervalo .iv[data-view="pontos"] .iv__col--all {
+  background: repeating-linear-gradient(45deg, var(--paper) 0 5px, var(--mist) 5px 6.5px);
+}
+.sec--intervalo .iv__list li[data-l="x"] .iv__sw { border-style: dashed; border-color: var(--slate); background: var(--paper); }
+.sec--intervalo .iv__list li[data-l="x"] .iv__k { color: var(--slate); }
+.sec--intervalo .iv__list li[data-l="x"] .iv__v { color: var(--slate); font-style: italic; }
+
+/* ---------- ponte para a solução ---------- */
+.sec--intervalo .iv__bridge { grid-area: bridge; display: grid; gap: 6px; }
+.sec--intervalo .iv__bridge-text {
+  font-family: var(--f-display); font-weight: 500; letter-spacing: -.015em; line-height: 1.3;
+  font-size: clamp(1.15rem, 1rem + .6vw, 1.45rem); color: var(--ink); text-wrap: balance;
+}
+.sec--intervalo .iv__bridge-links { display: flex; flex-wrap: wrap; gap: 0 22px; }
+.sec--intervalo .iv__bridge-links a { padding-block: 10px; }
+.sec--intervalo .iv__bridge-links .iv__bridge-alt { color: var(--slate); font-weight: 500; }
+.sec--intervalo .iv__bridge-links .iv__bridge-alt:hover { color: var(--ink); }
+
+/* ---------- para quem é ---------- */
+.sec--intervalo .iv__who { grid-area: who; padding-top: 20px; border-top: 1px solid var(--mist); }
+.sec--intervalo .iv__who-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.sec--intervalo .iv__who-card {
+  background: var(--white); border: 1px solid var(--mist); border-radius: var(--r);
+  padding: 10px 12px; display: grid; align-content: start; gap: 3px;
+}
+.sec--intervalo .iv__who-h { font-family: var(--f-display); font-weight: 600; font-size: .9rem; line-height: 1.25; letter-spacing: -.01em; color: var(--ink); }
+.sec--intervalo .iv__who-t { color: var(--slate); font-size: .8rem; line-height: 1.4; }
+
+/* ---------- fechamento ---------- */
+.sec--intervalo .iv__close {
+  grid-area: close; display: grid; gap: 14px; align-items: end;
+  padding-top: 24px; border-top: 1px solid var(--mist);
+}
+.sec--intervalo .iv__close-text {
+  font-family: var(--f-display); font-weight: 500; letter-spacing: -.015em; line-height: 1.25;
+  font-size: clamp(1.3rem, 1.05rem + 1vw, 1.9rem); color: var(--ink); max-width: 34ch; text-wrap: balance;
+}
+.sec--intervalo .iv__close-link { color: var(--brand-2); justify-self: start; padding-block: 8px; }
+
+@media (min-width: 560px) {
+  .sec--intervalo .iv__plate { padding: 18px; }
+  .sec--intervalo .iv__lbl { font-size: 11px; }
+  .sec--intervalo .iv__list li { grid-template-columns: 10px auto 1fr; }
+  .sec--intervalo .iv__v { grid-column: auto; text-align: right; }
+  .sec--intervalo .iv__col { padding: 14px 16px; }
+  .sec--intervalo .iv__col-h { min-height: 0; }
+  .sec--intervalo .iv__controls { grid-template-columns: auto auto; justify-content: space-between; }
+  .sec--intervalo .iv__ctl-label { min-width: 0; }
+}
+
+@media (min-width: 1024px) {
+  .sec--intervalo .iv {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head plate" "facts plate" ". bridge" "who who";
+    grid-template-rows: auto 1fr auto auto;
+    column-gap: clamp(48px, 5vw, 88px); row-gap: 40px;
+  }
+  .sec--intervalo .iv__facts { align-self: end; }
+  .sec--intervalo .iv__plate { align-self: start; }
+  .sec--intervalo .iv__close { grid-template-columns: 1fr auto; margin-top: 24px; padding-top: 36px; }
+  .sec--intervalo .iv__close-link { justify-self: end; }
+  .sec--intervalo .iv__caption { font-size: 1.12rem; min-height: 1.4em; }
+  .sec--intervalo .iv__bridge { margin-top: -12px; gap: 2px; }
+  .sec--intervalo .iv__who { padding-top: 32px; }
+  .sec--intervalo .iv__who-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+  .sec--intervalo .iv__who-card { padding: 16px 18px; gap: 6px; }
+  .sec--intervalo .iv__who-h { font-size: 1.02rem; }
+  .sec--intervalo .iv__who-t { font-size: .9rem; line-height: 1.5; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .sec--intervalo .iv__controls { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sec--intervalo .iv__bg, .sec--intervalo .iv__blob, .sec--intervalo .iv__mask-all, .sec--intervalo .iv__fog,
+  .sec--intervalo .iv__trail, .sec--intervalo .iv__lens, .sec--intervalo .iv__tag,
+  .sec--intervalo .iv__sw, .sec--intervalo .iv__col--all, .sec--intervalo .iv__seg button { transition: none; }
+}
+
+/* mapa pequeno no celular: marcadores do rastro maiores em unidades do SVG */
+@media (max-width: 559px) {
+  /* os dois controles com rótulo à esquerda, na mesma coluna (economiza altura no celular) */
+  .sec--intervalo .iv { gap: 20px; }
+  .sec--intervalo .iv__ctl { flex-wrap: nowrap; gap: 6px; }
+  .sec--intervalo .iv__ctl-label { min-width: 4.9em; font-size: .66rem; letter-spacing: .04em; }
+  .sec--intervalo .iv__seg--pass button { min-width: 40px; padding: 0 8px; }
+  .sec--intervalo .iv__controls { gap: 8px; padding-top: 12px; }
+  .sec--intervalo .iv__read { padding-top: 10px; }
+  .sec--intervalo .iv__cols { margin-top: 10px; }
+  .sec--intervalo .iv__close { padding-top: 16px; gap: 8px; }
+  .sec--intervalo .iv__trail-dot { r: 17px; stroke-width: 2.4; }
+  .sec--intervalo .iv__trail-n { font-size: 24px; }
+  .sec--intervalo .iv__trail-line { stroke-width: 2.6; stroke-dasharray: 8 8; }
+  .sec--intervalo .iv__lens { stroke-width: 2.4; }
+  /* celular: cada constatação em uma linha (título + versão curta) */
+  .sec--intervalo .iv__fact { display: block; padding: 8px 0; font-size: .95rem; line-height: 1.4; }
+  .sec--intervalo .iv__fact dt, .sec--intervalo .iv__fact dd { display: inline; font-size: inherit; line-height: inherit; }
+  .sec--intervalo .iv__fact dt::after { content: ". "; }
+  .sec--intervalo .iv__long { display: none; }
+  .sec--intervalo .iv__short { display: inline; }
+  .sec--intervalo .iv__bridge { gap: 2px; }
+  .sec--intervalo .iv__bridge-links { gap: 0 14px; font-size: .88rem; }
+  .sec--intervalo .iv__bridge-links a { padding-block: 12px; white-space: nowrap; }
+  /* legenda numa linha só */
+  .sec--intervalo .iv__legend { flex-wrap: nowrap; gap: 8px; padding: 9px 10px; }
+  .sec--intervalo .iv__legend-label, .sec--intervalo .iv__legend-ends { font-size: .66rem; white-space: nowrap; }
+  .sec--intervalo .iv__legend-bar i { width: 13px; }
+  .sec--intervalo .iv__who { padding-top: 16px; }
+  .sec--intervalo .iv__who-list { margin-top: 10px; }
+  .sec--intervalo .iv__who-card { padding: 8px 10px; gap: 2px; }
+  .sec--intervalo .iv__who-t { font-size: .78rem; line-height: 1.32; }
+}

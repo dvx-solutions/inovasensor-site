@@ -1,0 +1,467 @@
+/* Seção 01 · voo (abertura). Escopo: .sec--voo.
+   Dois modos:
+   - estático (padrão, sem JS, sem GSAP ou com prefers-reduced-motion): primeira tela + três quadros empilhados;
+   - .voo--live (posto por um script inline na própria seção): cena presa à tela, batidas por progresso de rolagem.
+   Desktop: .voo--pinned (posto pelo JS) entrega o pin ao ScrollTrigger. Mobile: position: sticky, sem pin pesado. */
+
+.sec--voo {
+  --voo-foot: 64px;
+  /* mesma borda esquerda/direita do conteúdo do .wrap (1240px + gutter) */
+  --voo-edge: max(var(--gutter), calc((100% - 1240px) / 2));
+  padding: 0;
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* o gradiente da marca começa em verde fechado, que some no grafite: no escuro usamos a ponta clara da mesma família */
+.sec--voo .grad-text {
+  background-image: linear-gradient(100deg, var(--agua) 0%, var(--agua-2) 48%, var(--menta) 100%);
+}
+
+.sec--voo .voo__track { position: relative; }
+.sec--voo .voo__pin { position: relative; }
+
+/* ---------- camada visual ---------- */
+.sec--voo .voo__stage {
+  position: absolute; inset: 0 0 auto; z-index: 0;
+  height: 100svh; min-height: 600px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 78% 108%, rgba(63,181,142,.28), rgba(14,92,74,.12) 38%, transparent 62%),
+    radial-gradient(60% 40% at 90% 60%, rgba(216,204,180,.10), transparent 70%),
+    var(--ink-2);
+}
+.sec--voo .voo__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sec--voo .voo__scrim {
+  position: absolute; inset: 0 0 auto; z-index: 1; pointer-events: none;
+  height: 100svh; min-height: 600px;
+  background: linear-gradient(0deg, rgba(5,8,7,.92) 0%, rgba(5,8,7,.66) 38%, rgba(5,8,7,0) 64%);
+}
+
+/* ---------- textos ---------- */
+.sec--voo .voo__ui { position: relative; z-index: 2; }
+
+.sec--voo .voo__hero {
+  min-height: max(100svh, 600px);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding-top: calc(var(--nav-h) + 24px);
+  padding-bottom: calc(var(--voo-foot) + 28px);
+}
+.sec--voo .voo__title { margin-top: 18px; max-width: 11ch; }
+.sec--voo .voo__lead { color: #C9D4D0; max-width: 34rem; margin-top: 18px; }
+.sec--voo .voo__ctas { display: flex; flex-wrap: wrap; gap: 10px 12px; margin-top: 28px; }
+.sec--voo .voo__proof {
+  margin-top: 16px; max-width: 40rem;
+  font-size: 11.5px; line-height: 1.6; letter-spacing: .04em; color: #C9D4D0;
+}
+.sec--voo .voo__proof span { white-space: nowrap; }
+.sec--voo .voo__eb-short { display: none; }
+@media (max-width: 599px) {
+  .sec--voo .voo__eb-long { display: none; }
+  .sec--voo .voo__eb-short { display: inline; }
+  .sec--voo .voo__proof { font-size: 11px; margin-top: 14px; }
+}
+
+.sec--voo .voo__step {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--agua-2); text-transform: uppercase; letter-spacing: .16em;
+}
+.sec--voo .voo__step-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--agua-2); box-shadow: 0 0 0 4px rgba(57,208,168,.18);
+}
+.sec--voo .voo__beat-title {
+  margin-top: 14px;
+  font-family: var(--f-display); font-weight: 600; letter-spacing: -.02em;
+  font-size: clamp(1.55rem, 1rem + 1.9vw, 2.6rem); line-height: 1.12;
+  text-wrap: balance;
+}
+.sec--voo .voo__beat-body {
+  margin-top: 14px; max-width: 34rem;
+  font-size: var(--fs-lead); line-height: 1.55; color: #C9D4D0; text-wrap: pretty;
+}
+
+/* ---------- modo estático: três quadros empilhados ---------- */
+.sec--voo .voo__beats {
+  display: grid; gap: clamp(36px, 5vw, 64px);
+  padding-block: clamp(40px, 5vw, 72px) var(--sec-pad);
+}
+.sec--voo .voo__beat { display: grid; gap: 22px; align-items: center; }
+.sec--voo .voo__frame {
+  position: relative; aspect-ratio: 16 / 9; border-radius: var(--r-lg); overflow: hidden;
+  background: var(--ink-2);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), var(--shadow-lg);
+}
+.sec--voo .voo__frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sec--voo .voo__frame::after {
+  content: "ilustração"; position: absolute; right: 12px; bottom: 10px;
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 6px; background: rgba(5,8,7,.62); color: var(--musgo);
+}
+/* fundos de reserva (sem canvas) para cada quadro */
+.sec--voo .voo__frame[data-frame="orbita"] {
+  background: radial-gradient(140% 90% at 80% 120%, #1d4a40 0%, #0a1512 55%, transparent 56%), radial-gradient(90% 60% at 82% 70%, rgba(63,181,142,.25), transparent 70%), var(--ink-2);
+}
+.sec--voo .voo__frame[data-frame="represa"] {
+  background: radial-gradient(40% 30% at 58% 52%, #0c3a39 0 60%, transparent 62%), radial-gradient(30% 20% at 70% 40%, #0c3a39 0 60%, transparent 62%), #12261c;
+}
+.sec--voo .voo__frame[data-frame="agua"] {
+  background: radial-gradient(3px 3px at 30% 40%, var(--agua) 98%, transparent), radial-gradient(2px 2px at 62% 66%, var(--menta) 98%, transparent), linear-gradient(180deg, #3f9a85, #0E5C4A 55%, #06261f);
+}
+
+.sec--voo .voo__legend { display: none; }
+/* no quadro estático da represa a escala de risco leva o mesmo rótulo da versão viva */
+.sec--voo .voo__frame-legend {
+  position: absolute; z-index: 1; left: 12px; top: 12px;
+  display: grid; gap: 5px; width: max-content; max-width: calc(100% - 24px);
+  padding: 7px 10px 6px; border-radius: 8px;
+  background: rgba(5,8,7,.66); border: 1px solid rgba(255,255,255,.08);
+}
+/* modo estático compacto (movimento reduzido / sem JS): quadros panorâmicos e respiros menores,
+   para a página ficar na meta de altura também sem o voo */
+@media (max-width: 599px) {
+  .sec--voo .voo__beats { gap: 24px; padding-block: 24px 40px; }
+  .sec--voo .voo__beat { gap: 14px; }
+  .sec--voo .voo__frame { aspect-ratio: 12 / 5; border-radius: var(--r); }
+  .sec--voo .voo__frame-legend { left: 8px; top: 8px; gap: 4px; padding: 5px 8px; }
+  .sec--voo .voo__frame-legend .voo__legend-ends { display: none; }
+}
+.sec--voo .voo__sr {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.sec--voo .voo__foot {
+  position: absolute; inset: 0 0 auto; z-index: 3; pointer-events: none;
+  height: max(100svh, 600px);
+  display: flex; align-items: flex-end; justify-content: flex-end;
+  padding: 0 var(--voo-edge) 22px;
+}
+.sec--voo .voo__hud { display: none; }
+.sec--voo .voo__foot-end { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.sec--voo .voo__mini-cta, .sec--voo .voo__seam { display: none; }
+.sec--voo .voo__label {
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--musgo);
+  padding: 4px 9px; border-radius: 6px; background: rgba(5,8,7,.55);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+@media (min-width: 768px) {
+  .sec--voo .voo__scrim {
+    background:
+      linear-gradient(90deg, rgba(5,8,7,.82) 0%, rgba(5,8,7,.5) 34%, rgba(5,8,7,0) 58%),
+      linear-gradient(0deg, rgba(5,8,7,.5) 0%, rgba(5,8,7,0) 30%);
+  }
+  .sec--voo .voo__hero { justify-content: center; max-width: 44rem; padding-bottom: calc(var(--voo-foot) + 24px); }
+  .sec--voo .voo__beat { grid-template-columns: 1.15fr 1fr; gap: clamp(32px, 5vw, 80px); }
+  .sec--voo .voo__beats { gap: clamp(28px, 3.4vw, 44px); padding-block: clamp(32px, 4vw, 56px) clamp(48px, 5vw, 72px); }
+  .sec--voo .voo__frame { aspect-ratio: 2 / 1; }
+  .sec--voo .voo__beat:nth-child(2) .voo__frame { order: 2; }
+}
+
+/* ---------- modo vivo ---------- */
+.sec--voo.voo--live .voo__track { height: 210svh; overflow: clip; }
+.sec--voo.voo--live .voo__pin { position: sticky; top: 0; height: 100svh; }
+.sec--voo.voo--live .voo__stage { height: 100lvh; min-height: 0; background: var(--ink-2); }
+.sec--voo.voo--live .voo__scrim { height: 100lvh; min-height: 0; }
+.sec--voo.voo--live .voo__ui {
+  position: absolute; inset: 0; z-index: 2;
+  display: grid; grid-template-areas: "s";
+}
+.sec--voo.voo--live .voo__beats { display: contents; }
+.sec--voo.voo--live .voo__hero,
+.sec--voo.voo--live .voo__beat {
+  grid-area: s; align-self: end; min-height: 0;
+  padding-top: 0; padding-bottom: calc(var(--voo-foot) + 30px);
+}
+/* camada própria só enquanto o texto anima (viagem); em repouso, nada de will-change */
+.sec--voo.voo--travel .voo__hero,
+.sec--voo.voo--travel .voo__beat { will-change: opacity, transform; }
+/* batidas fora da janela: só opacidade (continuam legíveis por leitor de tela, sem capturar clique) */
+.sec--voo.voo--live .voo__beat { display: block; max-width: 36rem; opacity: 0; pointer-events: none; }
+.sec--voo.voo--live .voo__frame { display: none; }
+
+.sec--voo.voo--live .voo__foot {
+  inset: auto 0 0; height: auto;
+  justify-content: space-between; align-items: flex-end;
+}
+/* cue e etapas dividem a mesma linha: o cue sai quando a rolagem começa e as etapas entram */
+.sec--voo.voo--live .voo__hud { display: grid; grid-template-areas: "a" "m"; gap: 12px; min-width: 0; }
+.sec--voo.voo--live .voo__cue,
+.sec--voo.voo--live .voo__stops { grid-area: a; align-self: end; }
+.sec--voo.voo--live .voo__stops { opacity: 0; }
+.sec--voo.voo--live .voo__meter { grid-area: m; }
+.sec--voo.voo--cue-off .voo__cue-line::after { animation-play-state: paused; }
+.sec--voo .voo__cue-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 18px; min-width: 0; }
+.sec--voo.voo--live .voo__cue-row { grid-area: a; align-self: end; }
+.sec--voo .voo__skip {
+  pointer-events: auto;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #C9D4D0;
+  text-decoration: underline; text-decoration-color: rgba(201,212,208,.4); text-underline-offset: 4px;
+  padding: 6px 2px; margin: -6px -2px; border-radius: 4px;
+  transition: color .3s var(--ease), text-decoration-color .3s var(--ease);
+}
+.sec--voo .voo__skip:hover { color: var(--white); text-decoration-color: currentColor; }
+.sec--voo .voo__skip:focus-visible { outline: 2px solid var(--agua-2); outline-offset: 3px; color: var(--white); }
+.sec--voo .voo__cue {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--menta);
+}
+.sec--voo .voo__cue-line {
+  position: relative; width: 1.5px; height: 22px; border-radius: 2px; overflow: hidden;
+  background: rgba(191,240,220,.22);
+}
+.sec--voo .voo__cue-line::after {
+  content: ""; position: absolute; left: 0; right: 0; top: -40%; height: 40%;
+  background: var(--menta); border-radius: 2px;
+  animation: voo-cue 1.8s var(--ease) infinite;
+}
+@keyframes voo-cue { 0% { transform: translateY(0); } 70%, 100% { transform: translateY(350%); } }
+.sec--voo .voo__stops { display: flex; gap: 16px; }
+.sec--voo .voo__stops li {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(169,184,178,.62); transition: color .4s;
+}
+.sec--voo .voo__stops li::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; transition: background-color .4s, box-shadow .4s;
+}
+.sec--voo .voo__stops li.is-on { color: var(--white); }
+.sec--voo .voo__stops li.is-on::before { background: var(--agua-2); box-shadow: 0 0 0 3px rgba(57,208,168,.22); }
+.sec--voo .voo__meter { position: relative; display: block; height: 1.5px; background: rgba(169,184,178,.22); border-radius: 2px; overflow: hidden; }
+.sec--voo .voo__meter-fill { position: absolute; inset: 0; background: linear-gradient(90deg, var(--agua), var(--agua-2), var(--menta)); transform-origin: 0 50%; transform: scaleX(0); }
+
+.sec--voo.voo--live .voo__legend {
+  position: absolute; z-index: 3; left: var(--voo-edge); top: calc(var(--nav-h) + 6px);
+  display: grid; gap: 6px; width: max-content; max-width: calc(100vw - 2 * var(--gutter));
+  padding: 8px 11px 7px; border-radius: 10px;
+  background: rgba(5,8,7,.62); border: 1px solid rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; visibility: hidden;
+}
+.sec--voo .voo__legend-title { font-size: 10px; letter-spacing: .08em; white-space: nowrap; text-transform: uppercase; color: var(--musgo); }
+.sec--voo .voo__legend-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; height: 6px; }
+.sec--voo .voo__legend-bar i { border-radius: 2px; }
+.sec--voo .voo__legend-bar i:nth-child(1) { background: var(--r-baixo); }
+.sec--voo .voo__legend-bar i:nth-child(2) { background: var(--r-leve); }
+.sec--voo .voo__legend-bar i:nth-child(3) { background: var(--r-moderado); }
+.sec--voo .voo__legend-bar i:nth-child(4) { background: var(--r-alto); }
+.sec--voo .voo__legend-bar i:nth-child(5) { background: var(--r-critico); }
+.sec--voo .voo__legend-ends { display: flex; justify-content: space-between; font-size: 10.5px; letter-spacing: .06em; color: #C9D4D0; }
+
+@media (min-width: 768px) {
+  .sec--voo.voo--live .voo__track { height: 300vh; }
+  .sec--voo.voo--live.voo--pinned .voo__track { height: auto; }
+  .sec--voo.voo--live.voo--pinned .voo__pin { position: relative; height: 100vh; }
+  .sec--voo.voo--live .voo__stage,
+  .sec--voo.voo--live .voo__scrim { height: 100%; }
+  .sec--voo.voo--live .voo__hero,
+  .sec--voo.voo--live .voo__beat { align-self: center; padding-top: calc(var(--nav-h) + 8px); padding-bottom: var(--voo-foot); }
+  .sec--voo.voo--live .voo__hero { max-width: 44rem; }
+  .sec--voo.voo--live .voo__beat { max-width: 33rem; }
+  .sec--voo.voo--live .voo__legend { top: auto; bottom: calc(var(--voo-foot) + 36px); }
+  .sec--voo .voo__stops { gap: 22px; }
+}
+@media (min-width: 1280px) {
+  /* deixa espaço para o trilho fixo da direita */
+  .sec--voo.voo--live .voo__foot { padding-right: max(calc(var(--gutter) + 40px), var(--voo-edge)); }
+}
+@media (max-height: 640px) and (max-width: 767px) {
+  .sec--voo .voo__lead { font-size: 1rem; margin-top: 12px; }
+  .sec--voo .voo__ctas { margin-top: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sec--voo .voo__cue-line::after { animation: none; transform: translateY(120%); }
+}
+
+/* =====================================================================================
+   Modo vídeo (padrão): voo POR PARADAS (js/sections/voo.js). A seção mede uma tela (100svh);
+   enquanto o voo está ativo a janela não rola: cada gesto toca um trecho entre as paradas
+   P0 órbita (hero) → P1 represa → P2 água → saída. .voo--video entra antes da primeira pintura
+   (script inline); .voo--video-on quando o JS montou. Batidas aparecem com .is-shown na chegada.
+   ===================================================================================== */
+.sec--voo .voo__ia { display: none; }
+
+.sec--voo.voo--live.voo--video .voo__track { height: auto; overflow: visible; }
+.sec--voo.voo--live.voo--video .voo__pin {
+  position: relative; top: auto;
+  height: 100vh; height: 100svh; min-height: 560px;
+  overflow: hidden; overflow: clip;   /* clip: não vira contêiner de rolagem (o arrasto passa para a janela); trava de pull-to-refresh só no <html>, pelo JS */
+}
+.sec--voo.voo--live.voo--video #voo-stage,
+.sec--voo.voo--live.voo--video .voo__scrim,
+.sec--voo.voo--live.voo--video .voo__seam {
+  position: absolute; inset: 0; height: 100%; min-height: 0;
+}
+.sec--voo.voo--live.voo--video #voo-stage { background: var(--ink-2); }
+.sec--voo.voo--video .voo__canvas,
+.sec--voo.voo--video .voo__legend,
+.sec--voo.voo--video .voo__label { display: none; }
+
+/* camada de vídeo: posters das paradas por baixo, um único <video> visível por vez (troca sem fade:
+   as emendas são o mesmo quadro). Crossfade só entre posters (clipe indisponível). */
+.sec--voo .voo__vids { position: absolute; inset: 0; overflow: hidden; }
+.sec--voo .voo__poster,
+.sec--voo .voo__vid {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 42%;
+  opacity: 0; pointer-events: none;
+}
+.sec--voo .voo__poster { transition: opacity .9s var(--ease); }
+.sec--voo .voo__poster.is-on { opacity: 1; }
+.sec--voo .voo__vid { z-index: 1; }
+.sec--voo .voo__vid.is-on { opacity: 1; }
+@media (max-width: 860px) {
+  .sec--voo .voo__poster, .sec--voo .voo__vid { object-position: center 44%; }
+}
+
+/* véu: pleno com texto na tela, leve durante a viagem (preocupação por contraste, nunca por escuridão) */
+.sec--voo.voo--live.voo--video .voo__scrim { opacity: 1; transition: opacity .7s var(--ease); }
+.sec--voo.voo--live.voo--video-on .voo__scrim { opacity: calc((.42 + .58 * var(--voo-vis, 1)) * (1 - .4 * var(--voo-seam, 0))); }
+.sec--voo.voo--video .voo__scrim {
+  background:
+    linear-gradient(0deg, rgba(5,8,7,.94) 0%, rgba(5,8,7,.88) 38%, rgba(5,8,7,.74) 58%, rgba(5,8,7,.38) 72%, rgba(5,8,7,0) 86%),
+    linear-gradient(180deg, rgba(5,8,7,.5) 0%, rgba(5,8,7,0) 18%);
+}
+/* enquanto o JS não montou: o quadro 0 do primeiro clipe, para não piscar */
+.sec--voo.voo--video:not(.voo--video-on) .voo__scrim {
+  background:
+    linear-gradient(0deg, rgba(5,8,7,.94) 0%, rgba(5,8,7,.88) 38%, rgba(5,8,7,.74) 58%, rgba(5,8,7,.38) 72%, rgba(5,8,7,0) 86%),
+    linear-gradient(180deg, rgba(5,8,7,.5) 0%, rgba(5,8,7,0) 18%),
+    var(--voo-poster, none) center 44% / cover no-repeat,
+    var(--ink-2);
+}
+
+/* textos: uma célula de grade; com o JS montado, só a batida da parada atual aparece */
+.sec--voo.voo--live.voo--video .voo__ui { position: absolute; inset: 0; height: 100%; z-index: 2; }
+.sec--voo.voo--video-on .voo__hero,
+.sec--voo.voo--video-on .voo__beat {
+  opacity: 0; transform: translate3d(0, 18px, 0); pointer-events: none;
+  transition: opacity .35s var(--ease), transform .45s var(--ease);
+}
+.sec--voo.voo--video-on .voo__hero.is-shown,
+.sec--voo.voo--video-on .voo__beat.is-shown {
+  opacity: 1; transform: none; pointer-events: auto;
+  transition: opacity .8s var(--ease) .08s, transform 1s var(--ease) .08s;
+}
+.sec--voo.voo--video .voo__hero :is(.eyebrow, .voo__title, .voo__lead),
+.sec--voo.voo--video .voo__beat-text { text-shadow: 0 1px 14px rgba(5,8,7,.75); }
+
+/* costura com "O problema" (02, Névoa): ao rolar para fora, o pé clareia até --paper (--voo-seam do JS) */
+.sec--voo.voo--live.voo--video .voo__seam {
+  display: block; z-index: 1; pointer-events: none;
+  opacity: var(--voo-seam, 0);
+  background: linear-gradient(180deg,
+    rgba(242,245,243,0) calc(100% - var(--voo-seam-h)),
+    rgba(242,245,243,.14) calc(100% - var(--voo-seam-h) * .72),
+    rgba(242,245,243,.48) calc(100% - var(--voo-seam-h) * .44),
+    rgba(242,245,243,.86) calc(100% - var(--voo-seam-h) * .18),
+    var(--paper) 100%);
+}
+.sec--voo.voo--video { --voo-seam-h: 200px; --voo-foot: 132px; }
+
+/* rodapé: dica (P0; na P1/P2 só nos primeiros segundos) · 3 etapas · barra do filme; selo de IA sempre visível */
+.sec--voo.voo--live.voo--video .voo__foot {
+  position: absolute; inset: auto 0 0; height: auto; z-index: 3;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 12px;
+}
+.sec--voo.voo--live.voo--video .voo__hud {
+  width: 100%; display: grid; grid-template-areas: "c" "a" "m"; gap: 10px;
+  opacity: calc(1 - var(--voo-seam, 0));
+}
+.sec--voo.voo--live.voo--video .voo__cue-row { grid-area: c; }
+.sec--voo.voo--live.voo--video .voo__cue { transition: opacity .5s var(--ease); }
+.sec--voo.voo--live.voo--video .voo__stops { grid-area: a; opacity: 1; }
+.sec--voo.voo--video-on:not(.voo--at-hero):not(.voo--cue-rest) .voo__cue { opacity: 0 !important; position: absolute; visibility: hidden; }
+/* P1/P2: a mesma dica, mais discreta, só nos primeiros segundos de repouso (.voo--cue-rest, pelo JS) */
+.sec--voo.voo--video-on.voo--cue-rest:not(.voo--at-hero) .voo__cue { opacity: .72; transition: opacity .8s var(--ease); }
+.sec--voo.voo--video .voo__stops li.is-done { color: rgba(201,212,208,.85); }
+.sec--voo.voo--video .voo__stops li.is-done::before { background: var(--agua); }
+.sec--voo.voo--video .voo__meter-fill { transition: transform .12s linear; }
+.sec--voo.voo--live.voo--video .voo__foot-end { width: 100%; justify-content: space-between; }
+
+.sec--voo.voo--video .voo__ia {
+  display: block; margin: 0;
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase; line-height: 1.3;
+  color: #C9D4D0; /* sobre o fundo do selo: ~11:1 */
+  padding: 4px 9px; border-radius: 6px; background: rgba(5,8,7,.72);
+  border: 1px solid rgba(255,255,255,.1);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+/* CTA compacto do voo: só onde o nav não tem CTA (abaixo de 1080 px); aparece fora da P0 */
+.sec--voo.voo--video-on .voo__mini-cta {
+  display: inline-flex; flex: none; --h: 36px; font-size: .86rem; padding-inline: 1em;
+  pointer-events: auto; transition: opacity .5s var(--ease), visibility 0s;
+}
+.sec--voo.voo--video-on.voo--at-hero .voo__mini-cta { opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility 0s .3s; }
+@media (max-width: 767px) {
+  .sec--voo.voo--video .voo__ia { letter-spacing: .05em; padding-inline: 8px; text-wrap: balance; min-width: 0; }
+  .sec--voo.voo--video .voo__stops { gap: 14px; }
+}
+@media (max-height: 700px) and (max-width: 767px) {
+  .sec--voo.voo--video { --voo-foot: 120px; }
+  .sec--voo.voo--live.voo--video .voo__hud { gap: 7px; }
+}
+
+@media (min-width: 768px) {
+  .sec--voo.voo--video .voo__scrim {
+    background:
+      linear-gradient(90deg, rgba(5,8,7,.86) 0%, rgba(5,8,7,.62) 36%, rgba(5,8,7,.18) 56%, rgba(5,8,7,0) 66%),
+      linear-gradient(0deg, rgba(5,8,7,.55) 0%, rgba(5,8,7,0) 30%),
+      linear-gradient(180deg, rgba(5,8,7,.45) 0%, rgba(5,8,7,0) 16%);
+  }
+  .sec--voo.voo--video:not(.voo--video-on) .voo__scrim {
+    background:
+      linear-gradient(90deg, rgba(5,8,7,.86) 0%, rgba(5,8,7,.62) 36%, rgba(5,8,7,.18) 56%, rgba(5,8,7,0) 66%),
+      linear-gradient(0deg, rgba(5,8,7,.55) 0%, rgba(5,8,7,0) 30%),
+      linear-gradient(180deg, rgba(5,8,7,.45) 0%, rgba(5,8,7,0) 16%),
+      var(--voo-poster, none) center 42% / cover no-repeat,
+      var(--ink-2);
+  }
+  /* no desktop: etapas à esquerda, selo de IA no canto inferior direito, longe do CTA */
+  .sec--voo.voo--video { --voo-foot: 64px; --voo-seam-h: 180px; }
+  .sec--voo.voo--live.voo--video .voo__foot { flex-direction: row; align-items: flex-end; justify-content: space-between; }
+  .sec--voo.voo--live.voo--video .voo__hud { width: auto; min-width: 300px; }
+  .sec--voo.voo--live.voo--video .voo__foot-end { width: auto; justify-content: flex-end; }
+  .sec--voo.voo--video .voo__ia { align-self: center; }
+  .sec--voo.voo--live.voo--video-on .voo__scrim { opacity: calc((.6 + .4 * var(--voo-vis, 1)) * (1 - .3 * var(--voo-seam, 0))); }
+}
+/* o poster provisório vem de --voo-poster (script inline): a mesma URL que o voo.js usa, um pedido só */
+/* nav com CTA próprio a partir de 1080 px: o CTA compacto do voo sai */
+@media (min-width: 1080px) {
+  .sec--voo.voo--video-on .voo__mini-cta { display: none; }
+}
+
+/* celular, modo vídeo: o eyebrow fica sobre as nuvens claras do poster; sombra justa + halo para AA */
+@media (max-width: 767px) {
+  .sec--voo.voo--video .voo__hero .eyebrow {
+    width: fit-content; padding: 5px 11px 5px 9px; border-radius: 999px;
+    background: rgba(5,8,7,.8); color: var(--agua-2);
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    text-shadow: none;
+  }
+  .sec--voo.voo--video .voo__proof { text-shadow: 0 1px 8px rgba(5,8,7,.9); }
+}
+
+/* =====================================================================================
+   Modo posters (movimento reduzido, Save-Data, 2g/3g): nenhum vídeo; o poster de cada cena
+   (quadro 0 do clipe) + o texto das 3 batidas. O poster da órbita é o fundo da primeira tela.
+   ===================================================================================== */
+.sec--voo.voo--posters .voo__stage { background: var(--ink-2) url("../../assets/voo/orbita.webp") center 42% / cover no-repeat; }
+.sec--voo.voo--posters .voo__canvas,
+.sec--voo.voo--posters .voo__frame-legend,
+.sec--voo.voo--posters .voo__label { display: none; }
+.sec--voo.voo--posters .voo__ia { display: block; margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #C9D4D0; padding: 4px 9px; border-radius: 6px; background: rgba(5,8,7,.72); border: 1px solid rgba(255,255,255,.1); }
+.sec--voo.voo--posters .voo__beat[data-beat="orbita"] .voo__frame { display: none; }   /* a órbita já é a primeira tela */
+.sec--voo.voo--posters .voo__frame { background: var(--ink-2) center / cover no-repeat; }
+.sec--voo.voo--posters .voo__frame[data-frame="represa"] { background-image: url("../../assets/voo/represa.webp"); }
+.sec--voo.voo--posters .voo__frame[data-frame="agua"] { background-image: url("../../assets/voo/agua.webp"); }
+.sec--voo.voo--posters .voo__frame::after { content: "Imagem ilustrativa gerada por IA"; letter-spacing: .06em; }
+@media (max-width: 860px) {
+  .sec--voo.voo--posters .voo__stage { background-image: url("../../assets/voo/orbita-m.webp"); background-position: center 44%; }
+  .sec--voo.voo--posters .voo__frame[data-frame="represa"] { background-image: url("../../assets/voo/represa-m.webp"); }
+  .sec--voo.voo--posters .voo__frame[data-frame="agua"] { background-image: url("../../assets/voo/agua-m.webp"); }
+}
+.sec--voo.voo--posters .voo__hero :is(.eyebrow, .voo__lead, .voo__proof) { text-shadow: 0 0 2px rgba(5,8,7,.9), 0 1px 14px rgba(5,8,7,.8); }
+.sec--voo.voo--posters .voo__title { text-shadow: 0 1px 14px rgba(5,8,7,.75); }
+.sec--voo .voo__title .grad-text { text-shadow: none; }   /* sombra por cima do texto recortado escurece o gradiente */

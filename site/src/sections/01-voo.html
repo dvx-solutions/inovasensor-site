@@ -1,0 +1,96 @@
+<section id="voo" class="sec sec--voo" data-theme="dark" data-rail="Início" aria-labelledby="voo-title">
+  <script>/* antes da primeira pintura: decide o modo e já pede o 1º clipe.
+     Movimento reduzido, Save-Data ou 2g/3g: só posters + texto das 3 batidas (.voo--posters), nenhum vídeo.
+     Senão: voo em vídeo; o poster e o <video> do d1 (preload=auto, streaming) saem daqui e o voo.js os reaproveita
+     (mesma URL, mesma regra de celular do voo.js). Se o JS da seção não subir em 5 s, volta ao modo estático. */(function(s){if(!s)return;var c=navigator.connection,m=function(q){return matchMedia(q).matches};if(m('(prefers-reduced-motion: reduce)')||(c&&(c.saveData||/2g|3g/.test(c.effectiveType||'')))){s.classList.add('voo--static','voo--posters');return}var l=document.querySelector('link[href$="css/base.css"]'),b=(l?l.href.replace(/css\/base\.css$/,''):new URL('./',document.baseURI).href)+'assets/voo/',x=m('(hover: none) and (pointer: coarse)')||m('(max-width: 860px)')?'-m':'',v;window.__vooBase=b;window.__vooSfx=x;s.style.setProperty('--voo-poster','url("'+b+'orbita'+x+'.webp")');s.classList.add('voo--live','voo--video');try{v=document.createElement('video');v.className='voo__vid';v.muted=true;v.playsInline=true;v.preload='auto';v.disablePictureInPicture=true;v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.src=b+'d1-orbita'+x+'.mp4';window.__vooD1=v}catch(e){}setTimeout(function(){if(!s.classList.contains('voo--ready')){s.classList.remove('voo--live','voo--pinned','voo--video');s.classList.add('voo--static');if(v){v.removeAttribute('src');try{v.load()}catch(e){}}}},5000)})(document.getElementById('voo'))</script>
+  <div class="voo__track">
+    <div class="voo__pin">
+      <!-- Camada visual: por padrão o voo em vídeo por paradas (js/sections/voo.js, .voo--video) monta aqui.
+           Fallback: ilustração em canvas 2D (movimento reduzido, Save-Data/2g/3g, falha de rede ou de script, sem JS). -->
+      <div id="voo-stage" class="voo__stage" role="img" aria-label="Ilustração: um satélite passa sobre a Terra ao amanhecer." data-label-live="Ilustração: um satélite passa sobre a Terra ao amanhecer, a vista desce até uma represa cercada de mata, um mapa de sinais de algas aparece sobre parte da água e a câmera entra na água, onde partículas verdes ficam suspensas.">
+        <canvas class="voo__canvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="voo__scrim" aria-hidden="true"></div>
+      <!-- costura com a seção 02 (modo vídeo): o pé da cena clareia até Névoa (--paper) enquanto o estágio solta -->
+      <div class="voo__seam" aria-hidden="true"></div>
+
+      <div class="wrap voo__ui">
+        <div class="voo__hero" data-voo-hero>
+          <p class="eyebrow voo__eyebrow"><span class="voo__eb-long">Monitoramento de algas em reservatórios</span><span class="voo__eb-short">Algas em reservatórios</span></p>
+          <h1 class="h1 voo__title" id="voo-title">Veja a represa <span class="grad-text">inteira.</span></h1>
+          <p class="lead voo__lead">Mapa, histórico e alertas de sinais de algas na represa inteira, com imagens de satélite e IA. Sua equipe vê onde olhar primeiro e decide onde coletar.</p>
+          <div class="voo__ctas">
+            <a class="btn btn--primary" href="#avaliacao" data-cta="avaliacao">Avaliar meu reservatório <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="#como">Como funciona</a>
+          </div>
+          <p class="voo__proof mono"><span>Nada para instalar</span> · <span>Começa com histórico de passagens</span> · <span>Incubada em programa com AEB e PNUD</span></p>
+        </div>
+
+        <div class="voo__beats">
+          <article class="voo__beat" data-beat="orbita">
+            <div class="voo__frame" data-frame="orbita" role="img" aria-label="Ilustração: um satélite pequeno passa sobre a curvatura da Terra ao amanhecer, com um feixe sutil descendo."></div>
+            <div class="voo__beat-text">
+              <p class="voo__step mono"><span class="voo__step-dot" aria-hidden="true"></span>Órbita</p>
+              <h2 class="voo__beat-title">O satélite passa.</h2>
+              <p class="voo__beat-body">A cada passagem, a imagem cobre a represa de margem a margem. Com nuvem, aquela data fica de fora.</p>
+            </div>
+          </article>
+          <article class="voo__beat" data-beat="represa">
+            <div class="voo__frame" data-frame="represa" role="img" aria-label="Ilustração com dados fictícios: uma represa genérica vista de cima, cercada de mata, com um mapa de sinais de algas sobre parte da água.">
+              <span class="voo__frame-legend" aria-hidden="true">
+                <span class="voo__legend-title mono">Leitura ilustrativa · dados fictícios</span>
+                <span class="voo__legend-bar"><i></i><i></i><i></i><i></i><i></i></span>
+                <span class="voo__legend-ends mono"><span>menos alga</span><span>mais alga</span></span>
+              </span>
+            </div>
+            <div class="voo__beat-text">
+              <p class="voo__step mono"><span class="voo__step-dot" aria-hidden="true"></span>Represa</p>
+              <h2 class="voo__beat-title">A represa inteira, braço por braço.</h2>
+              <p class="voo__beat-body">A IA separa a água da margem e procura sinais de algas. Cada passagem vira uma leitura no mapa e entra no histórico da represa.</p>
+            </div>
+          </article>
+          <article class="voo__beat" data-beat="agua">
+            <div class="voo__frame" data-frame="agua" role="img" aria-label="Ilustração: sob a linha d'água, luz difusa e partículas verdes suspensas que sugerem algas."></div>
+            <div class="voo__beat-text">
+              <p class="voo__step mono"><span class="voo__step-dot" aria-hidden="true"></span>Água</p>
+              <h2 class="voo__beat-title">Você enxerga onde olhar primeiro e decide com a equipe onde coletar.</h2>
+              <p class="voo__beat-body">O mapa orienta a ida a campo. A coleta e o laboratório verificam o que ele aponta.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="voo__legend" aria-hidden="true">
+        <span class="voo__legend-title mono">Leitura ilustrativa · dados fictícios</span>
+        <span class="voo__legend-bar"><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="voo__legend-ends mono"><span>menos alga</span><span>mais alga</span></span>
+      </div>
+
+      <!-- leitor de tela: anuncia a etapa atual do voo quando ela muda (preenchido pelo JS) -->
+      <p class="voo__sr" aria-live="polite" data-voo-live></p>
+
+      <div class="voo__foot">
+        <div class="voo__hud">
+          <div class="voo__cue-row">
+            <p class="voo__cue mono" aria-hidden="true"><span class="voo__cue-line"></span><span data-voo-cue>Role para continuar</span></p>
+            <!-- sai do voo direto para a seção 02 (também com a tecla End); o gesto continua igual -->
+            <a class="voo__skip mono" href="#intervalo" data-voo-skip>Pular abertura</a>
+          </div>
+          <ol class="voo__stops mono" aria-hidden="true">
+            <li data-stop="0">Órbita</li>
+            <li data-stop="1">Represa</li>
+            <li data-stop="2">Água</li>
+          </ol>
+          <span class="voo__meter" aria-hidden="true"><span class="voo__meter-fill"></span></span>
+        </div>
+        <!-- rótulo da ilustração (fallback) e aviso do vídeo gerado por IA (modo vídeo); o CSS mostra um ou outro -->
+        <div class="voo__foot-end">
+          <p class="voo__label mono" data-voo-label>ilustração</p>
+          <p class="voo__ia mono">Imagem ilustrativa gerada por IA</p>
+          <!-- CTA compacto durante o voo (modo vídeo, abaixo de 1080 px, onde o nav é só hambúrguer); entra quando o hero sai -->
+          <a class="btn btn--primary btn--sm voo__mini-cta" href="#avaliacao" data-cta="avaliacao" aria-label="Avaliar meu reservatório">Avaliar reservatório <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
