@@ -1,0 +1,103 @@
+<section id="como" class="sec sec--como" data-theme="dark" data-rail="Como funciona">
+  <div class="wrap como__wrap">
+
+    <header class="sec-head como__head" data-reveal>
+      <p class="eyebrow">Como funciona</p>
+      <h2 class="h2">Do satélite ao mapa da sua represa.</h2>
+      <p class="lead">Nada para instalar na água nem na sua estrutura. A leitura vem das passagens do satélite, e a sua equipe começa pelo mapa: onde olhar primeiro.</p>
+    </header>
+
+    <!-- Passo a passo: a sequência é real (passagem, água, mapa, ocorrência), por isso numerada -->
+    <div class="como__flow" data-como-flow>
+      <div class="como__tabs" role="tablist" aria-label="Etapas, da passagem do satélite à ocorrência" data-reveal="stagger">
+        <button class="como__tab is-active" type="button" role="tab" id="como-tab-1" aria-controls="como-panel" aria-selected="true" data-step="0">
+          <span class="como__tab-num mono">1</span>
+          <span class="como__tab-short mono">Passagem</span>
+          <span class="como__tab-title">O satélite passa sobre a represa</span>
+          <span class="como__tab-bar" aria-hidden="true"></span>
+          <span class="como__tab-prog" aria-hidden="true"></span>
+        </button>
+        <button class="como__tab" type="button" role="tab" id="como-tab-2" aria-controls="como-panel" aria-selected="false" tabindex="-1" data-step="1">
+          <span class="como__tab-num mono">2</span>
+          <span class="como__tab-short mono">Água</span>
+          <span class="como__tab-title">A IA separa a água e procura sinais de algas</span>
+          <span class="como__tab-bar" aria-hidden="true"></span>
+          <span class="como__tab-prog" aria-hidden="true"></span>
+        </button>
+        <button class="como__tab" type="button" role="tab" id="como-tab-3" aria-controls="como-panel" aria-selected="false" tabindex="-1" data-step="2">
+          <span class="como__tab-num mono">3</span>
+          <span class="como__tab-short mono">Mapa</span>
+          <span class="como__tab-title">O resultado vira mapa e entra no histórico de passagens</span>
+          <span class="como__tab-bar" aria-hidden="true"></span>
+          <span class="como__tab-prog" aria-hidden="true"></span>
+        </button>
+        <button class="como__tab" type="button" role="tab" id="como-tab-4" aria-controls="como-panel" aria-selected="false" tabindex="-1" data-step="3">
+          <span class="como__tab-num mono">4</span>
+          <span class="como__tab-short mono">Ocorrência</span>
+          <span class="como__tab-title">Sua regra de alerta pode abrir uma ocorrência</span>
+          <span class="como__tab-bar" aria-hidden="true"></span>
+          <span class="como__tab-prog" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="como__ctrl">
+        <button class="como__auto mono" type="button" aria-controls="como-panel" data-como-auto hidden>
+          <span class="como__auto-ico" aria-hidden="true"></span><span data-como-auto-label>Pausar</span><span class="como__sr"> a sequência automática</span>
+        </button>
+      </div>
+
+      <div class="como__panel" id="como-panel" role="tabpanel" aria-labelledby="como-tab-1" tabindex="0" data-reveal>
+        <figure class="como__frame" data-step-state="0">
+          <figcaption class="como__chrome">
+            <span class="como__chrome-l mono" data-como-hud>Passagem 8</span>
+            <span class="como__demo mono">Demonstração · dados fictícios</span>
+          </figcaption>
+
+          <div class="como__stage" data-como-stage>
+            <canvas class="como__canvas" data-como-canvas="flow" aria-hidden="true"></canvas>
+            <svg class="como__fallback" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+              <defs><g id="como-dam"><path d="M606 220.1L562 218.1L558 275.9L602 279.9ZM560.6 218L512.6 219L511.4 273L559.4 276ZM515.6 219.2L455.3 213.2L448.7 262.8L508.4 272.8ZM449.1 213.2L381.4 224.2L386.6 267.8L454.9 262.8ZM387.1 224.2L302.7 215.2L297.3 252.8L380.9 267.8ZM297.8 215.1L230.1 226.1L233.9 257.9L302.2 252.9ZM235.1 226.3L164.4 216.2L159.6 239.8L228.9 257.7ZM160.8 216.1L103.1 225L104.9 243L163.2 239.9ZM106.2 225.3L57 218.1L55 225.9L101.8 242.7ZM55.2 218.1L35.8 225L36.2 227L56.8 225.9ZM465.9 236.3L457.9 188.5L434.1 191.5L438.1 239.7ZM457.5 186.6L440.6 139.5L423.4 144.5L434.5 193.4ZM440.9 143.6L445.9 99.1L434.1 96.9L423.1 140.4ZM445.7 96.1L429.4 61.5L426.6 62.5L434.3 99.9ZM309.2 224.8L270.5 187.5L253.5 204.5L290.8 243.2ZM269.3 186.5L224.1 154.1L211.9 169.9L254.7 205.5ZM223.7 153.8L176 124.3L168 135.7L212.3 170.2ZM174.9 123.6L132.8 110.2L131.2 113.8L169.1 136.4ZM371.3 248.8L383.3 294.3L404.7 289.7L396.7 243.2ZM384.3 286.9L364.9 330.3L379.1 337.7L403.7 297.1ZM364.4 336.4L382.1 372.6L385.9 371.4L379.6 331.6ZM530.1 248.6L541.1 297.1L554.9 294.9L549.9 245.4ZM541.7 299.1L564.2 332.9L567.8 331.1L554.3 292.9ZM224.1 243.2L232.1 282.9L243.9 281.1L239.9 240.8ZM233.2 278.4L212.8 313.1L215.2 314.9L242.8 285.6ZM167.6 225.8L151.7 190.6L144.3 193.4L156.4 230.2ZM151.6 193.7L160.9 166.4L159.1 165.6L144.4 190.3ZM448.3 195.6L491.5 175.7L488.5 168.3L443.7 184.4ZM491.3 175.8L524.3 160.9L523.7 159.1L488.7 168.2ZM222.7 163.7L235.3 123.2L228.7 120.8L213.3 160.3ZM235.4 121.3L227 93.8L225 94.2L228.6 122.7ZM518.7 244L503.8 204.9L496.2 207.1L505.3 248ZM503.6 207.8L512.9 182.4L511.1 181.6L496.4 204.2ZM99.2 232.7L93.1 263.2L98.9 264.8L108.8 235.3ZM93.8 262L75.3 285.3L76.7 286.7L98.2 266Z"/><circle cx="604" cy="250" r="30"/><circle cx="560" cy="247" r="29"/><circle cx="512" cy="246" r="27"/><circle cx="452" cy="238" r="25"/><circle cx="384" cy="246" r="22"/><circle cx="300" cy="234" r="19"/><circle cx="232" cy="242" r="16"/><circle cx="162" cy="228" r="12"/><circle cx="104" cy="234" r="9"/><circle cx="56" cy="222" r="4"/><circle cx="452" cy="238" r="14"/><circle cx="446" cy="190" r="12"/><circle cx="432" cy="142" r="9"/><circle cx="440" cy="98" r="6"/><circle cx="300" cy="234" r="13"/><circle cx="262" cy="196" r="12"/><circle cx="218" cy="162" r="10"/><circle cx="172" cy="130" r="7"/><circle cx="384" cy="246" r="13"/><circle cx="394" cy="292" r="11"/><circle cx="372" cy="334" r="8"/><circle cx="540" cy="247" r="10"/><circle cx="548" cy="296" r="7"/><circle cx="232" cy="242" r="8"/><circle cx="238" cy="282" r="6"/><circle cx="162" cy="228" r="6"/><circle cx="148" cy="192" r="4"/><circle cx="446" cy="190" r="6"/><circle cx="490" cy="172" r="4"/><circle cx="218" cy="162" r="5"/><circle cx="232" cy="122" r="3.5"/><circle cx="512" cy="246" r="7"/><circle cx="500" cy="206" r="4"/><circle cx="104" cy="234" r="5"/><circle cx="96" cy="264" r="3"/></g></defs>
+              <use href="#como-dam" fill="none" stroke="#BFF0DC" stroke-opacity=".5" stroke-width="3"/>
+              <use href="#como-dam" fill="#173E47"/>
+              <path d="M605 214V286" stroke="#BFF0DC" stroke-opacity=".7" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            <p class="como__stage-tag mono" data-como-tag aria-hidden="true">Imagem da represa inteira</p>
+
+            <span class="como__pulse" aria-hidden="true"></span>
+          </div>
+
+          <div class="como__hist" aria-hidden="true">
+            <span class="como__hist-label mono">Histórico de passagens</span>
+            <ol class="como__hist-list" data-como-hist></ol>
+          </div>
+        </figure>
+
+        <div class="como__copy" aria-live="polite" data-como-copy>
+          <div class="como__step is-active" data-copy="0">
+            <h3 class="como__step-title h3"><span class="como__step-num mono">1</span> O satélite passa sobre a represa</h3>
+            <p>Cada passagem é uma nova vista da represa inteira, da barragem ao fim de cada braço, sem nenhum equipamento no seu reservatório.</p>
+          </div>
+          <div class="como__step" data-copy="1">
+            <h3 class="como__step-title h3"><span class="como__step-num mono">2</span> A IA separa a água e procura sinais de algas</h3>
+            <p>Margem, mata e terra ficam de fora. O que sobra é o espelho d'água, lido área por área em busca de sinais de algas.</p>
+          </div>
+          <div class="como__step" data-copy="2">
+            <h3 class="como__step-title h3"><span class="como__step-num mono">3</span> O resultado vira mapa e entra no histórico de passagens</h3>
+            <p>A passagem útil vira um mapa com escala de risco e fica guardada ao lado das anteriores, para comparar uma passagem com a outra.</p>
+          </div>
+          <div class="como__step" data-copy="3">
+            <h3 class="como__step-title h3"><span class="como__step-num mono">4</span> Sua regra de alerta pode abrir uma ocorrência</h3>
+            <p>Você define as regras de alerta. Quando a avaliação de uma passagem aciona uma delas, o Algeye abre uma ocorrência para a sua equipe acompanhar.</p>
+            <p class="como__links"><a class="link-arrow" href="#operacao">Ver na operação</a><a class="link-arrow" href="#painel">Ver como fica no painel</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="como__limit" data-reveal>
+      <span class="como__limit-mark" aria-hidden="true"></span>
+      <span><strong>Nuvem descarta a leitura daquela passagem.</strong> A frequência de leituras úteis depende das passagens e do tempo.</span>
+    </p>
+
+  </div>
+</section>

@@ -1,0 +1,125 @@
+<section id="avaliacao" class="sec sec--avaliacao" data-theme="dark" data-rail="Avaliação" aria-labelledby="ava-title">
+  <div class="wrap">
+    <div class="ava__grid">
+
+      <div class="ava__intro">
+        <header class="sec-head ava__head" data-reveal>
+          <p class="eyebrow">Avaliação</p>
+          <h2 class="h2" id="ava-title">Avaliar meu <span class="ava__accent">reservatório.</span></h2>
+          <p class="lead">Diga qual é a represa. Uma pessoa da equipe conversa com você e mostra como ficaria o acompanhamento dela.</p>
+        </header>
+
+        <!-- Como começa: bloco estático (substitui a ilustração animada; nenhuma animação contínua nesta seção) -->
+        <div class="ava-steps" data-reveal>
+          <h3 class="ava-steps__title mono">Como começa</h3>
+          <ol class="ava-steps__list">
+            <li class="ava-step">
+              <span class="ava-step__n mono" aria-hidden="true">01</span>
+              <p class="ava-step__t">Você indica a represa.</p>
+            </li>
+            <li class="ava-step">
+              <span class="ava-step__n mono" aria-hidden="true">02</span>
+              <p class="ava-step__t">Uma pessoa da equipe responde pelo seu e-mail e conversa sobre a represa e o objetivo da equipe.</p>
+            </li>
+            <li class="ava-step">
+              <span class="ava-step__n mono" aria-hidden="true">03</span>
+              <p class="ava-step__t">Mostramos o acervo de passagens dela, o que a nuvem limita ali e como ficaria o acompanhamento.</p>
+            </li>
+          </ol>
+          <ul class="ava-steps__terms">
+            <li>Nada para instalar</li>
+            <!-- PENDENTE: confirmar com o Bil que a avaliação não implica compromisso de contratação -->
+            <li data-validate="true">Sem compromisso de contratação</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ava-card" data-reveal>
+        <!-- sem JS: POST via mailto (text/plain), nunca GET na própria página (dados pessoais não vão para a URL) -->
+        <form class="ava-form" id="ava-form" method="post" action="mailto:gustavo.henrique@devexsolucoes.com.br?subject=Avalia%C3%A7%C3%A3o%20Algeye" enctype="text/plain" novalidate aria-labelledby="ava-form-title" aria-describedby="ava-form-note">
+          <div class="ava-form__title">
+            <h3 class="h3" id="ava-form-title">Pedido de avaliação</h3>
+            <p class="ava-form__note" id="ava-form-note">Três campos bastam.</p>
+          </div>
+
+          <div class="ava-form__fields">
+            <div class="ava-field" data-field="0">
+              <label for="ava-nome">Nome</label>
+              <input id="ava-nome" name="nome" type="text" autocomplete="name" required aria-describedby="ava-nome-err" placeholder="Seu nome" maxlength="120">
+              <p class="ava-field__err" id="ava-nome-err"></p>
+            </div>
+            <div class="ava-field" data-field="1">
+              <label for="ava-email">E-mail de trabalho</label>
+              <input id="ava-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="ava-email-err" placeholder="nome@empresa.com.br" maxlength="160" spellcheck="false">
+              <p class="ava-field__err" id="ava-email-err"></p>
+            </div>
+            <div class="ava-field ava-field--wide" data-field="2">
+              <label for="ava-res">Reservatório</label>
+              <input id="ava-res" name="reservatorio" type="text" required aria-describedby="ava-res-hint ava-res-err" placeholder="Nome da represa ou município" maxlength="160">
+              <p class="ava-field__hint" id="ava-res-hint">Se for mais de um, cite o principal. Os outros entram na conversa.</p>
+              <p class="ava-field__err" id="ava-res-err"></p>
+            </div>
+            <div class="ava-field ava-field--opt" data-field="3">
+              <label for="ava-org">Organização <span class="ava-field__opt">opcional</span></label>
+              <input id="ava-org" name="organizacao" type="text" autocomplete="organization" placeholder="Empresa ou órgão" maxlength="160">
+            </div>
+            <div class="ava-field ava-field--opt" data-field="4">
+              <label for="ava-cargo">Área <span class="ava-field__opt">opcional</span></label>
+              <select id="ava-cargo" name="cargo" autocomplete="off">
+                <option value="">Escolha</option>
+                <option>Qualidade da água</option>
+                <option>Operação</option>
+                <option>Meio ambiente</option>
+                <option>Outro</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="ava-form__how" id="ava-form-how">O envio abre o seu programa de e-mail com o pedido pronto.</p>
+          <button type="submit" class="btn btn--primary ava-form__submit" data-cta="avaliacao-enviar" aria-describedby="ava-form-how">Montar pedido no meu e-mail <span class="arr" aria-hidden="true">→</span></button>
+        </form>
+
+        <div class="ava-done" id="ava-done" hidden>
+          <span class="ava-done__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          <h3 class="h3" id="ava-done-title" tabindex="-1">Seu pedido está montado.</h3>
+          <p>Seu programa de e-mail deve abrir com o assunto “Avaliação Algeye”. Confira os dados e envie.</p>
+          <p class="ava-done__eta">Quem responde é uma pessoa da equipe, pelo e-mail que você informou.</p>
+          <div class="ava-done__actions">
+            <a class="btn btn--primary btn--sm" href="mailto:gustavo.henrique@devexsolucoes.com.br" data-ava-again>Abrir o e-mail de novo</a>
+            <button type="button" class="btn btn--ghost btn--sm" data-ava-edit>Editar os dados</button>
+          </div>
+        </div>
+
+        <!-- sempre visível, sem depender do envio: copiar, endereço e WhatsApp -->
+        <div class="ava-alt" aria-labelledby="ava-alt-title" role="group">
+          <p class="ava-alt__title" id="ava-alt-title">Nada abriu, ou prefere outro caminho?</p>
+          <div class="ava-alt__row">
+            <button type="button" class="btn btn--ghost btn--sm ava-alt__copy" data-ava-copy>
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 9h10v12H9zM5 15V3h10"/></svg>
+              Copiar pedido
+            </button>
+            <a class="btn btn--ghost btn--sm ava-alt__wa" href="https://wa.me/5512988028865?text=Quero%20avaliar%20um%20reservat%C3%B3rio%20com%20o%20Algeye" target="_blank" rel="noopener" data-cta="whatsapp">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.06.89.9-2.98-.2-.31a8.2 8.2 0 1 1 6.84 3.73Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.16.25-.63.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.32-2.9c-.25-.43.25-.4.71-1.33.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.74 2.74 0 0 0-.86 2.04 4.76 4.76 0 0 0 1 2.53 10.9 10.9 0 0 0 4.18 3.69c1.55.67 2.16.73 2.94.61.47-.07 1.46-.6 1.66-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.17-.47-.29Z"/></svg>
+              WhatsApp
+            </a>
+          </div>
+          <p class="ava-alt__addr">Ou escreva para <a href="mailto:gustavo.henrique@devexsolucoes.com.br?subject=Avalia%C3%A7%C3%A3o%20Algeye" class="ava-alt__mail">gustavo.henrique@devexsolucoes.com.br</a></p>
+          <p class="ava-alt__ok" role="status" aria-live="polite" data-ava-copied></p>
+        </div>
+
+        <div class="ava-form__foot">
+          <p class="ava-form__alt">Prefere o Instagram? Mande <strong>MAPA</strong> no direct do <a href="https://www.instagram.com/alg.eye/" target="_blank" rel="noopener" data-cta="instagram">@alg.eye</a>.</p>
+          <!-- Formulação mínima e factual (o envio é por mailto, sem back-end). Quando houver política de privacidade (LGPD) validada pelo jurídico, linkar aqui. -->
+          <p class="ava-form__privacy">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 11V8a6 6 0 0 1 12 0v3M5 11h14v10H5z"/></svg>
+            <span>Esta página não guarda nem envia seus dados. O pedido sai do seu próprio e-mail.</span>
+          </p>
+        </div>
+
+        <p class="ava-status" role="status" aria-live="polite" data-ava-status></p>
+      </div>
+    </div>
+
+    <p class="ava__slogan" data-reveal>Água limpa não deveria depender de sorte. <span>Deveria depender de <em>dados.</em></span></p>
+  </div>
+</section>

@@ -1,0 +1,202 @@
+<section id="intervalo" class="sec sec--intervalo" data-theme="light" data-rail="O problema">
+  <div class="wrap iv">
+
+    <header class="iv__head">
+      <p class="eyebrow" data-reveal>O problema</p>
+      <h2 class="h2 iv__title" data-reveal>Entre uma coleta e a próxima, <span class="iv__title-em">a represa muda.</span></h2>
+      <p class="lead iv__lead" data-reveal>A coleta de campo é precisa no ponto e no dia em que acontece. No intervalo, a floração se forma e se desloca pela represa inteira, muitas vezes onde não há ponto de coleta. Quem opera decide com uma fotografia parcial.</p>
+    </header>
+
+    <dl class="iv__facts" data-reveal="stagger">
+      <div class="iv__fact">
+        <dt>Um ponto, um dia</dt>
+        <dd><span class="iv__long">A amostra descreve bem a água onde foi colhida. O resto da represa fica fora do quadro.</span><span class="iv__short">O resto fica fora do quadro.</span></dd>
+      </div>
+      <div class="iv__fact">
+        <dt>Uma mancha que anda</dt>
+        <dd><span class="iv__long">Vento e corrente mudam a floração de lugar de uma campanha para a outra.</span><span class="iv__short">O vento a leva.</span></dd>
+      </div>
+      <div class="iv__fact">
+        <dt>Uma decisão com lacunas</dt>
+        <dd><span class="iv__long">Não é falta de cuidado. É o limite de uma amostragem feita por pontos.</span><span class="iv__short">É o limite dos pontos.</span></dd>
+      </div>
+    </dl>
+
+    <figure class="iv__plate" data-reveal aria-labelledby="iv-plate-title">
+      <div class="iv__plate-top">
+        <p class="iv__plate-title mono" id="iv-plate-title">Represa genérica · vista de cima</p>
+        <p class="iv__demo mono">Demonstração · dados fictícios</p>
+      </div>
+
+      <div class="iv__map" data-view="inteira">
+        <div class="iv__stage">
+        <svg class="iv__svg" viewBox="0 0 800 520" role="img" aria-labelledby="iv-svg-title iv-svg-desc">
+          <title id="iv-svg-title">Mapa ilustrativo de uma represa com três pontos de coleta</title>
+          <desc id="iv-svg-desc">Uma mancha de algas fictícia aparece e muda de lugar entre as passagens, em geral longe dos pontos de coleta A, B e C.</desc>
+          <defs>
+            <linearGradient id="iv-water" x1="0" y1="0" x2="1" y2="1">
+              <stop class="iv__water-a" offset="0"/>
+              <stop class="iv__water-b" offset="1"/>
+            </linearGradient>
+            <clipPath id="iv-clip"><use href="#iv-shore"/></clipPath>
+            <filter id="iv-blur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="13"/></filter>
+            <mask id="iv-seen" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="520">
+              <rect class="iv__mask-all" x="0" y="0" width="800" height="520" fill="#fff"/>
+              <circle cx="648" cy="352" r="34" fill="#fff"/>
+              <circle cx="432" cy="292" r="34" fill="#fff"/>
+              <circle cx="182" cy="198" r="34" fill="#fff"/>
+            </mask>
+            <mask id="iv-unseen" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="520">
+              <rect x="0" y="0" width="800" height="520" fill="#fff"/>
+              <circle cx="648" cy="352" r="34" fill="#000"/>
+              <circle cx="432" cy="292" r="34" fill="#000"/>
+              <circle cx="182" cy="198" r="34" fill="#000"/>
+            </mask>
+            <pattern id="iv-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect class="iv__hatch-bg" width="7" height="7"/>
+              <line class="iv__hatch-ln" x1="0" y1="0" x2="0" y2="7"/>
+            </pattern>
+            <path id="iv-shore" d="M40,70C51.3,69.7 71.7,72.3 90,78C108.3,83.7 133,97.7 150,104C167,110.3 183,117.7 192,116C201,114.3 199.7,99.3 204,94C208.3,88.7 213.7,83.7 218,84C222.3,84.3 227.3,89.3 230,96C232.7,102.7 228.7,116.7 234,124C239.3,131.3 251,136.3 262,140C273,143.7 291,149.7 300,146C309,142.3 312,129 316,118C320,107 320.3,92 324,80C327.7,68 332.3,54.3 338,46C343.7,37.7 351.3,30.3 358,30C364.7,29.7 373.7,34.3 378,44C382.3,53.7 384,73.3 384,88C384,102.7 376.7,118.7 378,132C379.3,145.3 383,158.7 392,168C401,177.3 417.3,182.7 432,188C446.7,193.3 465,198.3 480,200C495,201.7 509.3,201.3 522,198C534.7,194.7 547.7,186.3 556,180C564.3,173.7 569,168.7 572,160C575,151.3 571.3,135 574,128C576.7,121 583.7,117.3 588,118C592.3,118.7 597,127 600,132C603,137 596,150.7 606,148C616,145.3 643,125.3 660,116C677,106.7 693.7,96.7 708,92C722.3,87.3 738,85 746,88C754,91 759.7,101.7 756,110C752.3,118.3 738,127.7 724,138C710,148.3 687.7,160.7 672,172C656.3,183.3 640.3,194 630,206C619.7,218 607.3,231 610,244C612.7,257 632.3,271.3 646,284C659.7,296.7 678,309 692,320C706,331 721.7,341.3 730,350C738.3,358.7 746.3,360.3 742,372C737.7,383.7 717.3,412.7 704,420C690.7,427.3 676.3,418.7 662,416C647.7,413.3 627.7,402.3 618,404C608.3,405.7 609,420 604,426C599,432 593,439.3 588,440C583,440.7 576.7,436.3 574,430C571.3,423.7 582.3,408.7 572,402C561.7,395.3 528,390.7 512,390C496,389.3 486.7,392.3 476,398C465.3,403.7 456.3,414 448,424C439.7,434 434.3,447.3 426,458C417.7,468.7 407.7,484 398,488C388.3,492 374.7,489 368,482C361.3,475 358,459 358,446C358,433 369.7,416.3 368,404C366.3,391.7 359.3,380.7 348,372C336.7,363.3 314.3,357.3 300,352C285.7,346.7 270.3,338.3 262,340C253.7,341.7 254.7,356.3 250,362C245.3,367.7 239,374.3 234,374C229,373.7 223,368.7 220,360C217,351.3 225.3,336.7 216,322C206.7,307.3 178,278.3 164,272C150,265.7 143,279.7 132,284C121,288.3 107.3,298 98,298C88.7,298 77.3,291 76,284C74.7,277 83.3,264.3 90,256C96.7,247.7 114.3,243.3 116,234C117.7,224.7 107.3,212.3 100,200C92.7,187.7 81.7,172.7 72,160C62.3,147.3 50.7,133.3 42,124C33.3,114.7 23.3,111.3 20,104C16.7,96.7 18.7,85.7 22,80C25.3,74.3 28.7,70.3 40,70Z"/>
+          </defs>
+
+          <g class="iv__grid" aria-hidden="true">
+            <path d="M0 130H800M0 260H800M0 390H800M200 0V520M400 0V520M600 0V520"/>
+          </g>
+          <path class="iv__river" d="M-10,40C4,46 2,60 12,66C20,72 22,80 28,86" aria-hidden="true"/>
+
+          <use href="#iv-shore" class="iv__water"/>
+
+          <g clip-path="url(#iv-clip)" aria-hidden="true">
+            <g mask="url(#iv-seen)">
+              <g filter="url(#iv-blur)" class="iv__blobs">
+                <g class="iv__bg" transform="translate(628 168)"><circle class="iv__blob" data-b="0" data-l="3" r="1" transform="scale(58)"/></g>
+                <g class="iv__bg" transform="translate(690 122)"><circle class="iv__blob" data-b="1" data-l="2" r="1" transform="scale(40)"/></g>
+                <g class="iv__bg" transform="translate(356 88)"><circle class="iv__blob" data-b="2" data-l="2" r="1" transform="scale(36)"/></g>
+                <g class="iv__bg" transform="translate(390 466)"><circle class="iv__blob" data-b="3" data-l="1" r="1" transform="scale(26)"/></g>
+                <g class="iv__bg" transform="translate(566 232)"><circle class="iv__blob" data-b="4" data-l="1" r="1" transform="scale(32)"/></g>
+                <g class="iv__bg" transform="translate(600 380)"><circle class="iv__blob" data-b="5" data-l="1" r="1" transform="scale(0)"/></g>
+              </g>
+            </g>
+          </g>
+
+          <use href="#iv-shore" class="iv__fog" mask="url(#iv-unseen)" aria-hidden="true"/>
+          <use href="#iv-shore" class="iv__shoreline" aria-hidden="true"/>
+
+          <g class="iv__dam" aria-hidden="true">
+            <path d="M733,352L707,423"/>
+          </g>
+
+          <g class="iv__trail" aria-hidden="true">
+            <polyline class="iv__trail-line" points="722,98 668,134 618,174"/>
+            <g class="iv__trail-mark" transform="translate(722 98)"><circle class="iv__trail-dot" r="9"/><text class="iv__trail-n" dominant-baseline="central">1</text></g>
+            <g class="iv__trail-mark" transform="translate(668 134)"><circle class="iv__trail-dot" r="9"/><text class="iv__trail-n" dominant-baseline="central">2</text></g>
+            <g class="iv__trail-mark" transform="translate(618 174)"><circle class="iv__trail-dot" r="11"/><text class="iv__trail-n" dominant-baseline="central">3</text></g>
+          </g>
+
+          <g class="iv__pts" aria-hidden="true">
+            <g class="iv__pt" data-p="A" transform="translate(648 352)">
+              <circle class="iv__lens" r="34"/>
+              <path class="iv__cross" d="M-9 0H9M0 -9V9"/>
+              <circle class="iv__dot" r="4"/>
+            </g>
+            <g class="iv__pt" data-p="B" transform="translate(432 292)">
+              <circle class="iv__lens" r="34"/>
+              <path class="iv__cross" d="M-9 0H9M0 -9V9"/>
+              <circle class="iv__dot" r="4"/>
+            </g>
+            <g class="iv__pt" data-p="C" transform="translate(182 198)">
+              <circle class="iv__lens" r="34"/>
+              <path class="iv__cross" d="M-9 0H9M0 -9V9"/>
+              <circle class="iv__dot" r="4"/>
+            </g>
+          </g>
+
+          <g class="iv__north" transform="translate(772 30)" aria-hidden="true">
+            <path d="M0 -14L6 6L0 2L-6 6Z"/>
+          </g>
+        </svg>
+
+        <div class="iv__labels" aria-hidden="true">
+          <span class="iv__lbl iv__lbl--arm" style="--x:212;--y:40">braço norte</span>
+          <span class="iv__lbl iv__lbl--arm" style="--x:612;--y:62">braço leste</span>
+          <span class="iv__lbl iv__lbl--arm" style="--x:505;--y:500">braço sul</span>
+          <span class="iv__lbl iv__lbl--dam" style="--x:694;--y:470">barragem</span>
+          <span class="iv__lbl iv__lbl--n" style="--x:772;--y:54">N</span>
+          <span class="iv__tag" data-tag="A" style="--x:648;--y:352">A</span>
+          <span class="iv__tag" data-tag="B" style="--x:432;--y:292">B</span>
+          <span class="iv__tag" data-tag="C" style="--x:182;--y:198">C</span>
+        </div>
+        </div>
+
+        <div class="iv__legend" aria-hidden="true">
+          <span class="iv__legend-label mono">Sinal de algas</span>
+          <span class="iv__legend-bar"><i style="--c:var(--r-baixo)"></i><i style="--c:var(--r-leve)"></i><i style="--c:var(--r-moderado)"></i><i style="--c:var(--r-alto)"></i><i style="--c:var(--r-critico)"></i></span>
+          <span class="iv__legend-ends mono"><span>baixo</span><span>crítico</span></span>
+        </div>
+      </div>
+
+      <div class="iv__controls">
+        <div class="iv__ctl">
+          <span class="iv__ctl-label mono" id="iv-pass-label">Passagem</span>
+          <div class="iv__seg iv__seg--pass" role="radiogroup" aria-labelledby="iv-pass-label">
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-pass="0" aria-label="Passagem 1"><span>1</span><i class="iv__tick"></i></button>
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-pass="1" aria-label="Passagem 2"><span>2</span><i class="iv__tick"></i></button>
+            <button type="button" role="radio" aria-checked="true" data-pass="2" aria-label="Passagem 3"><span>3</span><i class="iv__tick"></i></button>
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-pass="3" aria-label="Passagem 4"><span>4</span><i class="iv__tick"></i></button>
+          </div>
+          <button type="button" class="iv__play" aria-pressed="false" aria-label="Reproduzir as passagens" hidden>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path class="iv__play-i" d="M4 2.5v11l9-5.5z"/><path class="iv__pause-i" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg>
+          </button>
+        </div>
+        <div class="iv__ctl">
+          <span class="iv__ctl-label mono" id="iv-view-label">Ver</span>
+          <div class="iv__seg iv__seg--view" role="radiogroup" aria-labelledby="iv-view-label">
+            <button type="button" role="radio" aria-checked="true" data-view="inteira">Represa inteira</button>
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-view="pontos">Só os pontos</button>
+          </div>
+        </div>
+      </div>
+
+      <figcaption class="iv__read">
+        <p class="iv__caption" aria-live="polite">Passagem 3. O braço leste chega a sinal alto. Para quem vê só os pontos, a represa parece igual.</p>
+        <div class="iv__cols">
+          <div class="iv__col">
+            <p class="iv__col-h mono">Os pontos de coleta registram</p>
+            <ul class="iv__list" data-list="pontos">
+              <li data-k="A" data-l="0"><span class="iv__sw"></span><span class="iv__k">Ponto A</span><span class="iv__v">Sem alteração</span></li>
+              <li data-k="B" data-l="0"><span class="iv__sw"></span><span class="iv__k">Ponto B</span><span class="iv__v">Sem alteração</span></li>
+              <li data-k="C" data-l="0"><span class="iv__sw"></span><span class="iv__k">Ponto C</span><span class="iv__v">Sem alteração</span></li>
+            </ul>
+          </div>
+          <div class="iv__col iv__col--all">
+            <p class="iv__col-h mono">A represa inteira mostra</p>
+            <ul class="iv__list" data-list="bracos">
+              <li data-k="leste" data-l="3"><span class="iv__sw"></span><span class="iv__k">Braço leste</span><span class="iv__v">Sinal alto</span></li>
+              <li data-k="norte" data-l="2"><span class="iv__sw"></span><span class="iv__k">Braço norte</span><span class="iv__v">Sinal moderado</span></li>
+              <li data-k="sul" data-l="1"><span class="iv__sw"></span><span class="iv__k">Braço sul</span><span class="iv__v">Sinal leve</span></li>
+            </ul>
+          </div>
+        </div>
+      </figcaption>
+    </figure>
+
+    <div class="iv__bridge" data-reveal>
+      <p class="iv__bridge-text">O Algeye mostra a represa inteira a cada passagem útil.</p>
+      <p class="iv__bridge-links">
+        <a class="link-arrow" href="#como">Veja como funciona</a>
+        <a class="link-arrow iv__bridge-alt" href="#avaliacao" data-cta="avaliacao">Avaliar meu reservatório</a>
+      </p>
+    </div>
+
+    <div class="iv__who" aria-labelledby="iv-who-title">
+      <h3 class="eyebrow iv__who-title" id="iv-who-title" data-reveal>Para quem é</h3>
+      <ul class="iv__who-list" data-reveal="stagger">
+        <li class="iv__who-card"><p class="iv__who-h">Saneamento e ETA</p><p class="iv__who-t">Mapa e histórico da represa de captação para decidir onde coletar.</p></li>
+        <li class="iv__who-card"><p class="iv__who-h">Hidrelétricas</p><p class="iv__who-t">Histórico de passagens e relatório para acompanhar o reservatório.</p></li>
+        <li class="iv__who-card"><p class="iv__who-h">Agências e comitês</p><p class="iv__who-t">A represa como unidade, com relatório para a equipe e o órgão.</p></li>
+        <li class="iv__who-card"><p class="iv__who-h">Aquicultura e indústria</p><p class="iv__who-t">Alertas configuráveis sobre a água que você usa.</p></li>
+      </ul>
+    </div>
+
+  </div>
+</section>

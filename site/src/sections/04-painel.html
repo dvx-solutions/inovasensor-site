@@ -1,0 +1,278 @@
+<section id="painel" class="sec sec--painel" data-theme="light" data-rail="Painel" aria-labelledby="painel-titulo">
+  <div class="wrap">
+    <header class="pn-head">
+      <div class="pn-head__main" data-reveal>
+        <p class="eyebrow">Painel</p>
+        <h2 class="h2" id="painel-titulo">É assim que a sua represa aparece no Algeye.</h2>
+      </div>
+      <div class="pn-head__side" data-reveal>
+        <p class="pn-lead">Uma réplica do sistema, com represas e números inventados. A represa já está aberta, é só explorar.</p>
+      </div>
+    </header>
+
+    <ol class="pn-steps" aria-label="Como explorar a réplica" data-reveal>
+      <li><span class="pn-steps__n mono" aria-hidden="true">1</span>Volte nas passagens</li>
+      <li><span class="pn-steps__n mono" aria-hidden="true">2</span>Troque a camada</li>
+      <li><span class="pn-steps__n mono" aria-hidden="true">3</span>Siga o alerta até a coleta</li>
+    </ol>
+
+    <figure class="pn-device" aria-labelledby="pn-device-cap">
+      <!-- moldura de navegador -->
+      <div class="pn-chrome">
+        <span class="pn-chrome__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="pn-chrome__nav">
+          <button type="button" class="pn-chrome__btn" data-ax="back" aria-label="Voltar para Suas represas" disabled><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+        </span>
+        <span class="pn-chrome__url mono" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 7V5a3 3 0 0 1 6 0v2M4 7h8v6H4z"/></svg><span data-ax="url">algeye / suas represas</span></span>
+        <span class="pn-chrome__demo mono">Demonstração · dados fictícios</span>
+      </div>
+
+      <!-- réplica do app (tema escuro do produto) -->
+      <div class="ax" data-view="home" data-tab="mapa">
+        <div class="ax-in">
+
+          <!-- ============ HOME: Suas represas ============ -->
+          <div class="ax-home" data-ax="home">
+            <div class="ax-top">
+              <span class="ax-brand"><img class="ax-logo ax-logo--d" src="assets/brand/logo-algeye-branco-104.webp" loading="lazy" decoding="async" alt="" width="51" height="32"><img class="ax-logo ax-logo--l" src="assets/brand/logo-algeye-104.webp" loading="lazy" decoding="async" alt="" width="51" height="32"><span>Algeye</span></span>
+              <span class="ax-flex"></span>
+              <button type="button" class="ax-toplink" data-ax="pedidos">Pedidos</button>
+              <button type="button" class="ax-glyph" data-ax="theme" aria-label="Alternar tema claro e escuro do app"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg></button>
+            </div>
+            <div class="ax-home__body">
+              <div class="ax-home__title">
+                <h3>Suas represas</h3>
+                <p>Escolha a represa que você vai monitorar.</p>
+              </div>
+              <div data-ax="notice"></div>
+              <div class="ax-cards" data-ax="cards">
+                <!-- preenchido pelo JS; sem JS ficam estes cartões estáticos -->
+                <div class="ax-card"><span class="ax-card__name">Represa Serra Verde</span><span class="ax-card__sub">Abastecimento público</span></div>
+                <div class="ax-card"><span class="ax-card__name">Reservatório Vale do Cedro</span><span class="ax-card__sub">Geração de energia</span></div>
+                <div class="ax-card"><span class="ax-card__name">Represa Campo Sereno</span><span class="ax-card__sub">Aquicultura</span></div>
+                <div class="ax-card"><span class="ax-card__name">Reservatório Ribeirão Manso</span><span class="ax-card__sub">Captação industrial</span></div>
+              </div>
+              <div class="ax-powered"><span>powered by</span><img src="assets/brand/logo-inova.webp" loading="lazy" decoding="async" alt="InovaSensor" width="76" height="18"></div>
+            </div>
+          </div>
+
+          <!-- ============ REPRESA ============ -->
+          <div class="ax-dam" data-ax="dam" hidden>
+            <div class="ax-top ax-top--dam">
+              <button type="button" class="ax-brand" data-ax="logo" aria-label="Algeye, voltar para Suas represas"><img class="ax-logo ax-logo--d" src="assets/brand/logo-algeye-branco-104.webp" loading="lazy" decoding="async" alt="" width="51" height="32"><img class="ax-logo ax-logo--l" src="assets/brand/logo-algeye-104.webp" loading="lazy" decoding="async" alt="" width="51" height="32"><span class="ax-hide-n">Algeye</span></button>
+              <span class="ax-select">
+                <select data-ax="select" aria-label="Represa"></select>
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+              </span>
+              <div class="ax-tabs" role="tablist" aria-label="Telas da represa">
+                <button type="button" role="tab" class="ax-tab" id="ax-t-mapa" data-tab="mapa" aria-controls="ax-p-mapa" aria-selected="true">Mapa</button>
+                <button type="button" role="tab" class="ax-tab" id="ax-t-alertas" data-tab="alertas" aria-controls="ax-p-alertas" aria-selected="false" tabindex="-1">Alertas<span class="ax-tab__n" data-ax="ocn" hidden></span></button>
+                <button type="button" role="tab" class="ax-tab" id="ax-t-coletas" data-tab="coletas" aria-controls="ax-p-coletas" aria-selected="false" tabindex="-1">Coletas</button>
+                <button type="button" role="tab" class="ax-tab" id="ax-t-relatorios" data-tab="relatorios" aria-controls="ax-p-relatorios" aria-selected="false" tabindex="-1">Relatórios</button>
+                <button type="button" role="tab" class="ax-tab" id="ax-t-entenda" data-tab="entenda" aria-controls="ax-p-entenda" aria-selected="false" tabindex="-1">Entenda</button>
+              </div>
+              <span class="ax-flex"></span>
+              <button type="button" class="ax-toplink ax-hide-n" data-ax="pedidos">Pedidos</button>
+              <dl class="ax-topdl mono"><div><dt>PASSAGEM</dt> <dd data-ax="toppass">24</dd></div><div><dt>NUVEM</dt> <dd data-ax="topcloud">3%</dd></div></dl>
+              <button type="button" class="ax-glyph" data-ax="theme" aria-label="Alternar tema claro e escuro do app"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg></button>
+              <span class="ax-vsep ax-hide-n" aria-hidden="true"></span>
+              <span class="ax-avatar" aria-hidden="true">VC</span>
+            </div>
+
+            <!-- ---------- MAPA ---------- -->
+            <div class="ax-panel ax-mapview" role="tabpanel" id="ax-p-mapa" aria-labelledby="ax-t-mapa" data-panel="mapa">
+              <div class="ax-stage" data-ax="stage">
+                <canvas class="ax-canvas" data-ax="canvas" aria-hidden="true"></canvas>
+                <div class="ax-pois" data-ax="pois"></div>
+                <div class="ax-mapfocus" data-ax="mapfocus" tabindex="0" role="img" aria-label="Mapa da represa. Teclas mais e menos aproximam e afastam; zero enquadra; setas movem o mapa quando aproximado."></div>
+                <div class="ax-tip" data-ax="tip" hidden></div>
+                <div class="ax-cloudmsg" data-ax="cloudmsg" hidden>
+                  <p class="ax-label">PASSAGEM DESCARTADA</p>
+                  <p>Nuvem sobre a represa. Sem leitura e sem avaliação de regras nesta passagem.</p>
+                </div>
+                <div class="ax-layers" role="group" aria-label="Camada exibida no mapa">
+                  <button type="button" class="ax-chip" data-layer="sinais" aria-pressed="true">Sinais de algas</button>
+                  <button type="button" class="ax-chip" data-layer="conc" aria-pressed="false" aria-label="Concentração estimada"><span class="ax-long" aria-hidden="true">Concentração estimada</span><span class="ax-short" aria-hidden="true">Concentração</span></button>
+                  <button type="button" class="ax-chip" data-layer="cor" aria-pressed="false">Cor real</button>
+                </div>
+                <div class="ax-tools" role="group" aria-label="Zoom do mapa">
+                  <button type="button" data-zoom="in" aria-label="Aproximar">+</button>
+                  <button type="button" data-zoom="out" aria-label="Afastar">−</button>
+                  <button type="button" data-zoom="fit" class="mono" aria-label="Enquadrar a represa">FIT</button>
+                </div>
+                <div class="ax-minileg" aria-hidden="true"><i style="--c:var(--rk-low)"></i>Baixo<i style="--c:var(--rk-mid)"></i>Moderado<i style="--c:var(--rk-high)"></i>Alto<i style="--c:var(--rk-crit)"></i>Crítico</div>
+              </div>
+
+              <aside class="ax-side" aria-label="Resumo da represa e da passagem">
+                <div class="ax-side__blk">
+                  <p class="ax-side__name" data-ax="name">Represa Serra Verde</p>
+                  <p class="ax-side__meta mono" data-ax="meta">18,4 km² · abastecimento público</p>
+                  <div class="ax-prep">
+                    <p><span class="ax-label">ACERVO DE PASSAGENS</span> <span class="mono ax-dim" data-ax="prepf">22/24</span></p>
+                    <span class="ax-prep__bar"><i data-ax="prepbar" style="width:92%"></i></span>
+                    <p class="ax-small" data-ax="preptxt"><b>22 de 24</b> passagens com leitura útil, 2 descartadas por nuvem</p>
+                  </div>
+                </div>
+                <div class="ax-side__blk">
+                  <p class="ax-label">ESPELHO ACIMA DE MODERADO</p>
+                  <p class="ax-bignum" aria-live="polite" aria-atomic="true"><span data-ax="share">0</span><small data-ax="shareu">% do visível</small></p>
+                  <span class="ax-stack" data-ax="stack" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                  <p class="ax-stackl mono" data-ax="stackl"></p>
+                </div>
+                <div class="ax-side__blk">
+                  <p class="ax-label" data-ax="passk">PASSAGEM 24</p>
+                  <div class="ax-metrics">
+                    <div><span>Sinal médio</span><b data-ax="m1">.</b></div>
+                    <div><span>Pico no espelho</span><b data-ax="m2">.</b></div>
+                    <div><span>Concentração estimada</span><b data-ax="m3">.</b></div>
+                    <div><span>Represa visível</span><b data-ax="m4">.</b></div>
+                  </div>
+                </div>
+                <p class="ax-label ax-side__pk">PONTOS MONITORADOS</p>
+                <div class="ax-pts" data-ax="pts"></div>
+              </aside>
+
+              <div class="ax-right">
+                <div class="ax-legend">
+                  <p class="ax-label" data-ax="legk">SINAIS DE ALGAS</p>
+                  <span class="ax-ramp" aria-hidden="true"></span>
+                  <p class="ax-ramp__ends mono" aria-hidden="true"><span>menos</span><span>mais</span></p>
+                  <p class="ax-legcor">A passagem como o olho veria, sem classes. Serve para conferir o que as outras camadas apontam.</p>
+                  <span class="ax-hr"></span>
+                  <ul class="ax-legl">
+                    <li><i style="--c:var(--rk-crit)"></i>Crítico</li>
+                    <li><i style="--c:var(--rk-high)"></i>Alto</li>
+                    <li><i style="--c:var(--rk-mid)"></i>Moderado</li>
+                    <li><i style="--c:var(--rk-low)"></i>Baixo</li>
+                  </ul>
+                  <span class="ax-hr"></span>
+                  <p class="ax-legnote"><button type="button" class="ax-ulink" data-goto="entenda">O que é esta leitura?</button> · cortes definidos por represa</p>
+                </div>
+                <div class="ax-alert" data-ax="alert" hidden>
+                  <p class="ax-alert__top"><span class="ax-label" data-ax="alk">ATENÇÃO</span><span class="mono" data-ax="alp">passagem 24</span></p>
+                  <p class="ax-alert__txt" data-ax="alt"></p>
+                  <p class="ax-alert__btns">
+                    <button type="button" class="ax-btn ax-btn--crit" data-goto="alertas">Ver ocorrências</button>
+                    <button type="button" class="ax-btn ax-btn--line" data-goto="coletas">Registrar coleta</button>
+                  </p>
+                </div>
+              </div>
+
+              <div class="ax-series">
+                <div class="ax-series__info">
+                  <p class="ax-label">SÉRIE DE PASSAGENS</p>
+                  <p class="ax-series__cur" data-ax="scur">Passagem 24</p>
+                  <p class="ax-small" data-ax="ssub">sinal médio Moderado · 92% visível</p>
+                </div>
+                <span class="ax-series__sep" aria-hidden="true"></span>
+                <div class="ax-bars" data-ax="bars" role="group" aria-label="Passagens da represa, da mais antiga à mais recente"></div>
+              </div>
+            </div>
+
+            <!-- ---------- ALERTAS ---------- -->
+            <div class="ax-panel ax-scroll" role="tabpanel" id="ax-p-alertas" aria-labelledby="ax-t-alertas" data-panel="alertas" hidden>
+              <div class="ax-alerts">
+                <div class="ax-alerts__main">
+                  <div class="ax-phead">
+                    <div><h4>Alertas e ocorrências</h4><p data-ax="ocsum"></p></div>
+                    <div class="ax-chips" role="group" aria-label="Filtrar ocorrências" data-ax="ocfilters">
+                      <button type="button" class="ax-chip ax-chip--sans" data-f="todas" aria-pressed="true">Todas</button>
+                      <button type="button" class="ax-chip ax-chip--sans" data-f="abertas" aria-pressed="false">Abertas</button>
+                      <button type="button" class="ax-chip ax-chip--sans" data-f="resolvidas" aria-pressed="false">Resolvidas</button>
+                    </div>
+                  </div>
+                  <div class="ax-oclist" data-ax="oclist"></div>
+                </div>
+                <aside class="ax-rail" data-ax="ocrail" aria-label="Detalhe da ocorrência"></aside>
+              </div>
+            </div>
+
+            <!-- ---------- COLETAS ---------- -->
+            <div class="ax-panel ax-scroll" role="tabpanel" id="ax-p-coletas" aria-labelledby="ax-t-coletas" data-panel="coletas" hidden>
+              <div class="ax-cols">
+                <form class="ax-card2 ax-form" data-ax="form" novalidate>
+                  <div><h4>Registrar coleta de campo</h4><p class="ax-dim ax-small">Resultado de campo ou laboratório, para confrontar com a estimativa da passagem.</p></div>
+                  <div class="ax-fgrid">
+                    <label class="ax-field ax-field--2"><span class="ax-label">PONTO MONITORADO</span><span class="ax-inp"><select data-ax="fponto"></select></span></label>
+                    <label class="ax-field ax-field--2"><span class="ax-label">PASSAGEM DE REFERÊNCIA</span><span class="ax-inp"><select data-ax="fpass"></select></span></label>
+                    <label class="ax-field"><span class="ax-label">PROFUNDIDADE</span><span class="ax-inp"><input data-ax="fprof" inputmode="decimal" placeholder="0,5" autocomplete="off"><em>m</em></span></label>
+                    <label class="ax-field"><span class="ax-label">RESULTADO DO LAUDO</span><span class="ax-inp"><input data-ax="flab" inputmode="decimal" placeholder="valor do laudo" autocomplete="off" required></span></label>
+                    <label class="ax-field ax-field--2"><span class="ax-label">OBSERVAÇÃO</span><span class="ax-inp"><input data-ax="fobs" placeholder="Espuma na margem leste" autocomplete="off"></span></label>
+                  </div>
+                  <p class="ax-small ax-fmsg" data-ax="fmsg" role="status"></p>
+                  <button type="submit" class="ax-btn ax-btn--brand ax-btn--lg">Salvar coleta</button>
+                </form>
+                <div class="ax-cols__side">
+                  <div class="ax-card2 ax-calib">
+                    <div class="ax-card2__h"><h4>Campo × estimativa</h4><span class="mono ax-dim2" data-ax="pairs">5 PARES</span></div>
+                    <div class="ax-calib__in">
+                      <svg class="ax-scatter" viewBox="0 0 200 130" aria-hidden="true" data-ax="scatter"></svg>
+                      <p class="ax-small ax-dim">Um par se forma quando a coleta cai na mesma passagem e no mesmo ponto. <b data-ax="pairsok">4 de 5</b> dentro da tolerância desta represa.</p>
+                    </div>
+                  </div>
+                  <div class="ax-card2 ax-tablecard">
+                    <div class="ax-card2__h"><h4>Coletas recentes</h4><span class="mono ax-dim2" data-ax="colsn">3 REGISTRADAS</span></div>
+                    <div class="ax-tablewrap"><table class="ax-table">
+                      <thead><tr><th>PASSAGEM</th><th>PONTO</th><th>LAUDO</th><th>ESTIMATIVA</th><th>CONFRONTO</th></tr></thead>
+                      <tbody data-ax="cols"></tbody>
+                    </table></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ---------- RELATÓRIOS ---------- -->
+            <div class="ax-panel ax-scroll" role="tabpanel" id="ax-p-relatorios" aria-labelledby="ax-t-relatorios" data-panel="relatorios" hidden>
+              <div class="ax-cols ax-cols--rep">
+                <div class="ax-card2 ax-repform">
+                  <h4>Gerar relatório</h4>
+                  <div class="ax-fset"><p class="ax-label">MODELO</p><div data-ax="models" role="radiogroup" aria-label="Modelo do relatório"></div></div>
+                  <div class="ax-fset"><p class="ax-label">PERÍODO</p><div class="ax-chips ax-chips--fill" data-ax="periods" role="group" aria-label="Período"></div></div>
+                  <div class="ax-fset"><p class="ax-label">INCLUIR</p><div class="ax-checks" data-ax="checks"></div></div>
+                  <button type="button" class="ax-btn ax-btn--brand ax-btn--lg" data-ax="emit">Emitir relatório</button>
+                  <p class="ax-tiny ax-dim2">O documento é emitido em HTML e armazenado com as seções desta emissão. Emitir de novo cria um documento novo.</p>
+                </div>
+                <div class="ax-card2 ax-prev">
+                  <div class="ax-card2__h"><h4 data-ax="prevh">Prévia · Boletim da represa</h4><span class="mono ax-dim2">HTML</span></div>
+                  <div class="ax-prev__stage"><div class="ax-paper" data-ax="paper"></div></div>
+                  <div class="ax-emitted"><p class="ax-label">EMITIDOS RECENTEMENTE</p><div data-ax="emitted"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ---------- ENTENDA ---------- -->
+            <div class="ax-panel ax-scroll" role="tabpanel" id="ax-p-entenda" aria-labelledby="ax-t-entenda" data-panel="entenda" hidden>
+              <div class="ax-learn">
+                <div><h4>Entenda o Algeye</h4><p class="ax-dim ax-small">O que a tela mostra, o que cada leitura quer dizer e onde ela tem limite.</p></div>
+                <div class="ax-card2"><p class="ax-label">EM UMA FRASE</p><p class="ax-learn__lead">O satélite passa, a IA separa a água e procura sinais de algas. O resultado vira mapa, histórico e alerta, para a sua equipe decidir onde olhar primeiro.</p></div>
+                <div class="ax-card2"><p class="ax-label">AS TRÊS LEITURAS DE CADA PASSAGEM</p>
+                  <ul class="ax-learn__list">
+                    <li><b>Sinais de algas.</b> O espelho pintado por classe, de Baixo a Crítico.</li>
+                    <li><b>Concentração estimada.</b> A mesma passagem em escala gradual, para ver onde o sinal se concentra.</li>
+                    <li><b>Cor real.</b> A imagem como o olho veria, para conferir o que o mapa aponta.</li>
+                  </ul>
+                </div>
+                <div class="ax-card2"><p class="ax-label">AS CLASSES</p>
+                  <p class="ax-learn__p">Baixo, Moderado, Alto e Crítico. Os cortes entre as classes são definidos para cada represa, com a sua equipe, e as regras de alerta usam a mesma régua.</p>
+                  <span class="ax-ramp" aria-hidden="true"></span>
+                </div>
+                <div class="ax-card2"><p class="ax-label">POR QUE NEM TODA PASSAGEM APARECE</p><p class="ax-learn__p">Nuvem sobre a represa descarta a leitura daquela passagem, ou deixa sem leitura a parte encoberta. A frequência de observações úteis depende das passagens e das condições.</p></div>
+                <div class="ax-card2 ax-card2--warn"><p class="ax-label">O QUE A LEITURA NÃO DIZ</p>
+                  <ul class="ax-learn__list">
+                    <li><b>Não distingue espécie nem identifica toxina.</b> Isso segue exigindo coleta e laboratório.</li>
+                    <li><b>Turbidez pode inflar o sinal.</b> Barro em suspensão depois de chuva forte pode empurrar a leitura para cima.</li>
+                    <li><b>Não certifica potabilidade nem substitui o laboratório.</b> O Algeye complementa o trabalho de campo.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="ax-toast" data-ax="toast" hidden>Na demonstração não há pedidos. <a href="#avaliacao" data-cta="avaliacao">Avaliar meu reservatório</a></p>
+        <p class="pn-sr" aria-live="polite" data-ax="live"></p>
+      </div>
+    </figure>
+    <p class="pn-cap" id="pn-device-cap"><span class="mono">Demonstração · dados fictícios.</span> Represas, pontos e números inventados, numa réplica interativa da tela do Algeye. Passagem com nuvem fica sem leitura, e a frequência de observações úteis depende das passagens e das condições.</p>
+    <p class="pn-bridge"><span class="pn-bridge__q">Quer ver a sua represa assim?</span> <a class="btn btn--primary" href="#avaliacao" data-cta="avaliacao">Avaliar meu reservatório <span class="arr" aria-hidden="true">→</span></a></p>
+  </div>
+</section>

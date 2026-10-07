@@ -1,0 +1,241 @@
+/* Como funciona: passo a passo + três leituras. Escopo: .sec--como */
+.sec--como {
+  --c-line: rgba(255, 255, 255, .09);
+  --c-dim: var(--musgo);
+  --c-hatch: repeating-linear-gradient(135deg, rgba(169, 184, 178, .55) 0 2px, transparent 2px 6px);
+  overflow: clip;
+}
+.sec--como::before { /* curvas de nível muito leves, assinatura da marca no escuro */
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background:
+    radial-gradient(120% 70% at 92% 8%, rgba(63, 181, 142, .09), transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, rgba(31, 95, 114, .14), transparent 65%);
+}
+
+.sec--como .como__wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.sec--como .como__head .lead { max-width: 46ch; }
+.sec--como .como__flow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+
+/* ---------- Tabs ---------- */
+.sec--como .como__tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.sec--como .como__tab {
+  position: relative; isolation: isolate; display: grid; gap: 2px; justify-items: start; text-align: left;
+  padding: 12px 4px 10px 6px; border-radius: 0 0 8px 8px; color: var(--c-dim); transition: color .3s var(--ease), background-color .3s;
+  min-height: 44px;
+}
+.sec--como .como__tab-num { font-size: .8rem; color: inherit; }
+.sec--como .como__tab-short { font-size: .72rem; letter-spacing: .02em; text-transform: uppercase; color: inherit; }
+.sec--como .como__tab-title { display: none; }
+.sec--como .como__tab-bar { position: absolute; left: 0; right: 0; top: 0; height: 2px; border-radius: 2px; background: var(--c-line); overflow: hidden; }
+.sec--como .como__tab-bar::after {
+  content: ""; position: absolute; inset: 0; background: var(--grad); transform-origin: left; transform: scaleX(0);
+}
+.sec--como .como__tab.is-done .como__tab-bar::after { transform: scaleX(1); opacity: .45; }
+.sec--como .como__tab.is-active { color: var(--white); }
+.sec--como .como__tab.is-active .como__tab-num { color: var(--agua-2); }
+.sec--como .como__tab.is-active .como__tab-bar::after { transform: scaleX(1); }
+.sec--como .como__tab.is-active { background: rgba(63, 181, 142, .07); }
+/* progresso do avanço automático: preenche a própria aba ativa, da esquerda para a direita */
+.sec--como .como__tab-prog {
+  position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(90deg, rgba(63, 181, 142, .05), rgba(63, 181, 142, .2));
+  box-shadow: inset -2px 0 0 rgba(57, 208, 168, .7);
+  transform-origin: left; transform: scaleX(0); opacity: 0;
+}
+.sec--como .is-auto .como__tab.is-active .como__tab-prog { opacity: 1; animation: como-prog var(--como-dwell, 6200ms) linear both; }
+.sec--como .is-auto.is-hold .como__tab.is-active .como__tab-prog { animation-play-state: paused; }
+@keyframes como-prog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.sec--como .como__tab:hover { color: var(--white); }
+.sec--como .como__tab:active { transform: translateY(1px); }
+
+/* ---------- Moldura do instrumento ---------- */
+.sec--como .como__frame {
+  margin: 0; background: var(--ink-3); border: 1px solid var(--c-line); border-radius: var(--r-lg);
+  padding: 10px; box-shadow: 0 40px 90px -50px rgba(0, 0, 0, .8);
+}
+.sec--como .como__chrome {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 2px 4px 10px; color: var(--c-dim); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em;
+}
+.sec--como .como__chrome-l { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sec--como .como__hide-sm { display: none; }
+.sec--como .como__demo { color: var(--menta); opacity: .9; white-space: nowrap; font-size: inherit; }
+.sec--como .como__stage {
+  position: relative; aspect-ratio: 16 / 10; border-radius: var(--r); overflow: hidden; background: #0E1513;
+}
+.sec--como .como__canvas, .sec--como .como__fallback { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sec--como.is-drawn .como__fallback { display: none; }
+.sec--como .como__stage-tag {
+  position: absolute; left: 10px; bottom: 10px; margin: 0; padding: 4px 8px; border-radius: 6px;
+  background: rgba(10, 16, 15, .78); color: var(--menta); font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
+  transition: opacity .3s;
+}
+
+/* passo 4: pulso do anel sobre o ponto de interesse (CSS no compositor, sem rAF do canvas) */
+.sec--como .como__pulse {
+  position: absolute; left: calc(196 / 640 * 100%); top: calc(150 / 400 * 100%);
+  width: calc(30 / 640 * 100%); aspect-ratio: 1; margin: calc(-15 / 640 * 100%) 0 0 calc(-15 / 640 * 100%);
+  border: 1.5px solid rgba(209, 61, 43, .95); border-radius: 50%; pointer-events: none; opacity: 0;
+}
+.sec--como.is-drawn [data-step-state="3"] .como__pulse { animation: como-pulse 2.2s .6s linear infinite; }
+.sec--como.is-off .como__pulse { animation-play-state: paused; }
+@keyframes como-pulse { from { transform: scale(1); opacity: 1; } to { transform: scale(2.73); opacity: 0; } }
+
+/* carregamento leve: só se a seção aparecer antes de as camadas ficarem prontas */
+.sec--como.is-loading .como__stage::after {
+  content: ""; position: absolute; right: 12px; top: 12px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--menta); animation: como-load 1s ease-in-out infinite alternate;
+}
+@keyframes como-load { from { opacity: .25; } to { opacity: .9; } }
+
+/* histórico de passagens */
+.sec--como .como__hist { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 12px 6px 2px; }
+.sec--como .como__hist-label { color: var(--c-dim); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; line-height: 1.3; max-width: 9em; }
+.sec--como .como__hist-list { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; flex: 1; max-width: 300px; }
+.sec--como .como__pass { display: grid; justify-items: center; gap: 3px; }
+.sec--como .como__pass-bar { position: relative; width: 100%; height: 22px; border-radius: 3px; background: rgba(255, 255, 255, .05); overflow: hidden; }
+.sec--como .como__pass-bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: var(--h, 0); background: var(--c, transparent); transition: height .6s var(--ease); }
+.sec--como .como__pass.is-cloud .como__pass-bar { background: var(--c-hatch); }
+.sec--como .como__pass-n { font-size: .72rem; color: var(--c-dim); letter-spacing: 0; }
+.sec--como .como__pass.is-new .como__pass-bar { outline: 1px dashed rgba(191, 240, 220, .45); outline-offset: -1px; background: transparent; }
+.sec--como .como__pass.is-new .como__pass-bar::after { height: 0; }
+.sec--como .como__pass.is-new .como__pass-n { color: var(--menta); }
+.sec--como [data-step-state="2"] .como__pass.is-new .como__pass-bar,
+.sec--como [data-step-state="3"] .como__pass.is-new .como__pass-bar { outline: 1px solid var(--menta); }
+.sec--como [data-step-state="2"] .como__pass.is-new .como__pass-bar::after,
+.sec--como [data-step-state="3"] .como__pass.is-new .como__pass-bar::after { height: var(--h); transition-delay: .9s; }
+.sec--como [data-step-state="3"] .como__pass.is-new .como__pass-bar::after { transition-delay: 0s; }
+
+/* controle do autoplay (WCAG 2.2.2) */
+.sec--como .como__ctrl { display: flex; margin-top: -6px; }
+.sec--como .como__auto {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 6px 12px 6px 10px; border-radius: 999px;
+  border: 1px solid var(--c-line); color: var(--slate-2); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
+  transition: color .25s, border-color .25s, background-color .25s;
+}
+.sec--como .como__auto[hidden] { display: none; }
+.sec--como .como__auto:hover { color: var(--white); border-color: rgba(255, 255, 255, .28); }
+.sec--como .como__auto-ico { position: relative; width: 9px; height: 10px; flex: none; }
+.sec--como .como__auto-ico::before, .sec--como .como__auto-ico::after { content: ""; position: absolute; top: 0; bottom: 0; width: 3px; border-radius: 1px; background: currentColor; }
+.sec--como .como__auto-ico::before { left: 0; }
+.sec--como .como__auto-ico::after { right: 0; }
+.sec--como .como__auto.is-stopped .como__auto-ico::before { left: 1px; width: 0; height: 0; border-radius: 0; background: none; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent currentColor; }
+.sec--como .como__auto.is-stopped .como__auto-ico::after { display: none; }
+.sec--como .como__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sec--como .como__panel:focus-visible { outline-offset: 6px; border-radius: var(--r-lg); }
+
+/* sem JS: abas, controle, toggle, legenda e histórico não teriam função; os 4 passos ficam em lista */
+.sec--como:not(.is-enhanced) .como__tabs,
+.sec--como:not(.is-enhanced) .como__ctrl,
+.sec--como:not(.is-enhanced) .como__toggle,
+.sec--como:not(.is-enhanced) .como__legend,
+.sec--como:not(.is-enhanced) .como__hist,
+.sec--como:not(.is-enhanced) .como__stage-tag { display: none; }
+.sec--como .como__step-num { color: var(--agua-2); font-size: .85rem; margin-right: 6px; vertical-align: .12em; }
+.sec--como.is-enhanced .como__step-num { display: none; }
+
+/* texto do passo */
+.sec--como .como__copy { position: relative; margin-top: 14px; }
+.sec--como .como__step + .como__step { margin-top: 18px; }
+.sec--como .como__step-title { font-size: 1.15rem; }
+.sec--como .como__step p { color: var(--slate-2); margin-top: 6px; max-width: 58ch; }
+.sec--como .como__step .como__links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 12px; }
+.sec--como .como__links .link-arrow { min-height: 32px; color: var(--agua-2); }
+.sec--como.is-enhanced .como__step { display: none; margin: 0; }
+.sec--como.is-enhanced .como__step.is-active { display: block; animation: como-in .5s var(--ease) both; }
+@keyframes como-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Limite ---------- */
+.sec--como .como__limit {
+  display: flex; gap: 12px; align-items: flex-start; color: var(--slate-2); font-size: .95rem; line-height: 1.5;
+  padding: 14px 0 0; border-top: 1px solid var(--c-line);
+}
+.sec--como .como__limit strong { color: var(--white); font-weight: 600; }
+.sec--como .como__limit-mark { flex: none; width: 18px; height: 22px; margin-top: 1px; border-radius: 3px; background: var(--c-hatch); }
+
+/* ---------- Três leituras ---------- */
+.sec--como .como__reads { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 36px; }
+.sec--como .como__reads-copy { order: -1; }
+.sec--como .como__reads-lead { color: var(--slate-2); margin-top: 8px; max-width: 44ch; }
+.sec--como .como__toggle { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 16px; padding: 4px; border-radius: 14px; background: var(--ink-3); border: 1px solid var(--c-line); }
+.sec--como .como__opt { display: grid; align-content: center; text-align: center; padding: 9px 6px; min-height: 48px; border-radius: 10px; color: var(--c-dim); transition: background-color .25s, color .25s; }
+.sec--como .como__opt-name { font-weight: 600; font-size: .8rem; line-height: 1.2; }
+.sec--como .como__opt-desc { display: none; }
+.sec--como .como__opt:hover { color: var(--white); }
+.sec--como .como__opt[aria-checked="true"] { background: rgba(63, 181, 142, .14); color: var(--white); box-shadow: inset 0 0 0 1px rgba(63, 181, 142, .45); }
+.sec--como .como__opt:active { transform: scale(.98); }
+
+.sec--como .como__legend { position: relative; min-height: 34px; padding: 10px 6px 2px; }
+.sec--como .como__legend-row { display: none; align-items: center; gap: 10px; }
+.sec--como .como__legend-row.is-active { display: flex; }
+.sec--como .como__legend-end { color: var(--slate-2); font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; line-height: 1.4; }
+.sec--como .como__legend-steps { display: flex; gap: 2px; flex: 1; max-width: 220px; }
+.sec--como .como__legend-steps i { flex: 1; height: 8px; border-radius: 2px; }
+.sec--como .como__legend-steps i:nth-child(1) { background: var(--r-baixo); }
+.sec--como .como__legend-steps i:nth-child(2) { background: var(--r-leve); }
+.sec--como .como__legend-steps i:nth-child(3) { background: var(--r-moderado); }
+.sec--como .como__legend-steps i:nth-child(4) { background: var(--r-alto); }
+.sec--como .como__legend-steps i:nth-child(5) { background: var(--r-critico); }
+.sec--como .como__legend-ramp { flex: 1; max-width: 220px; height: 8px; border-radius: 2px; background: linear-gradient(90deg, var(--r-baixo), var(--r-leve), var(--r-moderado), var(--r-alto), var(--r-critico)); }
+
+/* ---------- Tablet ---------- */
+@media (min-width: 640px) {
+  .sec--como .como__tab-short { font-size: .72rem; }
+  .sec--como .como__hide-sm { display: inline; }
+  .sec--como .como__opt-name { font-size: .88rem; }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 1024px) {
+  .sec--como .como__wrap {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head panel" "tabs panel" "ctrl limit";
+    grid-template-rows: auto 1fr auto;
+    column-gap: clamp(40px, 5vw, 80px); row-gap: 0;
+  }
+  .sec--como .como__head { grid-area: head; }
+  .sec--como .como__flow { display: contents; }
+  .sec--como .como__tabs { grid-area: tabs; grid-template-columns: 1fr; gap: 0; margin-top: 32px; align-self: start; }
+  .sec--como .como__ctrl { grid-area: ctrl; align-self: start; margin-top: 20px; padding-left: 20px; }
+  .sec--como .como__panel { grid-area: panel; align-self: start; }
+  .sec--como .como__limit { grid-area: limit; align-self: start; margin-top: 20px; margin-inline: 4px; }
+  .sec--como .como__reads { grid-area: reads; margin-top: clamp(64px, 6vw, 96px); }
+
+  .sec--como .como__tab {
+    grid-template-columns: 42px 1fr; align-items: baseline; gap: 0; padding: 14px 12px 14px 20px; min-height: 0;
+    border-radius: 0 10px 10px 0;
+  }
+  .sec--como .como__tab-bar { top: 0; bottom: 0; left: 0; right: auto; width: 2px; height: auto; }
+  .sec--como .como__tab-bar::after { transform-origin: top; transform: scaleY(0); }
+  .sec--como .como__tab.is-done .como__tab-bar::after { transform: scaleY(1); }
+  .sec--como .como__tab.is-active .como__tab-bar::after { transform: scaleY(1); }
+  .sec--como .como__tab-num { font-size: .85rem; }
+  .sec--como .como__tab-short { display: none; }
+  .sec--como .como__tab-title { display: block; font-family: var(--f-display); font-weight: 500; font-size: 1.12rem; line-height: 1.3; letter-spacing: -.01em; }
+  .sec--como .como__tab:focus-visible { outline-offset: -2px; }
+
+  .sec--como .como__frame { padding: 12px; }
+  .sec--como.is-enhanced .como__step-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .sec--como.is-enhanced .como__copy { min-height: 6.4em; }
+  .sec--como .como__copy { margin-top: 18px; padding-inline: 4px; }
+  .sec--como.is-enhanced .como__step p { margin-top: 0; }
+  .sec--como .como__step p { font-size: 1.05rem; }
+
+  .sec--como .como__reads { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: clamp(40px, 5vw, 80px); align-items: center; }
+  .sec--como .como__reads-copy { order: 0; }
+  .sec--como .como__toggle { grid-template-columns: 1fr; gap: 0; padding: 0; background: none; border: 0; border-top: 1px solid var(--c-line); border-radius: 0; margin-top: 24px; }
+  .sec--como .como__opt { text-align: left; justify-items: start; padding: 14px 16px 14px 0; border-radius: 0; border-bottom: 1px solid var(--c-line); gap: 3px; position: relative; }
+  .sec--como .como__opt::before { content: ""; position: absolute; left: -18px; top: 18px; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--c-dim); transition: background-color .25s, border-color .25s; }
+  .sec--como .como__opt-name { font-family: var(--f-display); font-size: 1.05rem; font-weight: 500; letter-spacing: -.01em; }
+  .sec--como .como__opt-desc { display: block; font-size: .92rem; line-height: 1.45; color: var(--c-dim); }
+  .sec--como .como__opt[aria-checked="true"] { background: none; box-shadow: none; }
+  .sec--como .como__opt[aria-checked="true"]::before { background: var(--agua-2); border-color: var(--agua-2); }
+  .sec--como .como__opt[aria-checked="true"] .como__opt-desc { color: var(--slate-2); }
+  .sec--como .como__toggle { padding-left: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sec--como .como__pass-bar::after { transition: none !important; }
+  .sec--como .como__pulse, .sec--como.is-loading .como__stage::after { animation: none !important; }
+  .sec--como.is-enhanced .como__step.is-active { animation: none; }
+}
