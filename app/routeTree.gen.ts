@@ -9,17 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as FiemsConectaPrivacidadeRouteImport } from './routes/fiems-conecta-privacidade'
 import { Route as EnRouteImport } from './routes/en'
+import { Route as FiemsConectaPrivacidadeRouteImport } from './routes/fiems-conecta-privacidade'
 
-const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
-  id: '/fiems-conecta-privacidade',
-  path: '/fiems-conecta-privacidade',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EnRoute = EnRouteImport.update({
   id: '/en',
   path: '/en',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
+  id: '/fiems-conecta-privacidade',
+  path: '/fiems-conecta-privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -51,18 +51,18 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/fiems-conecta-privacidade': {
-      id: '/fiems-conecta-privacidade'
-      path: '/fiems-conecta-privacidade'
-      fullPath: '/fiems-conecta-privacidade'
-      preLoaderRoute: typeof FiemsConectaPrivacidadeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/en': {
       id: '/en'
       path: '/en'
       fullPath: '/en'
       preLoaderRoute: typeof EnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fiems-conecta-privacidade': {
+      id: '/fiems-conecta-privacidade'
+      path: '/fiems-conecta-privacidade'
+      fullPath: '/fiems-conecta-privacidade'
+      preLoaderRoute: typeof FiemsConectaPrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
