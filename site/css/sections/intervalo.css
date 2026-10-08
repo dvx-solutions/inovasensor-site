@@ -289,3 +289,28 @@
   .sec--intervalo .iv__who-card { padding: 8px 10px; gap: 2px; }
   .sec--intervalo .iv__who-t { font-size: .78rem; line-height: 1.32; }
 }
+
+/* ---------- Celular: legibilidade (07/10/2026): rótulos mono >= 12 px, texto corrido >= 16 px ---------- */
+@media (max-width: 767px) {
+  .sec--intervalo .iv__lbl { font-size: 12.5px; letter-spacing: .03em; }
+  .sec--intervalo .iv__ctl-label { font-size: .78rem; letter-spacing: .02em; min-width: 5.1em; }
+  .sec--intervalo .iv__seg button { white-space: nowrap; padding-inline: 10px; }
+  .sec--intervalo .iv__col-h { font-size: .78rem; letter-spacing: .03em; }
+  .sec--intervalo .iv__demo { letter-spacing: .03em; }
+  .sec--intervalo .iv__legend { flex-wrap: wrap; row-gap: 6px; }
+  .sec--intervalo .iv__legend-label, .sec--intervalo .iv__legend-ends { font-size: .78rem; letter-spacing: .02em; }
+  .sec--intervalo .iv__fact { font-size: 1.0625rem; line-height: 1.45; }
+  .sec--intervalo .iv__k { font-size: .95rem; }
+  .sec--intervalo .iv__v { font-size: .9rem; }
+  .sec--intervalo .iv__who-h { font-size: 1.0625rem; }
+  .sec--intervalo .iv__who-t { font-size: 1rem; line-height: 1.45; }
+  .sec--intervalo .iv__bridge-links { font-size: 1rem; }
+  /* números do rastro no mapa (unidades do SVG): ~12 px na tela mesmo no SE */
+  .sec--intervalo .iv__trail-dot { r: 24px; }
+  .sec--intervalo .iv__trail-n { font-size: 38px; }
+}
+/* abaixo de 390 px: rótulo em cima, controles inteiros embaixo (sem botão cortado) */
+@media (max-width: 389px) {
+  .sec--intervalo .iv__ctl { flex-wrap: wrap; row-gap: 4px; }
+  .sec--intervalo .iv__ctl-label { min-width: 0; flex-basis: 100%; }
+}

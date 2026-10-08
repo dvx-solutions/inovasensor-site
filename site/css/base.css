@@ -2,10 +2,17 @@
    Dono: integrador. Seções NÃO editam este arquivo.
    Cores: manual de marca v1 (app Algeye, apps/web/src/styles.css) + identidade de comunicação (skill algeye-post). */
 
-/* Fontes no mesmo host (subconjunto latin, cobre PT-BR). Sora e IBM Plex Sans são variáveis:
-   um arquivo serve todos os pesos. As duas são pré-carregadas em shell.html. */
-@font-face { font-family: "Sora"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("../assets/fonts/sora-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400 600; font-display: swap; src: url("../assets/fonts/plex-sans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+/* Fontes no mesmo host (subconjunto latin, cobre PT-BR). Pesos 500/600/700 em arquivos estáticos
+   (instâncias do arquivo variável): o WebKit chegava a desenhar o Sora variável sempre no peso base,
+   e os títulos saíam finos no iPhone. O arquivo variável fica só para o peso 400.
+   Pré-carregados em shell.html: Sora 600 (títulos) e Plex Sans 400 (corpo). */
+@font-face { font-family: "Sora"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/sora-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Sora"; font-style: normal; font-weight: 500; font-display: swap; src: url("../assets/fonts/sora-500-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Sora"; font-style: normal; font-weight: 600; font-display: swap; src: url("../assets/fonts/sora-600-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Sora"; font-style: normal; font-weight: 700; font-display: swap; src: url("../assets/fonts/sora-700-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/plex-sans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("../assets/fonts/plex-sans-500-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("../assets/fonts/plex-sans-600-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/plex-mono-400-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("../assets/fonts/plex-mono-500-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
@@ -93,6 +100,9 @@ main > .sec + .sec { content-visibility: auto; contain-intrinsic-size: auto 1600
 /* A seção logo abaixo do voo só é montada depois da primeira pintura (core.js tira .cv-hold num
    momento ocioso ou no primeiro scroll): ninguém a vê enquanto o voo segura a tela. */
 .cv-hold main > .sec:nth-child(2) { content-visibility: hidden; }
+/* Safari/WebKit (iPhone): sem content-visibility. Com rolagem rápida o WebKit às vezes deixava a seção sem
+   pintar (texto sumido). shell.html põe .no-cv no <html> antes da primeira pintura. */
+.no-cv main > .sec + .sec, .no-cv.cv-hold main > .sec:nth-child(2) { content-visibility: visible; }
 #intervalo { contain-intrinsic-size: auto 1650px; }
 #como { contain-intrinsic-size: auto 1070px; }
 #painel { contain-intrinsic-size: auto 2020px; }
@@ -129,7 +139,9 @@ main > .sec + .sec { content-visibility: auto; contain-intrinsic-size: auto 1600
 .sec[data-theme="light"] .eyebrow { color: var(--brand-2); }
 .sec[data-theme="light"] [data-theme="dark"] .eyebrow { color: var(--agua); }
 [data-theme="light"] .h2 { color: var(--ink); }
-.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* destaque de título: cor sólida (o degradê recortado no texto, background-clip:text, quase sumia no Safari) */
+.grad-text { color: var(--brand-2); }
+[data-theme="dark"] .grad-text { color: var(--agua-2); }
 .mono { font-family: var(--f-mono); font-size: var(--fs-mono); letter-spacing: .08em; }
 .sec-head { max-width: 780px; }
 .sec-head--center { margin-inline: auto; text-align: center; }
@@ -157,10 +169,14 @@ main > .sec + .sec { content-visibility: auto; contain-intrinsic-size: auto 1600
 .link-arrow:hover::after { transform: translateX(4px); }
 .sec[data-theme="light"] .link-arrow { color: var(--brand-2); } /* --agua no --paper não passa AA */
 
-/* ---------- Reveal (core anima; sem JS tudo visível) ---------- */
-.js [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(12px); }
-.js [data-reveal="stagger"]:not(.is-in) { opacity: 1; transform: none; }
-.js [data-reveal="stagger"]:not(.is-in) > * { opacity: 0; transform: translateY(12px); }
+/* ---------- Reveal (core anima; sem JS tudo visível) ----------
+   Só com mouse (hover + ponteiro fino). No toque o texto já nasce visível: com rolagem rápida
+   o fade deixava frases inteiras invisíveis no iPhone. */
+@media (hover: hover) and (pointer: fine) {
+  .js [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(12px); }
+  .js [data-reveal="stagger"]:not(.is-in) { opacity: 1; transform: none; }
+  .js [data-reveal="stagger"]:not(.is-in) > * { opacity: 0; transform: translateY(12px); }
+}
 .reduced [data-reveal], .reduced [data-reveal] > * { opacity: 1 !important; transform: none !important; }
 
 /* ---------- Nav ---------- */
@@ -244,8 +260,27 @@ main > .sec + .sec { content-visibility: auto; contain-intrinsic-size: auto 1600
 .foot__col { display: grid; gap: 10px; align-content: start; font-size: .95rem; }
 .foot__col .eyebrow { margin-bottom: 6px; }
 .foot__col a:hover { color: var(--white); }
+.foot__col .nowrap { white-space: nowrap; }
 .foot__base { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; padding-block: 24px 32px; border-top: 1px solid rgba(255,255,255,.08); font-size: .85rem; }
 @media (min-width: 820px) { .foot__in { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; } .foot__brand, .foot__col:last-child { grid-column: auto; } }
+
+/* ---------- Celular: legibilidade (07/10, queixa "a escrita não aparece, ruim de ver as letras") ----------
+   Rótulos mono com 13 px e espaçamento menor; títulos Sora com peso firme; corpo nunca abaixo de 16 px. */
+@media (max-width: 767px) {
+  :root { --fs-mono: .8125rem; --fs-small: 1rem; }
+  body { font-size: 1.0625rem; }
+  .eyebrow { letter-spacing: .08em; gap: .55em; }
+  .eyebrow::before { width: 18px; }
+  .mono { letter-spacing: .03em; }
+  .h1, .h2 { font-weight: 600; }
+  .h3 { font-weight: 600; line-height: 1.25; }
+  .h1 { line-height: 1.06; letter-spacing: -.018em; }
+  .h2 { line-height: 1.12; letter-spacing: -.015em; }
+  .lead { font-size: max(1.0625rem, var(--fs-lead)); }
+  .rail__label { font-size: 12px; }
+  .foot__col { font-size: 1rem; }
+  .foot__base { font-size: .875rem; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }

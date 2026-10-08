@@ -229,3 +229,15 @@
 @media (prefers-reduced-motion: reduce) {
   .sec--confianca .cf-ledger__cols, .sec--confianca .cf-row__nao, .sec--confianca .cf-person figcaption { transition: none; }
 }
+
+/* ---------- Celular: legibilidade (07/10/2026): rótulos mono >= 12 px, texto corrido >= 16 px ---------- */
+@media (max-width: 767px) {
+  .sec--confianca .cf-ledger__col { letter-spacing: .07em; }
+  .sec--confianca .cf-limit__k { letter-spacing: .05em; }
+  .sec--confianca .cf-row__text, .sec--confianca .cf-limit__v, .sec--confianca .cf-team__text, .sec--confianca .cf-q__a { font-size: 1.0625rem; }
+  .sec--confianca .cf-ficha__k { font-size: .78rem; letter-spacing: .05em; }
+  .sec--confianca .cf-ficha__note { font-size: .9375rem; }
+  .sec--confianca .cf-person__name { font-size: .9375rem; }
+  .sec--confianca .cf-person__role { font-size: .78rem; letter-spacing: .02em; }
+  .sec--confianca .cf-team__org { font-size: .78rem; letter-spacing: .02em; }
+}

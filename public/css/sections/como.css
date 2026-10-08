@@ -239,3 +239,30 @@
   .sec--como .como__pulse, .sec--como.is-loading .como__stage::after { animation: none !important; }
   .sec--como.is-enhanced .como__step.is-active { animation: none; }
 }
+
+/* ---------- Celular: legibilidade (07/10/2026): rótulos mono >= 12 px, texto corrido >= 16 px ---------- */
+@media (max-width: 767px) {
+  .sec--como .como__tab { padding-inline: 5px 3px; }
+  .sec--como .como__tab-num { font-size: .875rem; }
+  .sec--como .como__tab-short { font-size: .78rem; letter-spacing: 0; }
+  .sec--como .como__chrome { font-size: .78rem; letter-spacing: .03em; }
+  .sec--como .como__stage-tag { font-size: .78rem; letter-spacing: .04em; }
+  .sec--como .como__hist-label { font-size: .78rem; letter-spacing: .03em; }
+  .sec--como .como__pass-n { font-size: .8125rem; }
+  .sec--como .como__auto { font-size: .78rem; letter-spacing: .05em; }
+  .sec--como .como__opt-name { font-size: .9375rem; }
+  .sec--como .como__legend-end { font-size: .78rem; letter-spacing: .03em; }
+  .sec--como .como__step p, .sec--como .como__reads-lead { font-size: 1.0625rem; }
+  .sec--como .como__limit { font-size: 1rem; }
+}
+/* abaixo de 390 px (SE): quatro abas não cabem com letra legível; duas por linha */
+@media (max-width: 389px) {
+  .sec--como .como__tabs { grid-template-columns: repeat(2, 1fr); row-gap: 4px; }
+  .sec--como .como__tab-short { font-size: .78rem; letter-spacing: 0; }
+  /* "Passagem 8" não pode virar "P.": a barra quebra em duas linhas */
+  .sec--como .como__chrome { flex-wrap: wrap; row-gap: 2px; }
+  .sec--como .como__chrome-l { overflow: visible; }
+}
+@media (hover: none), (pointer: coarse) {
+  @keyframes como-in { from { transform: translateY(8px); } to { transform: none; } }
+}
