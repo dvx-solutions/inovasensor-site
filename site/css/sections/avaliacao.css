@@ -15,7 +15,9 @@
   background: radial-gradient(60% 70% at 22% 0%, rgba(63, 181, 142, .1), transparent 70%);
 }
 
-.sec--avaliacao .ava__grid { display: grid; gap: 40px; align-items: start; }
+.sec--avaliacao .ava__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; align-items: start; }
+/* sem isso o min-content (e-mail longo em mono) alarga a coluna além do contêiner em 320 px */
+.sec--avaliacao .ava__grid > * { min-width: 0; }
 .sec--avaliacao .ava__accent { color: var(--agua-2); }
 .sec--avaliacao .ava__head .lead { max-width: 46ch; }
 
@@ -89,10 +91,10 @@
 /* alternativas sempre visíveis: copiar, WhatsApp e endereço */
 .sec--avaliacao .ava-alt { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--ava-line); display: grid; gap: 10px; }
 .sec--avaliacao .ava-alt__title { font-size: .9rem; color: var(--ava-text-2); }
-.sec--avaliacao .ava-alt__row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sec--avaliacao .ava-alt__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .sec--avaliacao .ava-alt__row .btn { width: 100%; gap: 8px; }
 .sec--avaliacao .ava-alt__row svg { flex: none; }
-.sec--avaliacao .ava-alt__addr { font-size: .86rem; color: var(--musgo); }
+.sec--avaliacao .ava-alt__addr { font-size: .86rem; color: var(--musgo); overflow-wrap: anywhere; }
 .sec--avaliacao .ava-alt__mail { font-family: var(--f-mono); font-size: .84rem; color: var(--white); overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: rgba(191, 240, 220, .35); text-underline-offset: 3px; }
 .sec--avaliacao .ava-alt__mail:hover { text-decoration-color: var(--agua-2); }
 .sec--avaliacao .ava-alt__ok { font-size: .86rem; color: var(--menta); }
@@ -173,4 +175,24 @@
   .sec--avaliacao .ava__head .lead { display: none; }
   .sec--avaliacao .ava-alt__title { display: none; }
   .sec--avaliacao .ava-alt__row { margin-top: 2px; }
+}
+
+/* ---------- Celular: legibilidade (07/10/2026): rótulos mono >= 12 px, texto corrido >= 16 px ---------- */
+@media (max-width: 767px) {
+  .sec--avaliacao .ava-steps__title { font-size: 12.5px; letter-spacing: .08em; }
+  .sec--avaliacao .ava-step__n { font-size: 13px; }
+  .sec--avaliacao .ava-step__t { font-size: 1rem; line-height: 1.5; }
+  .sec--avaliacao .ava-steps__terms li { font-size: .9375rem; }
+  .sec--avaliacao .ava-field label { font-size: 1rem; }
+  .sec--avaliacao .ava-field__opt { font-size: 12px; letter-spacing: .05em; }
+  .sec--avaliacao .ava-field__hint, .sec--avaliacao .ava-form__note, .sec--avaliacao .ava-field__err { font-size: .875rem; }
+  .sec--avaliacao .ava-form__how, .sec--avaliacao .ava-form__foot, .sec--avaliacao .ava-alt__title { font-size: 1rem; }
+  .sec--avaliacao .ava-alt__addr, .sec--avaliacao .ava-alt__ok, .sec--avaliacao .ava-form__privacy, .sec--avaliacao .ava-status { font-size: .9375rem; }
+  .sec--avaliacao .ava-alt__mail { font-size: .875rem; }
+  .sec--avaliacao .ava-done__eta { font-size: .8125rem; }
+}
+
+/* 320 px: "Copiar pedido" encostava na borda do botão */
+@media (max-width: 359px) {
+  .sec--avaliacao .ava-alt__row .btn { padding-inline: 10px; gap: 6px; }
 }

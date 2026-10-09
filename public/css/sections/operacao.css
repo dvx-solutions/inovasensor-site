@@ -62,7 +62,7 @@
 }
 @media (min-width: 768px) { .sec--operacao .op-demo { padding: 24px 28px 22px; } }
 
-.sec--operacao .op-demo__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sec--operacao .op-demo__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 8px; }
 @media (max-width: 479px) {
   .sec--operacao .op-demo__bar .op-demo__tag { font-size: .6rem; letter-spacing: .06em; padding: 4px 8px; }
   .sec--operacao .op-demo__reset { font-size: .64rem; letter-spacing: .06em; }
@@ -397,3 +397,40 @@
   .sec--operacao .op-log { margin-top: 12px; }
 }
 @media (max-width: 359px) { .sec--operacao .op-level { position: static; } }
+
+/* ---------- Celular: legibilidade (07/10/2026): rótulos mono >= 12 px, texto corrido >= 16 px ---------- */
+@media (max-width: 767px) {
+  .sec--operacao .op-demo__bar .op-demo__tag, .sec--operacao .op-demo__tag { font-size: .78rem; letter-spacing: .04em; }
+  .sec--operacao .op-demo__reset { font-size: .78rem; letter-spacing: .02em; padding-inline: 2px; margin-left: auto; white-space: nowrap; }
+  .sec--operacao .op-level { font-size: .75rem; letter-spacing: .05em; }
+  .sec--operacao .op-track li { font-size: .8125rem; }
+  .sec--operacao .op-desc { font-size: 1rem; }
+  .sec--operacao .op-meta dt { font-size: .75rem; letter-spacing: .05em; }
+  .sec--operacao .op-meta dd { font-size: .9375rem; }
+  .sec--operacao .op-act { font-size: .8125rem; }
+  .sec--operacao .op-composer label, .sec--operacao .op-composer legend, .sec--operacao .op-composer__hint, .sec--operacao .op-composer__err { font-size: .875rem; }
+  .sec--operacao .op-ev__t { font-size: .78rem; }
+  .sec--operacao .op-ev__who { font-size: .8125rem; }
+  .sec--operacao .op-ev__what { font-size: 1rem; }
+  .sec--operacao .op-path .mono { font-size: .75rem; letter-spacing: .05em; }
+  .sec--operacao .op-note, .sec--operacao .op-card__txt > p.op-card__limit { font-size: 1rem; }
+  .sec--operacao .op-conf thead th { font-size: .78rem; letter-spacing: .04em; }
+  .sec--operacao .op-conf tbody th small { font-size: .8125rem; }
+  .sec--operacao .op-conf__flag { font-size: .78rem; letter-spacing: .03em; }
+  .sec--operacao .op-fig__cap { font-size: .875rem; }
+  /* papel do relatório: miniatura, mas legível */
+  .sec--operacao .op-paper__head { font-size: .875rem; }
+  .sec--operacao .op-paper__no, .sec--operacao .op-paper__h { font-size: .75rem; letter-spacing: .05em; }
+  .sec--operacao .op-paper__row, .sec--operacao .op-paper__note, .sec--operacao .op-paper__row b { font-size: .75rem; }
+  /* folha mais alta: com a letra maior, o título "Ocorrências e respostas" fica acima do esmaecido */
+  .sec--operacao .op-fig--paper { height: 252px; }
+  .sec--operacao .op-fig--paper::after { height: 40px; }
+  /* o que cairia no esmaecido fica em branco: nada de texto meio apagado */
+  .sec--operacao .op-fig--paper .op-paper__row + .op-paper__row,
+  .sec--operacao .op-fig--paper .op-paper__row + .op-paper__row ~ * { visibility: hidden; }
+}
+@media (hover: none), (pointer: coarse) {
+  @keyframes op-in { from { transform: translateY(-6px); } to { transform: none; } }
+  @keyframes op-ev-in { from { transform: translateY(10px); } to { transform: none; } }
+}
+@media (max-width: 380px) { .sec--operacao .op-conf { font-size: .8125rem; } }

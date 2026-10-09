@@ -7,13 +7,13 @@
   <meta name="description" content="Algeye reúne imagens de satélite e IA para mostrar sinais de algas na represa inteira, com mapa, histórico, alertas e acompanhamento de ocorrências. Um produto InovaSensor.">
   <meta name="theme-color" content="#0A100F">
   <style>html{background:#050807}</style><!-- tela de fundo escura antes de a primeira seção (voo, escura) pintar: sem flash claro; o body segue claro por cima -->
-  <script>document.documentElement.classList.add('js','cv-hold');setTimeout(function(){document.documentElement.classList.remove('cv-hold');if(!window.ALG){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('is-in')});try{var m=JSON.parse(document.getElementById('alg-sections').textContent);for(var k in m)import(new URL(m[k],document.baseURI).href)}catch(e){}}},4000)</script>
+  <script>document.documentElement.classList.add('js','cv-hold');(function(u){if(/AppleWebKit/.test(u)&&!/Chrome|Chromium|Edg|OPR|Android/.test(u))document.documentElement.classList.add('no-cv')})(navigator.userAgent);setTimeout(function(){document.documentElement.classList.remove('cv-hold');if(!window.ALG){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('is-in')});try{var m=JSON.parse(document.getElementById('alg-sections').textContent);for(var k in m)import(new URL(m[k],document.baseURI).href)}catch(e){}}},4000)</script>
   <meta property="og:title" content="Algeye | Veja a represa inteira">
   <meta property="og:description" content="Mapa, histórico e alertas de sinais de algas na represa inteira. Um produto InovaSensor.">
   <meta property="og:locale" content="pt_BR">
   <link rel="icon" href="assets/brand/favicon.png">
   <!-- fontes no mesmo host (@font-face em base.css): sem ida ao Google, sem bloquear a pintura -->
-  <link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/sora-600-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/base.css">
   <!-- primeiro clipe do voo pedido já no <head> (mesma regra do voo.js: sem movimento reduzido, Save-Data, 2g/3g;
@@ -78,7 +78,7 @@
       <div class="foot__col">
         <p class="eyebrow">Conversar</p>
         <a href="#avaliacao" data-cta="avaliacao">Avaliar meu reservatório</a>
-        <a href="https://wa.me/5512988028865?text=Quero%20avaliar%20um%20reservat%C3%B3rio%20com%20o%20Algeye" target="_blank" rel="noopener" data-cta="whatsapp">WhatsApp (12) 98802-8865</a>
+        <a href="https://wa.me/5512988028865?text=Quero%20avaliar%20um%20reservat%C3%B3rio%20com%20o%20Algeye" target="_blank" rel="noopener" data-cta="whatsapp">WhatsApp <span class="nowrap">(12) 98802-8865</span></a>
         <a href="https://www.instagram.com/alg.eye/" target="_blank" rel="noopener">Instagram @alg.eye</a>
         <a href="https://www.linkedin.com/company/134694128/" target="_blank" rel="noopener">LinkedIn InovaSensor</a>
       </div>

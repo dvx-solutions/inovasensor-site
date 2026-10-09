@@ -13,10 +13,8 @@
   color: var(--white);
 }
 
-/* o gradiente da marca começa em verde fechado, que some no grafite: no escuro usamos a ponta clara da mesma família */
-.sec--voo .grad-text {
-  background-image: linear-gradient(100deg, var(--agua) 0%, var(--agua-2) 48%, var(--menta) 100%);
-}
+/* destaque do título: cor sólida (antes um degradê recortado no texto, que quase sumia no Safari) */
+.sec--voo .grad-text { color: var(--agua-2); }
 
 .sec--voo .voo__track { position: relative; }
 .sec--voo .voo__pin { position: relative; }
@@ -464,4 +462,70 @@
 }
 .sec--voo.voo--posters .voo__hero :is(.eyebrow, .voo__lead, .voo__proof) { text-shadow: 0 0 2px rgba(5,8,7,.9), 0 1px 14px rgba(5,8,7,.8); }
 .sec--voo.voo--posters .voo__title { text-shadow: 0 1px 14px rgba(5,8,7,.75); }
-.sec--voo .voo__title .grad-text { text-shadow: none; }   /* sombra por cima do texto recortado escurece o gradiente */
+/* destaque sólido: a mesma sombra de leitura do título + um brilho verde bem leve */
+.sec--voo .voo__title .grad-text { text-shadow: 0 1px 14px rgba(5,8,7,.75), 0 0 26px rgba(57,208,168,.22); }
+
+/* =====================================================================================
+   Celular: legibilidade (07/10/2026). Rótulos mono com 12,5 a 13 px, espaçamento menor e cor mais clara;
+   texto da parada entra rápido; a primeira tela cabe entre o nav fixo e o rodapé do voo, sem colisão.
+   ===================================================================================== */
+@media (max-width: 767px) {
+  .sec--voo .voo__proof { font-size: 12.5px; letter-spacing: .02em; line-height: 1.55; color: #D5DEDA; }
+  .sec--voo .voo__step { font-size: 13px; letter-spacing: .1em; }
+  .sec--voo .voo__cue { font-size: 12.5px; letter-spacing: .07em; }
+  .sec--voo .voo__skip { font-size: 12.5px; letter-spacing: .06em; color: #E1E8E5; text-decoration-color: rgba(225,232,229,.55); }
+  .sec--voo .voo__stops { gap: 16px; }
+  .sec--voo .voo__stops li { font-size: 12.5px; letter-spacing: .07em; color: rgba(201,212,208,.86); }
+  .sec--voo.voo--video .voo__stops li.is-done { color: #D5DEDA; }
+  .sec--voo .voo__label, .sec--voo .voo__frame::after { font-size: 12px; letter-spacing: .05em; color: #C9D4D0; }
+  .sec--voo .voo__legend-title { font-size: 12px; letter-spacing: .04em; color: #C9D4D0; }
+  .sec--voo .voo__legend-ends { font-size: 12px; letter-spacing: .02em; }
+  .sec--voo.voo--video .voo__ia, .sec--voo.voo--posters .voo__ia { font-size: 12.5px; letter-spacing: .03em; color: #D5DEDA; background: rgba(5,8,7,.8); }
+  .sec--voo .voo__beat-body { font-size: 1.0625rem; color: #D5DEDA; }
+  .sec--voo .voo__lead { color: #D5DEDA; }
+  /* nav fixo: o conteúdo da primeira tela nunca sobe para baixo dele */
+  .sec--voo.voo--live.voo--video .voo__ui { padding-top: calc(var(--nav-h) + 10px); }
+  /* na P0 o CTA compacto não ocupa lugar (o selo de IA fica numa linha só) */
+  .sec--voo.voo--video-on.voo--at-hero .voo__mini-cta { position: absolute; }
+  .sec--voo.voo--video-on .voo__mini-cta { font-size: .9rem; }
+  /* texto da parada: aparece rápido e já legível (o véu pleno vem junto, por --voo-vis) */
+  .sec--voo.voo--video-on .voo__hero.is-shown,
+  .sec--voo.voo--video-on .voo__beat.is-shown { transition: opacity .32s var(--ease), transform .4s var(--ease); }
+  .sec--voo.voo--video-on .voo__hero:not(.is-shown),
+  .sec--voo.voo--video-on .voo__beat:not(.is-shown) { transition: opacity .2s var(--ease), transform .3s var(--ease); }
+  .sec--voo.voo--video .voo__hero :is(.voo__title, .voo__lead),
+  .sec--voo.voo--video .voo__beat-text { text-shadow: 0 1px 2px rgba(5,8,7,.7), 0 1px 14px rgba(5,8,7,.8); }
+  .sec--voo.voo--video .voo__hud { text-shadow: 0 1px 2px rgba(5,8,7,.85), 0 0 10px rgba(5,8,7,.7); }
+  .sec--voo.voo--video .voo__skip { text-shadow: none; }   /* no WebKit a sombra apaga o sublinhado do link */
+  /* véu do texto um pouco mais alto e mais denso no celular */
+  .sec--voo.voo--video .voo__scrim {
+    background:
+      linear-gradient(0deg, rgba(5,8,7,.95) 0%, rgba(5,8,7,.9) 40%, rgba(5,8,7,.78) 60%, rgba(5,8,7,.45) 74%, rgba(5,8,7,0) 88%),
+      linear-gradient(180deg, rgba(5,8,7,.55) 0%, rgba(5,8,7,0) 18%);
+  }
+}
+/* telas baixas (iPhone 14 com barras do Safari, iPhone SE): primeira tela compacta */
+@media (max-width: 767px) and (max-height: 760px) {
+  .sec--voo .voo__title { margin-top: 12px; }
+  .sec--voo .voo__lead { font-size: 1rem; line-height: 1.5; margin-top: 12px; }
+  .sec--voo .voo__ctas { margin-top: 18px; gap: 8px 10px; }
+  .sec--voo .voo__ctas .btn { --h: 48px; }
+  .sec--voo .voo__proof { margin-top: 12px; }
+  .sec--voo.voo--live .voo__hero, .sec--voo.voo--live .voo__beat { padding-bottom: calc(var(--voo-foot) + 18px); }
+  .sec--voo .voo__beat-title { margin-top: 10px; font-size: 1.5rem; }
+  .sec--voo .voo__beat-body { margin-top: 10px; font-size: 1rem; line-height: 1.5; }
+}
+/* telas estreitas (SE, 320 px): a dica e "Pular abertura" quebram em duas linhas; o rodapé do voo cresce */
+@media (max-width: 359px) { .sec--voo.voo--video { --voo-foot: 148px; } }
+/* paradas 1 e 2 em telas estreitas: o selo de IA quebra em 3 ou 4 linhas ao lado do CTA compacto; o texto sobe junto */
+@media (max-width: 389px) { .sec--voo.voo--video-on:not(.voo--at-hero) { --voo-foot: 164px; } }
+@media (max-width: 359px) { .sec--voo.voo--video-on:not(.voo--at-hero) { --voo-foot: 180px; } }
+@media (max-width: 359px) { .sec--voo.voo--video .voo__ia { letter-spacing: 0; padding-inline: 7px; } }
+/* muito baixas (SE, menos de 620 px úteis): as provas do hero se repetem adiante (Avaliação, Limites e confiança)
+   e o "Como funciona" segue no menu e no próprio voo */
+@media (max-width: 767px) and (max-height: 620px) {
+  .sec--voo .voo__proof { display: none; }
+  .sec--voo .voo__ctas .btn--ghost { display: none; }
+  .sec--voo .voo__title { font-size: 2.25rem; }
+  .sec--voo .voo__beat-title { font-size: 1.35rem; }
+}

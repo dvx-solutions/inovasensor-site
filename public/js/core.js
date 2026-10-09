@@ -94,7 +94,10 @@
   function initReveals() {
     const els = [...document.querySelectorAll('[data-reveal]')];
     const show = (el) => el.classList.add('is-in');
-    if (reduced || !gsap) { els.forEach(show); return; }
+    // toque (celular/tablet): nada de fade. Com rolagem rápida o texto ficava invisível no meio da
+    // animação (base.css também só esconde o estado inicial com mouse).
+    const touch = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (reduced || !gsap || touch) { els.forEach(show); ALG.revealAll = () => els.forEach(show); return; }
     const vh = () => window.innerHeight;
     const animate = (el) => {
       if (el.classList.contains('is-in')) return;
