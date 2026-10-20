@@ -1,0 +1,67 @@
+.mentoria-site .sec--hero{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:calc(100svh - 88px);background:#141419;color:#f7f7f8;overflow:hidden}
+.mentoria-site .sec--hero .hero-scene{position:absolute;inset:0;z-index:-2;overflow:hidden;mask-image:linear-gradient(90deg,transparent 10%,#000 48%,#000);-webkit-mask-image:linear-gradient(90deg,transparent 10%,#000 48%,#000)}
+.mentoria-site .sec--hero .hero-scene canvas{display:block;width:100%;height:100%;position:absolute;inset:0;opacity:0;transition:opacity 1.3s}
+.mentoria-site .sec--hero .hero-scene.is-ready canvas{opacity:1}
+.mentoria-site .sec--hero .hero-fallback{position:absolute;inset:0;opacity:1;transition:opacity 1.3s}
+.mentoria-site .sec--hero .hero-fallback svg{position:absolute;width:64%;height:100%;right:-4%;top:0;overflow:visible}
+.mentoria-site .sec--hero .hero-scene.is-ready .hero-fallback{opacity:0}
+.mentoria-site .sec--hero .hero-atmosphere{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#141419 0%,#141419f5 28%,#14141980 40%,#14141900 48%),linear-gradient(0deg,#141419 0%,#14141900 25%),radial-gradient(ellipse at 80% 43%,#da3c6d10,transparent 52%)}
+.mentoria-site .sec--hero .hero-content{position:relative;width:100%;padding-top:56px;padding-bottom:28px;flex:1;display:flex;align-items:center;min-height:650px;order:1}
+.mentoria-site .sec--hero .hero-copy{position:relative;z-index:2;width:min(650px,57%)}
+.mentoria-site .sec--hero .hero-eyebrow{display:flex;align-items:center;gap:12px;font-size:10px;line-height:1.6;letter-spacing:1.8px;color:#ccc8ce;margin:0 0 32px}
+.mentoria-site .sec--hero .hero-eyebrow>span,.mentoria-site .sec--hero .hero-small-dot{height:5px;width:5px;flex:0 0 5px;border-radius:50%;background:#da3c6d}
+.mentoria-site .sec--hero h1{font-family:var(--font-heading,'Mentoria Sora',sans-serif);font-size:clamp(50px,4.75vw,70px);line-height:1.09;letter-spacing:-.055em;font-weight:550;margin:0;max-width:690px}
+.mentoria-site .sec--hero h1 .hero-title-line{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em;color:#e9e7ec}
+.mentoria-site .sec--hero h1 .hero-title-line:first-child{color:#f7f7f8}
+.mentoria-site .sec--hero h1 .hero-title-words{display:block;transform-origin:left center}
+.mentoria-site .sec--hero h1 em{font-style:normal;color:#f26b92}
+.mentoria-site .sec--hero .hero-description{max-width:485px;color:#b7b2bd;font-size:17px;line-height:1.7;margin:29px 0 30px;letter-spacing:0}
+.mentoria-site .sec--hero .hero-actions{display:flex;align-items:center;gap:25px;flex-wrap:wrap}
+.mentoria-site .sec--hero .hero-cta{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:56px;padding:16px 24px;border:1px solid #b92b56;border-radius:100px;background:#b92b56;color:#fff;font-size:14px;font-weight:600;box-shadow:0 9px 30px #da3c6d12;transition:background .2s,transform .2s;cursor:pointer}
+.mentoria-site .sec--hero .hero-cta:hover{background:#a6244c;transform:translateY(-2px)}
+.mentoria-site .sec--hero .hero-method-link{display:inline-flex;align-items:center;gap:14px;min-height:44px;font-size:13px;color:#d4ced8;text-decoration:none}
+.mentoria-site .sec--hero .hero-method-link span{color:#f26b92}
+.mentoria-site .sec--hero .hero-method-link:hover{color:#fff}
+.mentoria-site .sec--hero .hero-action-note{font-size:11px;color:#aba4b0;margin:14px 0 0}
+.mentoria-site .sec--hero .hero-positioning{display:flex;align-items:center;gap:18px;margin-top:28px;padding-top:20px;border-top:1px solid #ffffff17;width:fit-content}
+.mentoria-site .sec--hero .hero-positioning>span{font-family:monospace;font-size:11px;letter-spacing:1px;color:#f26b92;border-right:1px solid #ffffff26;padding-right:18px;line-height:34px}
+.mentoria-site .sec--hero .hero-positioning p{margin:0;color:#a8a1ae;font-size:12px;line-height:1.7}
+.mentoria-site .sec--hero .hero-positioning strong{color:#d9d3df;font-weight:400}
+.mentoria-site .sec--hero .hero-art-caption{position:absolute;right:32px;top:60px;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:9px;max-width:280px;font-size:8px;font-family:monospace;letter-spacing:1.2px;color:#958b9d}
+.mentoria-site .sec--hero .hero-art-divider{padding:0 3px;color:#655d6b}
+.mentoria-site .sec--hero .hero-scroll-cue{width:100%;display:flex;gap:12px;align-items:center;justify-content:flex-end;font-family:var(--font-body,'Mentoria IBM Plex Sans',sans-serif);font-size:10px;letter-spacing:.25px;color:#bfb7c6;margin-top:8px}
+.mentoria-site .sec--hero .hero-scroll-cue>span{color:#f26b92;font-size:16px;transform:translateY(calc(var(--hero-scroll,0)*12px))}
+.mentoria-site .sec--hero .hero-mobile-art-label{display:none}
+.mentoria-site .sec--hero .hero-scroll-progress{position:absolute;z-index:3;bottom:0;left:0;width:100%;height:2px;pointer-events:none;background:linear-gradient(90deg,#b92b56,#f26b92);transform:scaleX(var(--hero-scroll,0));transform-origin:left}
+.mentoria-site .sec--hero[data-static-motion=true] .hero-scroll-progress,.mentoria-site .sec--hero[data-static-motion=true] .hero-scroll-cue{display:none}
+.mentoria-site .sec--hero .hero-deck{position:relative;z-index:2;width:100%;order:3;padding-top:0;padding-bottom:24px}
+.mentoria-site .sec--hero .hero-process{display:flex;justify-content:flex-end;align-items:center;gap:18px;color:#a8a1af;font-size:10px;font-family:monospace;letter-spacing:.3px;padding-bottom:24px}
+.mentoria-site .sec--hero .hero-process i{font-style:normal;color:#d86c8e}
+.mentoria-site .sec--hero .hero-control-row{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid #ffffff18;padding-top:17px}
+.mentoria-site .sec--hero .hero-scene-description{display:flex;align-items:center;gap:13px}
+.mentoria-site .sec--hero .hero-status-dot{width:5px;height:5px;flex:0 0 5px;border-radius:50%;background:#da3c6d;box-shadow:0 0 0 5px #da3c6d13}
+.mentoria-site .sec--hero .hero-scene-description p{color:#958d9f;font-size:11px;line-height:1.65;margin:0}
+.mentoria-site .sec--hero .hero-scene-description strong{font-weight:400;color:#d8d0df}
+.mentoria-site .sec--hero .hero-controls{display:flex;gap:15px;align-items:center}
+.mentoria-site .sec--hero .hero-toggle{display:flex;gap:2px;border:1px solid #ffffff26;padding:4px;border-radius:100px;background:#141419a8;backdrop-filter:blur(12px)}
+.mentoria-site .sec--hero .hero-toggle button{border:0;border-radius:100px;min-height:44px;white-space:nowrap;padding:10px 17px;font-size:11px;color:#b5acbd;background:transparent;cursor:pointer;transition:background .25s,color .25s}
+.mentoria-site .sec--hero .hero-toggle button[aria-pressed=true]{color:#f7f7f8;background:#ffffff13;box-shadow:inset 0 0 0 1px #ffffff25}
+.mentoria-site .sec--hero .hero-toggle button[aria-pressed=true] span{color:#f26b92}
+.mentoria-site .sec--hero .hero-toggle button span{margin-left:10px}
+.mentoria-site .sec--hero .hero-toggle button:hover{color:#fff}
+.mentoria-site .sec--hero .hero-pause{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;color:#aca2b5;background:none;border:1px solid #ffffff26;border-radius:50%;cursor:pointer}
+.mentoria-site .sec--hero .hero-pause:hover{color:#fff;border-color:#ffffff55}
+.mentoria-site .sec--hero .hero-pause svg{width:14px;height:14px}
+.mentoria-site .sec--hero.is-manual .hero-fallback{opacity:.5;filter:grayscale(.85)}
+.mentoria-site .sec--hero.is-manual .hero-scene.is-ready .hero-fallback{opacity:0}
+.mentoria-site .sec--hero.is-manual .hero-status-dot{background:#aba4b0;box-shadow:0 0 0 5px #aba4b013}
+.mentoria-site .sec--hero button:focus-visible,.mentoria-site .sec--hero a:focus-visible{outline:2px solid #f7f7f8;outline-offset:5px}
+@media(min-width:1700px){.mentoria-site .sec--hero .hero-content{padding-top:120px;padding-bottom:100px;min-height:730px}.mentoria-site .sec--hero h1{font-size:76px}}
+@media(max-width:1100px){.mentoria-site .sec--hero .hero-content{padding-top:76px;padding-bottom:55px;min-height:620px}.mentoria-site .sec--hero .hero-copy{width:61%}.mentoria-site .sec--hero h1{font-size:clamp(46px,5.1vw,60px)}.mentoria-site .sec--hero .hero-description{font-size:16px;max-width:440px}.mentoria-site .sec--hero .hero-actions{gap:18px}.mentoria-site .sec--hero .hero-art-caption{font-size:7px;top:37px}}
+@media(max-width:800px){.mentoria-site .sec--hero{min-height:auto}.mentoria-site .sec--hero .hero-content{min-height:0;padding-top:56px;padding-bottom:0}.mentoria-site .sec--hero .hero-copy{width:100%;max-width:640px}.mentoria-site .sec--hero h1{font-size:clamp(45px,7.5vw,64px)}.mentoria-site .sec--hero .hero-description{max-width:520px;font-size:16px}.mentoria-site .sec--hero .hero-art-caption{display:none}.mentoria-site .sec--hero .hero-scene{position:relative;inset:auto;width:100%;height:430px;order:2;margin-top:0;z-index:0;mask-image:linear-gradient(#0000,#000 15%,#000 85%,#0000);-webkit-mask-image:linear-gradient(#0000,#000 15%,#000 85%,#0000)}.mentoria-site .sec--hero .hero-atmosphere{background:radial-gradient(ellipse at 70% 66%,#da3c6d08,transparent 55%)}.mentoria-site .sec--hero .hero-fallback svg{width:100%;height:100%;right:0}.mentoria-site .sec--hero .hero-positioning{margin-top:27px;padding-top:20px}.mentoria-site .sec--hero .hero-deck{padding-top:0;padding-bottom:35px}.mentoria-site .sec--hero .hero-process{justify-content:center;font-size:10px;gap:16px;padding-bottom:23px}.mentoria-site .sec--hero .hero-control-row{flex-direction:column-reverse;gap:23px;padding-top:21px;align-items:center}.mentoria-site .sec--hero .hero-controls{gap:12px}.mentoria-site .sec--hero .hero-scene-description{text-align:left}}
+@media(max-width:480px){.mentoria-site .sec--hero .hero-content{padding-top:39px}.mentoria-site .sec--hero .hero-eyebrow{font-size:8px;letter-spacing:1.35px;gap:9px;margin-bottom:26px}.mentoria-site .sec--hero h1{font-size:clamp(35px,9.9vw,47px);line-height:1.13;letter-spacing:-.055em}.mentoria-site .sec--hero .hero-description{font-size:15px;line-height:1.7;margin:25px 0 26px}.mentoria-site .sec--hero .hero-actions{gap:10px;justify-content:space-between}.mentoria-site .sec--hero .hero-cta{padding:15px 20px;gap:18px;font-size:13px;min-height:54px}.mentoria-site .sec--hero .hero-method-link{font-size:11px;gap:8px}.mentoria-site .sec--hero .hero-action-note{font-size:10px}.mentoria-site .sec--hero .hero-positioning{gap:13px;margin-top:25px;padding-top:19px}.mentoria-site .sec--hero .hero-positioning>span{font-size:9px;padding-right:13px;white-space:nowrap}.mentoria-site .sec--hero .hero-positioning p{font-size:10px;line-height:1.75}.mentoria-site .sec--hero .hero-scene{height:345px;margin-top:2px}.mentoria-site .sec--hero .hero-process{gap:11px;font-size:8px}.mentoria-site .sec--hero .hero-toggle button{font-size:10px;padding:9px 13px}.mentoria-site .sec--hero .hero-toggle button span{margin-left:6px}.mentoria-site .sec--hero .hero-controls{gap:8px}.mentoria-site .sec--hero .hero-pause{width:44px}.mentoria-site .sec--hero .hero-scene-description p{font-size:10px}}
+@media(max-width:360px){.mentoria-site .sec--hero .hero-method-link{width:100%;justify-content:center}.mentoria-site .sec--hero .hero-cta{width:100%;justify-content:space-between}.mentoria-site .sec--hero .hero-action-note{text-align:center}.mentoria-site .sec--hero .hero-process{gap:8px;font-size:7px}.mentoria-site .sec--hero .hero-controls{gap:6px}.mentoria-site .sec--hero .hero-toggle button{padding-inline:10px}}
+@media(max-width:800px){.mentoria-site .sec--hero .hero-mobile-art-label{display:block;position:absolute;top:28px;left:24px;right:24px;z-index:2;font-family:monospace;font-size:8px;letter-spacing:1.1px;text-transform:uppercase;text-align:right;color:#b7aabb}.mentoria-site .sec--hero .hero-scroll-progress{height:2px}}
+@media(prefers-reduced-motion:reduce){.mentoria-site .sec--hero *,.mentoria-site .sec--hero *::before,.mentoria-site .sec--hero *::after{transition:none!important;animation:none!important}.mentoria-site .sec--hero .hero-scroll-progress,.mentoria-site .sec--hero .hero-scroll-cue{display:none}}
+
+

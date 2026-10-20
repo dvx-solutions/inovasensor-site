@@ -128,7 +128,7 @@ export const submitLead = createServerFn({ method: "POST" })
     if (!lead.reservoir) throw new Error("reservoir required");
     return lead;
   })
-  .handler(async ({ data }): Promise<LeadResult> => {
+  .handler(async ({ data }: {data: LeadInput}): Promise<LeadResult> => {
     const record: Record_ = { ...data, receivedAt: new Date().toISOString(), source: "algeye-site" };
 
     let durable = false; // algum canal que sobrevive a um restart?
