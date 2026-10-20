@@ -9,11 +9,7 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#05161b" },
     ],
     links: [
-      /* Marca oficial sobre o verde da marca. Em PNG porque ela ainda não
-         existe em vetor; quando existir, volta a ser um .svg só. */
-      { rel: "icon", type: "image/png", sizes: "32x32", href: "/marca/favicon-32.png" },
-      { rel: "icon", type: "image/png", sizes: "48x48", href: "/marca/favicon-48.png" },
-      { rel: "apple-touch-icon", sizes: "180x180", href: "/marca/favicon-180.png" },
+      { rel: "icon", type: "image/webp", href: "/mentoria-assets/brand/logo-inova.webp" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

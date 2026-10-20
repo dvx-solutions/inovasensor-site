@@ -11,3 +11,4 @@ dist/
 
 # rascunhos de design (canvas)
 .design/
+.vercel
