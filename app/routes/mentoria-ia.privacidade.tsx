@@ -1,7 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
-import Privacy from '../components/mentoria/Privacy';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/mentoria-ia/privacidade')({
-  head: () => ({meta:[{title:'Privacidade da avaliação | InovaSensor Mentoria IA'},{name:'robots',content:'noindex'}]}),
-  component: Privacy,
+  beforeLoad: () => { throw redirect({ to: '/privacidade', statusCode: 301 }); },
 });

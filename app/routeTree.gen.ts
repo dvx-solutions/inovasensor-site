@@ -9,16 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as EnRouteImport } from './routes/en'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as FiemsConectaPrivacidadeRouteImport } from './routes/fiems-conecta-privacidade'
-import { Route as MentoriaIaRouteImport } from './routes/mentoria-ia'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as MentoriaIaIndexRouteImport } from './routes/mentoria-ia.index'
 import { Route as MentoriaIaPrivacidadeRouteImport } from './routes/mentoria-ia.privacidade'
 import { Route as ApiMentoriaLeadsRouteImport } from './routes/api.mentoria.leads'
 
-const EnRoute = EnRouteImport.update({
-  id: '/en',
-  path: '/en',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
@@ -26,20 +26,20 @@ const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
   path: '/fiems-conecta-privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MentoriaIaRoute = MentoriaIaRouteImport.update({
-  id: '/mentoria-ia',
-  path: '/mentoria-ia',
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MentoriaIaIndexRoute = MentoriaIaIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MentoriaIaRoute,
+  id: '/mentoria-ia/',
+  path: '/mentoria-ia/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const MentoriaIaPrivacidadeRoute = MentoriaIaPrivacidadeRouteImport.update({
-  id: '/privacidade',
-  path: '/privacidade',
-  getParentRoute: () => MentoriaIaRoute,
+  id: '/mentoria-ia/privacidade',
+  path: '/mentoria-ia/privacidade',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiMentoriaLeadsRoute = ApiMentoriaLeadsRouteImport.update({
   id: '/api/mentoria/leads',
@@ -48,25 +48,26 @@ const ApiMentoriaLeadsRoute = ApiMentoriaLeadsRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/en': typeof EnRoute
+  '/': typeof IndexRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
-  '/mentoria-ia': typeof MentoriaIaRouteWithChildren
+  '/privacidade': typeof PrivacidadeRoute
   '/mentoria-ia/privacidade': typeof MentoriaIaPrivacidadeRoute
   '/mentoria-ia/': typeof MentoriaIaIndexRoute
   '/api/mentoria/leads': typeof ApiMentoriaLeadsRoute
 }
 export interface FileRoutesByTo {
-  '/en': typeof EnRoute
+  '/': typeof IndexRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/mentoria-ia/privacidade': typeof MentoriaIaPrivacidadeRoute
   '/mentoria-ia': typeof MentoriaIaIndexRoute
   '/api/mentoria/leads': typeof ApiMentoriaLeadsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/en': typeof EnRoute
+  '/': typeof IndexRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
-  '/mentoria-ia': typeof MentoriaIaRouteWithChildren
+  '/privacidade': typeof PrivacidadeRoute
   '/mentoria-ia/privacidade': typeof MentoriaIaPrivacidadeRoute
   '/mentoria-ia/': typeof MentoriaIaIndexRoute
   '/api/mentoria/leads': typeof ApiMentoriaLeadsRoute
@@ -74,43 +75,46 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/en'
+    | '/'
     | '/fiems-conecta-privacidade'
-    | '/mentoria-ia'
+    | '/privacidade'
     | '/mentoria-ia/privacidade'
     | '/mentoria-ia/'
     | '/api/mentoria/leads'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/en'
+    | '/'
     | '/fiems-conecta-privacidade'
+    | '/privacidade'
     | '/mentoria-ia/privacidade'
     | '/mentoria-ia'
     | '/api/mentoria/leads'
   id:
     | '__root__'
-    | '/en'
+    | '/'
     | '/fiems-conecta-privacidade'
-    | '/mentoria-ia'
+    | '/privacidade'
     | '/mentoria-ia/privacidade'
     | '/mentoria-ia/'
     | '/api/mentoria/leads'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  EnRoute: typeof EnRoute
+  IndexRoute: typeof IndexRoute
   FiemsConectaPrivacidadeRoute: typeof FiemsConectaPrivacidadeRoute
-  MentoriaIaRoute: typeof MentoriaIaRouteWithChildren
+  PrivacidadeRoute: typeof PrivacidadeRoute
+  MentoriaIaPrivacidadeRoute: typeof MentoriaIaPrivacidadeRoute
+  MentoriaIaIndexRoute: typeof MentoriaIaIndexRoute
   ApiMentoriaLeadsRoute: typeof ApiMentoriaLeadsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/en': {
-      id: '/en'
-      path: '/en'
-      fullPath: '/en'
-      preLoaderRoute: typeof EnRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fiems-conecta-privacidade': {
@@ -120,26 +124,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FiemsConectaPrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mentoria-ia': {
-      id: '/mentoria-ia'
-      path: '/mentoria-ia'
-      fullPath: '/mentoria-ia'
-      preLoaderRoute: typeof MentoriaIaRouteImport
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mentoria-ia/': {
       id: '/mentoria-ia/'
-      path: '/'
+      path: '/mentoria-ia'
       fullPath: '/mentoria-ia/'
       preLoaderRoute: typeof MentoriaIaIndexRouteImport
-      parentRoute: typeof MentoriaIaRoute
+      parentRoute: typeof rootRouteImport
     }
     '/mentoria-ia/privacidade': {
       id: '/mentoria-ia/privacidade'
-      path: '/privacidade'
+      path: '/mentoria-ia/privacidade'
       fullPath: '/mentoria-ia/privacidade'
       preLoaderRoute: typeof MentoriaIaPrivacidadeRouteImport
-      parentRoute: typeof MentoriaIaRoute
+      parentRoute: typeof rootRouteImport
     }
     '/api/mentoria/leads': {
       id: '/api/mentoria/leads'
@@ -151,24 +155,12 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface MentoriaIaRouteChildren {
-  MentoriaIaPrivacidadeRoute: typeof MentoriaIaPrivacidadeRoute
-  MentoriaIaIndexRoute: typeof MentoriaIaIndexRoute
-}
-
-const MentoriaIaRouteChildren: MentoriaIaRouteChildren = {
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  FiemsConectaPrivacidadeRoute: FiemsConectaPrivacidadeRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   MentoriaIaPrivacidadeRoute: MentoriaIaPrivacidadeRoute,
   MentoriaIaIndexRoute: MentoriaIaIndexRoute,
-}
-
-const MentoriaIaRouteWithChildren = MentoriaIaRoute._addFileChildren(
-  MentoriaIaRouteChildren,
-)
-
-const rootRouteChildren: RootRouteChildren = {
-  EnRoute: EnRoute,
-  FiemsConectaPrivacidadeRoute: FiemsConectaPrivacidadeRoute,
-  MentoriaIaRoute: MentoriaIaRouteWithChildren,
   ApiMentoriaLeadsRoute: ApiMentoriaLeadsRoute,
 }
 export const routeTree = rootRouteImport

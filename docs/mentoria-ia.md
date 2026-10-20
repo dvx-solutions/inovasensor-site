@@ -1,6 +1,6 @@
 # Mentoria IA — integração no site InovaSensor
 
-A experiência da mentoria está em `/mentoria-ia`, com privacidade em `/mentoria-ia/privacidade`. A home atual do AlgEye e as demais rotas permanecem no projeto. A posição definitiva da mentoria na navegação/home deve ser confirmada na revisão da PR.
+A mentoria é a home do site (`/`), com privacidade em `/privacidade`. Os endereços antigos `/mentoria-ia` e `/mentoria-ia/privacidade` redirecionam (301) para eles. O site do AlgEye saiu daqui e foi para `apps/site` no repositório `dvx-solutions/Algeye`.
 
 ## Conteúdo e apresentação
 
