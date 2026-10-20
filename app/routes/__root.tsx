@@ -29,7 +29,7 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = useRouterState({ select: (s: {location: {pathname: string}}) => s.location.pathname });
   const lang = pathname.startsWith("/en") ? "en" : "pt-BR";
 
   return (
