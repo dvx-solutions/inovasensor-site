@@ -10,3 +10,5 @@
 @media(max-width:760px){.mentoria-site .qualification .q-actions{bottom:-35px;padding:15px 0 19px;margin-top:26px;gap:12px;min-height:88px}.mentoria-site .qualification .q-actions .button{min-height:50px;padding:14px 20px}.mentoria-site .qualification .q-body{scroll-padding-bottom:110px}}
 
 .mentoria-site .qualification .q-back{white-space:nowrap;flex-shrink:0}
+
+.mentoria-site .qualification .q-schedule{padding:22px;border:1px solid #e8c9d4;border-radius:12px;margin:0 0 28px}.mentoria-site .qualification .q-schedule p{font-size:14px;line-height:1.7;margin:8px 0 18px}.mentoria-site .qualification .q-schedule .button{margin:0;background:var(--accent-strong)}.mentoria-site .qualification .q-schedule .button:hover{background:#a4254b}

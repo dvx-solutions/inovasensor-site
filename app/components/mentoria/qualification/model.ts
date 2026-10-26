@@ -86,3 +86,8 @@ return {score,route,flags};
 
 export const outcomes={conversa:{title:'Sua avaliação foi recebida.',text:'Você identificou uma prioridade e disponibilidade para conversar. Vamos analisar o contexto antes de recomendar a mentoria. Escopo e condições comerciais serão apresentados em uma proposta após o diagnóstico.',next:'Separe um exemplo recente da demanda que descreveu e envolva o responsável pelo processo.'},alinhar:{title:'Vamos analisar o momento da sua empresa.',text:'Suas respostas foram recebidas. Vamos avaliar as prioridades e os pontos de decisão, agenda ou planejamento que precisam ser alinhados antes de uma proposta.',next:'Converse com quem decide e com quem acompanharia a implementação. Uma prioridade definida ajuda a preparar o diagnóstico.'},preparar:{title:'Suas respostas vão orientar os próximos passos.',text:'Pelo contexto informado, pode ser necessário organizar tempo, recursos ou um responsável antes de iniciar. A avaliação passa por análise humana e não determina, sozinha, a contratação.',next:'Identifique uma rotina prioritária e quem pode acompanhar a mudança. Esse contexto ajuda a avaliar o momento adequado para começar.'}};
 
+
+// Página pública do Bookings (Teams) do Gustavo. Horários de 9h a 16h são definidos no próprio Bookings.
+export const meetingUrl='https://outlook.office.com/bookwithme/user/4b3fe6570e0e4b698a18864a992798a3@devexsolucoes.com.br?anonymous';
+
+export const canSchedule=(route:keyof typeof outcomes)=>route!=='preparar';
