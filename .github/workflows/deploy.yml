@@ -38,7 +38,11 @@ jobs:
       - name: Puxar a configuração de produção
         run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
 
+      # Fora da Vercel o Nitro cai no preset node e gera .output, que a CLI não
+      # publica (o site ficava 404). O preset vercel gera .vercel/output.
       - name: Build
+        env:
+          NITRO_PRESET: vercel
         run: vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Publicar
