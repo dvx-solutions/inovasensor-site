@@ -96,7 +96,7 @@ jobs:
         run: |
           url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
           echo "url=$url" >> "$GITHUB_OUTPUT"
-          vercel alias set "$url" "$ALIAS" --token="$VERCEL_TOKEN" || echo "::warning::Alias $ALIAS não aplicado."
+          vercel alias set "$url" "$ALIAS" --scope devex-solucoes --token="$VERCEL_TOKEN" || echo "::warning::Alias $ALIAS não aplicado."
 
       # Testa o endpoint no próprio preview (o vercel curl passa pela proteção de
       # deploy da Vercel) e apaga o lead de teste no fim.
@@ -105,7 +105,7 @@ jobs:
           URL: ${{ steps.deploy.outputs.url }}
         run: |
           set -u
-          chamar() { vercel curl "$1" --deployment "$URL" --yes --token="$VERCEL_TOKEN" -- --silent --write-out '\n%{http_code}' "${@:2}"; }
+          chamar() { vercel curl --token="$VERCEL_TOKEN" --deployment "$URL" --yes "$1" -- --silent --write-out '\n%{http_code}' "${@:2}"; }
           status() { tail -n1; }
           [ "$(chamar / | status)" = 200 ] || { echo "home não respondeu 200"; exit 1; }
           [ "$(chamar /privacidade | status)" = 200 ] || { echo "/privacidade não respondeu 200"; exit 1; }
