@@ -123,10 +123,10 @@ export async function listarLeads(request: Request): Promise<Response> {
   if (!armazenamentoOk()) return json({error: 'Armazenamento não configurado.'}, 503);
   try {
     const todos = (usaBlob() ? await lerBlob(desde) : await lerLocal())
-      .filter(l => Date.parse(l.criado_em) >= desde)
+      .filter(l => Date.parse(l.criado_em) > desde)
       .sort((a, b) => a.criado_em.localeCompare(b.criado_em));
     const leads = todos.slice(0, MAX_LEADS);
-    // mais=true: chame de novo com desde = criado_em do último lead (o leitor descarta id repetido).
+    // desde é exclusivo (criado_em > desde). mais=true: chame de novo com desde = criado_em do último lead.
     return json({leads, total: leads.length, mais: todos.length > MAX_LEADS});
   } catch {
     return json({error: 'Não foi possível ler os leads agora.'}, 503);

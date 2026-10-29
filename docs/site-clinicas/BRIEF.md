@@ -49,7 +49,7 @@ Conversa de dono para dono, PT-BR simples, frases curtas, verbos concretos. Sem 
 - TanStack Start + React 19, rota `/` em `app/routes/index.tsx`, componentes em `app/components/clinicas/`, CSS escopado em `.clinicas`.
 - `/privacidade` continua igual. `/mentoria-ia` continua redirecionando para `/`.
 - Formulário em 3 passos no próprio fluxo da página (sem modal), perguntas e chaves idênticas ao anúncio, mais nome, WhatsApp, cidade e nome da clínica, consentimento com link para `/privacidade`, honeypot `website`, UTM/fbclid em `origem`.
-- `POST /api/leads` grava em Vercel Blob privado (`leads/<id>.json`, sem sobrescrever: reenvio não duplica). `GET /api/leads?desde=<ISO>` com `Authorization: Bearer <SITE_LEADS_TOKEN>` devolve `{leads:[...], total, mais}`.
+- `POST /api/leads` grava em Vercel Blob privado (`leads/<id>.json`, sem sobrescrever: reenvio não duplica). `GET /api/leads?desde=<ISO>` com `Authorization: Bearer <SITE_LEADS_TOKEN>` devolve `{leads:[...], total, mais}`, só com criado_em > desde, em ordem crescente.
 - Sem bibliotecas de animação. Movimento só por CSS e IntersectionObserver, desligado em `prefers-reduced-motion`. LCP é a foto do hero (pré-carregada, `fetchpriority=high`).
 - Celular: alvos de toque ≥ 44px, barra fixa com o CTA que some quando o formulário está na tela, sem rolagem horizontal em 360px.
 
