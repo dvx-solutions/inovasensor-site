@@ -7,9 +7,9 @@ type Respostas = Record<Pergunta, string>;
 type Contato = {nome: string; whatsapp: string; cidade: string; clinica: string};
 type Estado = 'preenchendo' | 'enviando' | 'enviado' | 'erro';
 
-const passos: {titulo: string; campos: Pergunta[]}[] = [
-  {titulo: 'Sua clínica', campos: ['tipo_clinica', 'papel', 'profissionais', 'recepcao']},
-  {titulo: 'Sua prioridade', campos: ['dor', 'quando']},
+const passos: {titulo: string; apoio: string; campos: Pergunta[]}[] = [
+  {titulo: 'Sua clínica', apoio: 'Com isso a avaliação já chega focada na rotina da sua recepção.', campos: ['tipo_clinica', 'papel', 'profissionais', 'recepcao']},
+  {titulo: 'Sua prioridade', apoio: 'Começamos pelo que mais pesa. Você não paga nada para descobrir.', campos: ['dor', 'quando']},
 ];
 const TOTAL = passos.length + 1;
 const vazio = Object.fromEntries(ordemPerguntas.map(k => [k, ''])) as Respostas;
@@ -118,6 +118,7 @@ export default function Avaliacao() {
     onClickCapture={e => { if (Date.now() < travaAte.current) { e.preventDefault(); e.stopPropagation(); } }}>
     <p className="cl-form__passo">Passo {passo + 1} de {TOTAL}</p>
     <h3 ref={titulo} tabIndex={-1}>{etapa ? etapa.titulo : 'Para onde a gente responde'}</h3>
+    <p className="cl-form__apoio">{etapa ? etapa.apoio : 'A gente chama você no WhatsApp para marcar um horário.'}</p>
 
     {etapa && etapa.campos.map(c => {
       const erro = mostrarErros && !resp[c];

@@ -12,12 +12,12 @@ export function Inicio() {
   return <section id="inicio" className="cl-sec cl-inicio" aria-labelledby="inicio-titulo">
     <div className="cl-wrap cl-inicio__grid">
       <div className="cl-inicio__texto">
-        <p className="cl-eyebrow">Para clínicas odonto, médicas, de estética e fisio</p>
+        <p className="cl-eyebrow">Uma recepcionista. Dez funções.</p>
         <h1 id="inicio-titulo"><span>IA trabalhando na sua clínica.</span> <span>As pessoas mantêm o comando.</span></h1>
-        <p className="cl-lead">Sua recepção é uma pessoa fazendo tudo. A gente coloca IA no trabalho repetitivo, e ela continua no comando.</p>
+        <p className="cl-lead">A IA prepara o trabalho repetitivo da recepção. Quem fala com o paciente e decide continua sendo a sua equipe.</p>
         <div className="cl-inicio__acoes">
           <BotaoCTA pos="inicio" />
-          <a className="cl-link" href="#exemplos">Ver o que muda</a>
+          <p className="cl-garantia">Gratuita e sem compromisso. Não pedimos dados de pacientes.</p>
         </div>
       </div>
       <figure className="cl-inicio__foto">
@@ -46,7 +46,7 @@ const porTras = [
 export function Rotina() {
   return <section id="rotina" className="cl-sec cl-rotina" aria-labelledby="rotina-titulo">
     <div className="cl-wrap">
-      <h2 id="rotina-titulo" className="cl-h2 rv">Uma recepcionista. Dez funções.</h2>
+      <h2 id="rotina-titulo" className="cl-h2 rv">Tudo passa pelo balcão.</h2>
       <p className="cl-texto rv">Ela recebe quem chega, atende o telefone, responde o WhatsApp, marca, remarca e ainda tenta lembrar quem sumiu. Tudo com paciente esperando no balcão.</p>
       <div className="cl-rotina__lados">
         <div className="cl-rotina__lado cl-rotina__lado--ela rv">
@@ -69,7 +69,7 @@ const exemplos: Exemplo[] = [
   {id: 'sumido', icone: 'volta', titulo: 'Paciente sumido de volta', texto: 'Lista de quem não vem há 6 ou 12 meses, com mensagem pronta para limpeza, manutenção ou revisão.'},
   {id: 'respostas', icone: 'conversa', titulo: 'Respostas prontas no WhatsApp', texto: 'Preço, convênio, endereço e preparo prontos. A recepcionista escolhe e manda com um clique.'},
   {id: 'orcamento', icone: 'orcamento', titulo: 'Orçamento que fecha', texto: 'Orçamento claro a partir das anotações do doutor, e acompanhamento de quem recebeu e não respondeu.'},
-  {id: 'pos', icone: 'estrela', titulo: 'Pós-consulta no automático', texto: 'Cuidados depois do procedimento, lembrete do retorno e pedido de avaliação no Google.'},
+  {id: 'pos', icone: 'estrela', titulo: 'Pós-consulta sem esquecer ninguém', texto: 'Cuidados depois do procedimento, lembrete do retorno e pedido de avaliação no Google, prontos para a recepção enviar.'},
   {id: 'numeros', icone: 'numeros', titulo: 'Números da semana', texto: 'Consultas, faltas, orçamentos em aberto e faturamento num resumo simples, sem planilha.'},
 ];
 
@@ -127,13 +127,13 @@ export function Como() {
           <ol className="cl-passos">
             {passos.map(([t, d]) => <li key={t} className="rv"><h3>{t}</h3><p>{d}</p></li>)}
           </ol>
-          <p className="cl-como__preco rv">É um serviço mensal. O investimento é combinado depois da avaliação, conforme o tamanho da operação.</p>
+          <p className="cl-como__preco rv">É um serviço mensal. O investimento é combinado depois da avaliação, conforme o tamanho da operação. Você só decide depois de ver onde a IA entra na sua recepção.</p>
         </div>
       </div>
       <div className="cl-como__confianca">
         <div className="cl-prova rv">
           <h3>Quem já trabalha assim</h3>
-          <p>O mesmo método já roda no dia a dia de agências de viagem da nossa primeira turma. Agora levamos para clínicas.</p>
+          <p>O mesmo método já roda no dia a dia de agências de viagem que atendemos. Agora levamos para clínicas.</p>
           <p className="cl-prova__quem">Gustavo e Guilherme Bilonia, InovaSensor. Parque de Inovação Tecnológica de São José dos Campos.</p>
         </div>
         <div className="cl-nao rv">

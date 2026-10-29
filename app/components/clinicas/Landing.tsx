@@ -70,8 +70,8 @@ export default function Landing() {
       <section id="avaliacao" className="cl-sec cl-avaliacao" aria-labelledby="avaliacao-titulo">
         <div className="cl-wrap cl-avaliacao__grid">
           <div className="cl-avaliacao__texto">
-            <h2 id="avaliacao-titulo" className="cl-h2">Peça a avaliação gratuita da sua recepção</h2>
-            <p className="cl-texto">Leva uns 2 minutos. Sem compromisso.</p>
+            <h2 id="avaliacao-titulo" className="cl-h2">Veja o que dá para tirar das costas da sua recepção</h2>
+            <p className="cl-texto">A avaliação é gratuita e leva uns 2 minutos para pedir. Sem compromisso.</p>
             <ol className="cl-depois">
               <li><strong>A gente chama você no WhatsApp</strong> para marcar um horário.</li>
               <li><strong>Mapeamos a rotina da recepção</strong> e mostramos onde a IA entra primeiro.</li>

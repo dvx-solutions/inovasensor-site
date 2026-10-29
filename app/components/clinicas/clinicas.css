@@ -40,11 +40,9 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-btn--ghost{background:transparent;color:var(--tinta);border:1px solid var(--linha)}
 .cl-btn--ghost:hover{border-color:var(--texto)}
 .cl-btn--sm{min-height:44px;padding:10px 20px;font-size:15px}
-.cl-link{font-weight:600;color:var(--tinta);text-underline-offset:4px;padding:12px 4px}
-.cl-link:hover{color:var(--acento)}
 
 /* Topo */
-.cl-topo{position:sticky;top:0;z-index:40;background:rgba(251,247,248,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linha)}
+.cl-topo{position:sticky;top:0;z-index:40;background:rgba(251,247,248,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linha)}
 .cl-topo__barra{height:68px;display:flex;align-items:center;gap:28px}
 .cl-marca img{width:150px}
 .cl-nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
@@ -191,7 +189,6 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
   .cl-inicio{padding-top:28px}
   .cl-eyebrow{font-size:12px}
   .cl-inicio__acoes .cl-btn{width:100%}
-  .cl-inicio__acoes .cl-link{display:none}
   .cl-inicio__foto img{aspect-ratio:4/3;object-position:50% 30%}
   .cl-bento{grid-template-columns:1fr}
   .cl-bento__item--orcamento,.cl-bento__item--pos{grid-column:span 2}
@@ -211,3 +208,6 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
   .clinicas *,.clinicas *::before{transition:none!important;animation:none!important}
 }
 .cl-form.is-travado{pointer-events:none}
+.cl-garantia{font-size:15px;color:var(--texto);max-width:30ch;line-height:1.45}
+.cl-form__apoio{margin-top:6px!important;color:var(--texto);font-size:15px}
+@media (max-width:640px){.cl-garantia{max-width:none}}
