@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import type {CSSProperties} from 'react';
 import {gsap, ScrollTrigger, reduzido, aoVisivel} from '../motion';
 import {Icon} from '../icons';
@@ -9,6 +9,14 @@ import './como.css';
 const PIN = 'M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z';
 
 const iv = (i: number) => ({'--i': i} as CSSProperties);
+
+// O time, em leque 3D: tocar numa foto traz essa pessoa para a frente.
+const TIME = [
+  {id: 'gustavo', nome: 'Gustavo Bilonia'},
+  {id: 'guilherme', nome: 'Guilherme Bilonia'},
+  {id: 'marcelo', nome: 'Marcelo Bilonia'},
+  {id: 'vinicius', nome: 'Vinícius Oliveira'},
+];
 
 function VisMapa() {
   const linhas: [string, boolean][] = [
@@ -74,6 +82,7 @@ const NAO = [
 
 export default function Como() {
   const ref = useRef<HTMLElement>(null);
+  const [frente, setFrente] = useState(0);
 
   useEffect(() => {
     const raiz = ref.current;
@@ -184,9 +193,7 @@ export default function Como() {
           scrollTrigger: {trigger: raiz.querySelector('.s-como__rota'), start: 'top 90%', toggleActions: 'play none none none'}});
       }
       const fotos = raiz.querySelector('.s-como__fotos');
-      gsap.fromTo(raiz.querySelector('.s-como__foto-fundo'), {y: 50}, {y: -50, ease: 'none',
-        scrollTrigger: {trigger: fotos, start: 'top bottom', end: 'bottom top', scrub: true}});
-      gsap.fromTo(raiz.querySelector('.s-como__foto-frente'), {y: -16}, {y: 24, ease: 'none',
+      gsap.fromTo(raiz.querySelector('.s-como__time'), {y: 40}, {y: -30, ease: 'none',
         scrollTrigger: {trigger: fotos, start: 'top bottom', end: 'bottom top', scrub: true}});
       gsap.from(raiz.querySelectorAll('.s-como__frase > *'), {y: 50, opacity: 0, stagger: 0.12, duration: 1, ease: 'power3.out',
         scrollTrigger: {trigger: raiz.querySelector('.s-como__frase'), start: 'top 88%', toggleActions: 'play none none none'}});
@@ -329,15 +336,18 @@ export default function Como() {
 
         <figure className="s-como__fotos" data-inclina="7">
           <div className="s-como__fotos-in" data-inclina-alvo>
-            <img className="s-como__foto-fundo" src="/clinicas-assets/balcao-640.webp" srcSet="/clinicas-assets/balcao-640.webp 640w, /clinicas-assets/balcao-1024.webp 1024w" sizes="(max-width: 760px) 80vw, 460px" alt="" width={640} height={430} loading="lazy" decoding="async" />
-            <div className="s-como__foto-frente">
-              <img src="/mentoria-assets/brand/gustavo.webp" alt="Gustavo Bilonia" width={400} height={500} loading="lazy" decoding="async" />
-              <span className="s-como__foto-nome">Gustavo Bilonia</span>
+            <div className="s-como__time" role="group" aria-label="O time da InovaSensor">
+              {TIME.map((p, i) => <button key={p.id} type="button" className="s-como__carta" data-pos={(i - frente + TIME.length) % TIME.length}
+                aria-pressed={i === frente} aria-label={`Mostrar ${p.nome} na frente`} onClick={() => setFrente(i)}>
+                <img src={`/clinicas-assets/time/${p.id}.webp`} alt="" width={400} height={500} loading="lazy" decoding="async" />
+                <span className="s-como__foto-nome">{p.nome}</span>
+              </button>)}
             </div>
           </div>
           <figcaption className="s-como__quem">
-            <strong>Gustavo Bilonia, na foto, e Guilherme Bilonia</strong>
-            <span>InovaSensor</span>
+            <strong>O time da InovaSensor</strong>
+            <span>Gustavo, Guilherme e Marcelo Bilonia, e Vinícius Oliveira.</span>
+            <span className="s-como__dica-time" aria-hidden="true">Toque numa foto</span>
             <span className="s-como__lugar"><svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d={PIN} /></svg>Parque de Inovação Tecnológica de São José dos Campos</span>
           </figcaption>
         </figure>
