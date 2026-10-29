@@ -10,7 +10,7 @@ export const Route = createFileRoute('/')({
     meta: [
       {title: titulo},
       {name: 'description', content: descricao},
-      {name: 'theme-color', content: '#fbf7f8'},
+      {name: 'theme-color', content: '#14070f'},
       {property: 'og:title', content: titulo},
       {property: 'og:description', content: 'IA trabalhando na sua clínica. As pessoas mantêm o comando.'},
       {property: 'og:type', content: 'website'},
@@ -21,10 +21,8 @@ export const Route = createFileRoute('/')({
     ],
     links: [
       {rel: 'canonical', href: `${SITE}/`},
+      {rel: 'preload', as: 'font', type: 'font/woff2', href: '/clinicas-assets/fonts/bricolage-latin.woff2', crossOrigin: 'anonymous'},
       {rel: 'icon', type: 'image/webp', href: '/mentoria-assets/brand/logo-inova.webp'},
-      {rel: 'preload', as: 'image', href: '/clinicas-assets/recepcao-560.webp', media: '(max-width: 760px)', fetchPriority: 'high'},
-      {rel: 'preload', as: 'image', href: '/clinicas-assets/recepcao-896.webp', media: '(min-width: 761px)', fetchPriority: 'high'},
-      {rel: 'preload', as: 'font', type: 'font/woff2', href: '/mentoria-assets/fonts/sora-latin.woff2', crossOrigin: 'anonymous'},
     ],
   }),
   component: Landing,

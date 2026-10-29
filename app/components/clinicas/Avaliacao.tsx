@@ -1,7 +1,7 @@
-import {useEffect, useRef, useState, type FormEvent} from 'react';
+import {useEffect, useRef, useState, type CSSProperties, type FormEvent} from 'react';
 import {Icon} from './icons';
 import {envioSchema, ordemPerguntas, perguntas, type Pergunta} from './model';
-import {CTA} from './Secoes';
+import {CTA} from './cta';
 
 type Respostas = Record<Pergunta, string>;
 type Contato = {nome: string; whatsapp: string; cidade: string; clinica: string};
@@ -141,24 +141,39 @@ export default function Avaliacao() {
 
   if (estado === 'enviado') {
     return <div className="cl-form cl-form--ok" role="status">
-      <span className="cl-form__ok-icone"><Icon name="check" size={28} /></span>
+      <span className="cl-form__ok-icone" aria-hidden="true">
+        <span className="cl-form__ok-onda" /><span className="cl-form__ok-onda cl-form__ok-onda--2" />
+        {Array.from({length: 8}, (_, i) => <span key={i} className="cl-form__ok-faisca" style={{'--i': i} as CSSProperties} />)}
+        <Icon name="check" size={44} />
+      </span>
+      <p className="cl-form__ok-rotulo">Pedido enviado</p>
       <h3 ref={titulo} tabIndex={-1}>Recebido, {contato.nome.trim().split(' ')[0]}.</h3>
-      <p>Vamos chamar você no WhatsApp {contato.whatsapp.trim()} para marcar a avaliação da {contato.clinica.trim()}.</p>
-      <button type="button" className="cl-btn cl-btn--ghost cl-form__corrigir"
+      <p className="cl-form__ok-texto">Vamos chamar você no WhatsApp <span className="cl-form__ok-num">{limpar('whatsapp', contato.whatsapp)}</span> para marcar a avaliação da {contato.clinica.trim()}.</p>
+      <button type="button" className="cl-form__voltar cl-form__corrigir"
         onClick={() => { id.current = crypto.randomUUID(); setEstado('preenchendo'); irPara(TOTAL - 1); }}>Corrigir meus dados</button>
     </div>;
   }
 
   const etapa = passo < passos.length ? passos[passo] : null;
+  const nomesPassos = [...passos.map(p => p.titulo), 'Contato'];
   return <form className={`cl-form${travado ? ' is-travado' : ''}`} onSubmit={enviar} noValidate
     onClickCapture={e => { if (Date.now() < travaAte.current) { e.preventDefault(); e.stopPropagation(); } }}>
-    <p className="cl-form__passo">Passo {passo + 1} de {TOTAL}</p>
-    <h3 ref={titulo} tabIndex={-1}>{etapa ? etapa.titulo : 'Para onde a gente responde'}</h3>
-    <p className="cl-form__apoio">{etapa ? etapa.apoio : 'A gente chama você no WhatsApp para marcar um horário.'}</p>
+    <ol className="cl-form__trilha" aria-hidden="true">
+      {nomesPassos.map((n, i) => <li key={n} className={i < passo ? 'is-feito' : i === passo ? 'is-atual' : undefined}>
+        <span className="cl-form__trilha-num">{i < passo ? <Icon name="check" size={12} /> : i + 1}</span>{n}
+      </li>)}
+    </ol>
+
+    <div key={passo} className={`cl-form__corpo${etapa ? '' : ' cl-form__corpo--contato'}`}>
+      <div className="cl-form__cab">
+        <p className="cl-form__passo">Passo {passo + 1} de {TOTAL}</p>
+        <h3 ref={titulo} tabIndex={-1}>{etapa ? etapa.titulo : 'Para onde a gente responde'}</h3>
+        <p className="cl-form__apoio">{etapa ? etapa.apoio : 'A gente chama você no WhatsApp para marcar um horário.'}</p>
+      </div>
 
     {etapa && etapa.campos.map(c => {
       const erro = mostrarErros && !resp[c];
-      return <fieldset key={c} className={`cl-campo${erro ? ' cl-campo--erro' : ''}`} aria-describedby={erro ? `${c}-erro` : undefined}>
+      return <fieldset key={c} data-campo={c} className={`cl-campo${erro ? ' cl-campo--erro' : ''}`} aria-describedby={erro ? `${c}-erro` : undefined}>
         <legend>{perguntas[c].titulo}</legend>
         <div className="cl-opcoes">
           {perguntas[c].opcoes.map(([valor, texto]) => <label key={valor} className="cl-opcao">
@@ -188,22 +203,25 @@ export default function Avaliacao() {
         <label htmlFor="cl-website">Site</label>
         <input id="cl-website" ref={armadilha} name="website" tabIndex={-1} autoComplete="off" />
       </div>
-      <label className={`cl-aceite${mostrarErros && !aceite ? ' cl-campo--erro' : ''}`}>
-        <input type="checkbox" checked={aceite} onChange={e => setAceite(e.target.checked)} />
-        <span>Concordo que a InovaSensor use estes dados para falar comigo sobre a avaliação, como explica a <a href="/privacidade" target="_blank" rel="noopener">política de privacidade</a>.</span>
-      </label>
-      {mostrarErros && !aceite && <p className="cl-erro" role="alert">Marque a concordância para enviar.</p>}
+      <div className="cl-aceite-bloco">
+        <label className={`cl-aceite${mostrarErros && !aceite ? ' cl-campo--erro' : ''}`}>
+          <input type="checkbox" checked={aceite} onChange={e => setAceite(e.target.checked)} />
+          <span>Concordo que a InovaSensor use estes dados para falar comigo sobre a avaliação, como explica a <a href="/privacidade" target="_blank" rel="noopener">política de privacidade</a>.</span>
+        </label>
+        {mostrarErros && !aceite && <p className="cl-erro" role="alert">Marque a concordância para enviar.</p>}
+      </div>
     </>}
+    </div>
 
     {estado === 'erro' && <p className="cl-erro cl-erro--geral" role="alert">{mensagem}</p>}
 
     <div className="cl-form__acoes">
-      {passo > 0 && <button type="button" className="cl-btn cl-btn--ghost" onClick={() => { setMostrarErros(false); irPara(passo - 1); }}>Voltar</button>}
       {etapa
-        ? <button type="submit" className="cl-btn cl-btn--primary" disabled={!montado}>Continuar<Icon name="seta" size={18} /></button>
-        : <button type="submit" className="cl-btn cl-btn--primary" disabled={!montado || estado === 'enviando'} data-cta="avaliacao" data-cta-pos="envio">
-            {estado === 'enviando' ? 'Enviando…' : CTA}
+        ? <button type="submit" className="cl-btn cl-form__ir" disabled={!montado}>Continuar<Icon name="seta" size={18} /></button>
+        : <button type="submit" className="cl-btn cl-form__ir" disabled={!montado || estado === 'enviando'} data-cta="avaliacao" data-cta-pos="envio">
+            {estado === 'enviando' ? <><span className="cl-form__giro" aria-hidden="true" />Enviando…</> : <>{CTA}<Icon name="seta" size={18} /></>}
           </button>}
+      {passo > 0 && <button type="button" className="cl-form__voltar" onClick={() => { setMostrarErros(false); irPara(passo - 1); }}>Voltar</button>}
     </div>
     <p className="cl-form__nota"><Icon name="cadeado" size={14} />Não pedimos dados de pacientes.</p>
   </form>;
