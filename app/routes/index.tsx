@@ -1,19 +1,28 @@
 import { createFileRoute } from '@tanstack/react-router';
-import Landing from '../components/mentoria/Landing';
+import Landing from '../components/clinicas/Landing';
+
+const titulo = 'IA na operação da sua clínica | InovaSensor';
+const descricao = 'A IA tira o trabalho repetitivo da recepção: agenda, pacientes sumidos, orçamentos, pós-consulta e números da semana. Peça a avaliação gratuita.';
 
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
-      {title:'Mentoria de IA para empresas | InovaSensor'},
-      {name:'description',content:'Implementação de IA, treinamento da equipe e acompanhamento individual com Gustavo Bilonia. Conheça a mentoria e avalie as prioridades da sua empresa.'},
-      {name:'theme-color',content:'#141419'},
-      {property:'og:title',content:'Mentoria de IA para empresas | InovaSensor'},
-      {property:'og:description',content:'Implementação, treinamento e acompanhamento para colocar IA na rotina da empresa.'},
-      {property:'og:type',content:'website'},
-      {property:'og:locale',content:'pt_BR'},
-      {name:'twitter:card',content:'summary'},
+      {title: titulo},
+      {name: 'description', content: descricao},
+      {name: 'theme-color', content: '#fbf7f8'},
+      {property: 'og:title', content: titulo},
+      {property: 'og:description', content: 'IA trabalhando na sua clínica. As pessoas mantêm o comando.'},
+      {property: 'og:type', content: 'website'},
+      {property: 'og:locale', content: 'pt_BR'},
+      {property: 'og:image', content: '/clinicas-assets/recepcao-896.webp'},
+      {name: 'twitter:card', content: 'summary_large_image'},
     ],
-    links:[{rel:'icon',type:'image/webp',href:'/mentoria-assets/brand/logo-inova.webp'}],
+    links: [
+      {rel: 'icon', type: 'image/webp', href: '/mentoria-assets/brand/logo-inova.webp'},
+      {rel: 'preload', as: 'image', href: '/clinicas-assets/recepcao-560.webp', media: '(max-width: 760px)', fetchPriority: 'high'},
+      {rel: 'preload', as: 'image', href: '/clinicas-assets/recepcao-896.webp', media: '(min-width: 761px)', fetchPriority: 'high'},
+      {rel: 'preload', as: 'font', type: 'font/woff2', href: '/mentoria-assets/fonts/sora-latin.woff2', crossOrigin: 'anonymous'},
+    ],
   }),
   component: Landing,
 });

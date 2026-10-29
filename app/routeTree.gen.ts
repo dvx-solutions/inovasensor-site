@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FiemsConectaPrivacidadeRouteImport } from './routes/fiems-conecta-privacidade'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as ApiLeadsRouteImport } from './routes/api.leads'
 import { Route as MentoriaIaIndexRouteImport } from './routes/mentoria-ia.index'
 import { Route as MentoriaIaPrivacidadeRouteImport } from './routes/mentoria-ia.privacidade'
 import { Route as ApiMentoriaLeadsRouteImport } from './routes/api.mentoria.leads'
@@ -29,6 +30,11 @@ const FiemsConectaPrivacidadeRoute = FiemsConectaPrivacidadeRouteImport.update({
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLeadsRoute = ApiLeadsRouteImport.update({
+  id: '/api/leads',
+  path: '/api/leads',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MentoriaIaIndexRoute = MentoriaIaIndexRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/api/leads': typeof ApiLeadsRoute
   '/mentoria-ia/privacidade': typeof MentoriaIaPrivacidadeRoute
   '/mentoria-ia/': typeof MentoriaIaIndexRoute
   '/api/mentoria/leads': typeof ApiMentoriaLeadsRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/api/leads': typeof ApiLeadsRoute
   '/mentoria-ia/privacidade': typeof MentoriaIaPrivacidadeRoute
   '/mentoria-ia': typeof MentoriaIaIndexRoute
   '/api/mentoria/leads': typeof ApiMentoriaLeadsRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/fiems-conecta-privacidade': typeof FiemsConectaPrivacidadeRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/api/leads': typeof ApiLeadsRoute
   '/mentoria-ia/privacidade': typeof MentoriaIaPrivacidadeRoute
   '/mentoria-ia/': typeof MentoriaIaIndexRoute
   '/api/mentoria/leads': typeof ApiMentoriaLeadsRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fiems-conecta-privacidade'
     | '/privacidade'
+    | '/api/leads'
     | '/mentoria-ia/privacidade'
     | '/mentoria-ia/'
     | '/api/mentoria/leads'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fiems-conecta-privacidade'
     | '/privacidade'
+    | '/api/leads'
     | '/mentoria-ia/privacidade'
     | '/mentoria-ia'
     | '/api/mentoria/leads'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fiems-conecta-privacidade'
     | '/privacidade'
+    | '/api/leads'
     | '/mentoria-ia/privacidade'
     | '/mentoria-ia/'
     | '/api/mentoria/leads'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FiemsConectaPrivacidadeRoute: typeof FiemsConectaPrivacidadeRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  ApiLeadsRoute: typeof ApiLeadsRoute
   MentoriaIaPrivacidadeRoute: typeof MentoriaIaPrivacidadeRoute
   MentoriaIaIndexRoute: typeof MentoriaIaIndexRoute
   ApiMentoriaLeadsRoute: typeof ApiMentoriaLeadsRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/leads': {
+      id: '/api/leads'
+      path: '/api/leads'
+      fullPath: '/api/leads'
+      preLoaderRoute: typeof ApiLeadsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mentoria-ia/': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FiemsConectaPrivacidadeRoute: FiemsConectaPrivacidadeRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  ApiLeadsRoute: ApiLeadsRoute,
   MentoriaIaPrivacidadeRoute: MentoriaIaPrivacidadeRoute,
   MentoriaIaIndexRoute: MentoriaIaIndexRoute,
   ApiMentoriaLeadsRoute: ApiMentoriaLeadsRoute,
