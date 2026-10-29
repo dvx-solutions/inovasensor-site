@@ -16,7 +16,7 @@ export function Inicio() {
         <p className="cl-lead">A IA prepara o trabalho repetitivo da recepção. Quem fala com o paciente e decide continua sendo a sua equipe.</p>
         <div className="cl-inicio__acoes">
           <BotaoCTA pos="inicio" />
-          <p className="cl-garantia">Gratuita e sem compromisso. Não pedimos dados de pacientes.</p>
+          <p className="cl-garantia">Para clínicas odonto, médicas, de estética e fisio. Sem compromisso e sem dados de pacientes.</p>
         </div>
       </div>
       <figure className="cl-inicio__foto">

@@ -41,7 +41,7 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-btn--sm{min-height:44px;padding:10px 20px;font-size:15px}
 
 /* Topo */
-.cl-topo{position:sticky;top:0;z-index:40;background:rgba(251,247,248,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linha)}
+.cl-topo{position:sticky;top:0;z-index:40;background:#fbf7f8;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linha)}
 .cl-topo__barra{height:68px;display:flex;align-items:center;gap:28px}
 .cl-marca img{width:150px}
 .cl-nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
@@ -136,7 +136,7 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-opcoes{display:flex;flex-wrap:wrap;gap:8px}
 .cl-opcao{position:relative}
 .cl-opcao input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.cl-opcao span{display:inline-flex;align-items:center;min-height:46px;padding:10px 16px;border:1px solid #a0838f;border-radius:999px;font-size:15px;background:var(--sup);transition:background .15s,border-color .15s}
+.cl-opcao span{display:inline-flex;align-items:center;min-height:46px;padding:10px 16px;border:1px solid #a0838f;border-radius:999px;font-size:15px;background:var(--sup);transition:border-color .15s}
 .cl-opcao input:hover+span{border-color:var(--texto)}
 .cl-opcao input:checked+span{background:var(--acento);border-color:var(--acento);color:#fff}
 .cl-opcao input:focus-visible+span{outline:3px solid var(--acento);outline-offset:2px}
@@ -207,7 +207,7 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
   .clinicas *,.clinicas *::before{transition:none!important;animation:none!important}
 }
 .cl-form.is-travado{pointer-events:none}
-.cl-garantia{font-size:15px;color:var(--texto);max-width:30ch;line-height:1.45}
+.cl-garantia{font-size:15px;color:var(--texto);max-width:34ch;line-height:1.45}
 .cl-form__apoio{margin-top:6px!important;color:var(--texto);font-size:15px}
 @media (max-width:640px){.cl-garantia{max-width:none}}
 .cl-form__corrigir{margin-top:20px}
