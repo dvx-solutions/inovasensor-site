@@ -1,0 +1,133 @@
+name: Preview - Site
+
+# Cada PR ganha um deploy de preview na Vercel (nunca produção). Também garante o
+# armazenamento dos leads (Blob privado) e o segredo que o agente CMO usa no
+# GET /api/leads. Produção continua só no deploy.yml, no push para a main.
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  LOJA_LEADS: inovasensor-leads
+  ALIAS: inovasensor-clinicas-dvx.vercel.app
+
+jobs:
+  preview:
+    # PR de fork não recebe os segredos.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Instalar a CLI da Vercel
+        run: npm install --global vercel@65.7.0
+
+      - name: Puxar a configuração de preview
+        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+
+      # Cria uma vez a loja privada de leads e a conecta ao projeto (produção e
+      # preview). A Vercel grava BLOB_READ_WRITE_TOKEN nas variáveis do projeto.
+      - name: Garantir a loja de leads (Vercel Blob privado)
+        run: |
+          if vercel blob list-stores --token="$VERCEL_TOKEN" 2>&1 | grep -q "$LOJA_LEADS"; then
+            echo "Loja $LOJA_LEADS já existe."
+          else
+            vercel blob create-store "$LOJA_LEADS" --access private --region gru1 --yes \
+              --environment production --environment preview --token="$VERCEL_TOKEN" \
+            || vercel blob create-store "$LOJA_LEADS" --access private --yes \
+              --environment production --environment preview --token="$VERCEL_TOKEN"
+          fi
+
+      # O segredo vem do GitHub (gravado por scripts/definir-segredo-leads.sh) e
+      # nunca aparece no log. Sem ele, este deploy usa um segredo descartável só
+      # para o teste abaixo (o agente CMO não vai conseguir ler este preview).
+      - name: Gravar SITE_LEADS_TOKEN no preview da Vercel
+        env:
+          SEGREDO_GH: ${{ secrets.SITE_LEADS_TOKEN }}
+        run: |
+          SEGREDO="$SEGREDO_GH"
+          if [ -z "$SEGREDO" ]; then
+            echo "::warning::Sem SITE_LEADS_TOKEN no GitHub: usando um segredo descartável neste deploy."
+            SEGREDO=$(openssl rand -base64 32 | tr '+/' '-_' | tr -d '=')
+          fi
+          echo "::add-mask::$SEGREDO"
+          echo "SEGREDO_TESTE=$SEGREDO" >> "$GITHUB_ENV"
+          jq -n --arg v "$SEGREDO" '{key:"SITE_LEADS_TOKEN",value:$v,type:"encrypted",target:["preview"]}' > corpo.json
+          status=$(curl -sS -o resposta.json -w '%{http_code}' -X POST \
+            "https://api.vercel.com/v10/projects/$VERCEL_PROJECT_ID/env?upsert=true&teamId=$VERCEL_ORG_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" -H 'Content-Type: application/json' --data @corpo.json)
+          rm -f corpo.json
+          if [ "$status" -ge 300 ]; then jq -r '.error.message // "erro"' resposta.json; exit 1; fi
+          echo "SITE_LEADS_TOKEN atualizado no preview."
+
+      # Depois de criar a loja, puxa de novo para ter BLOB_READ_WRITE_TOKEN (limpeza do teste).
+      - name: Puxar as variáveis atualizadas
+        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+
+      - name: Build
+        env:
+          NITRO_PRESET: vercel
+        run: vercel build --token="$VERCEL_TOKEN"
+
+      - name: Publicar o preview
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          vercel alias set "$url" "$ALIAS" --scope devex-solucoes --token="$VERCEL_TOKEN" || echo "::warning::Alias $ALIAS não aplicado."
+
+      # Testa o endpoint no próprio preview (o vercel curl passa pela proteção de
+      # deploy da Vercel) e apaga o lead de teste no fim.
+      - name: Testar /api/leads no preview
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          set -u
+          chamar() { vercel curl --deployment "$URL" --yes "$1" -- --silent --write-out '\n%{http_code}' "${@:2}"; }
+          status() { tail -n1; }
+          [ "$(chamar / | status)" = 200 ] || { echo "home não respondeu 200"; exit 1; }
+          [ "$(chamar /privacidade | status)" = 200 ] || { echo "/privacidade não respondeu 200"; exit 1; }
+          [ "$(chamar /api/leads | status)" = 401 ] || { echo "GET sem segredo deveria dar 401"; exit 1; }
+          id=$(cat /proc/sys/kernel/random/uuid)
+          antes=$(date -u -d '-1 minute' +%Y-%m-%dT%H:%M:%SZ)
+          corpo=$(jq -nc --arg id "$id" '{id:$id,tipo_clinica:"odonto",papel:"dono",profissionais:"p2_4",recepcao:"r1",dor:"faltas",quando:"30d",nome:"Teste automático do preview",whatsapp:"(12) 90000-0000",cidade:"Teste",clinica:"Teste CI",consentimento:true,website:"",origem:{teste:"ci"}}')
+          r=$(chamar /api/leads --request POST --header 'Content-Type: application/json' --data "$corpo")
+          echo "POST: $(echo "$r" | status)"; [ "$(echo "$r" | status)" = 201 ] || { echo "$r"; exit 1; }
+          r=$(chamar "/api/leads?desde=$antes" --header "Authorization: Bearer $SEGREDO_TESTE")
+          echo "GET com segredo: $(echo "$r" | status)"
+          echo "$r" | head -n -1 | jq -e --arg id "$id" '.leads | map(.id) | index($id) != null' >/dev/null || { echo "lead de teste não voltou no GET"; exit 1; }
+          echo "Formato devolvido:"; echo "$r" | head -n -1 | jq --arg id "$id" '.leads[] | select(.id==$id) | del(.whatsapp)'
+          rw=$(grep '^BLOB_READ_WRITE_TOKEN=' .vercel/.env.preview.local | cut -d= -f2- | tr -d '"')
+          echo "::add-mask::$rw"
+          vercel blob delete "leads/$id.json" --rw-token "$rw" --token="$VERCEL_TOKEN" && echo "Lead de teste apagado."
+
+      - name: Comentar o link no PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          corpo="Preview deste PR: https://$ALIAS (deploy: $URL, commit ${GITHUB_SHA::7}). Não é produção."
+          gh pr comment ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --edit-last --body "$corpo" \
+            || gh pr comment ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --body "$corpo"
