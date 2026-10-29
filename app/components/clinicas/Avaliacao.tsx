@@ -20,6 +20,12 @@ const rotulos: Record<keyof Contato, [string, string, string]> = {
   cidade: ['Cidade', 'address-level2', 'text'],
   clinica: ['Nome da clínica', 'organization', 'text'],
 };
+const maximo: Record<keyof Contato, number> = {nome: 100, whatsapp: 22, cidade: 80, clinica: 120};
+const limpar = (k: keyof Contato, v: string) => (k === 'whatsapp' ? v.replace(/\./g, ' ') : v).trim();
+const RASCUNHO = 'cl-avaliacao';
+const falhaEnvio = 'Não conseguimos enviar agora. Suas respostas continuam aqui: confira a internet e tente de novo.';
+class ErroServidor extends Error {}
+
 const erroContato: Record<keyof Contato, string> = {
   nome: 'Escreva seu nome.',
   whatsapp: 'Confira o número com DDD, só com números.',
@@ -59,7 +65,30 @@ export default function Avaliacao() {
   const travaAte = useRef(0);
   const irPara = (n: number) => { travaAte.current = Date.now() + 450; setPasso(n); };
 
-  useEffect(() => { id.current = crypto.randomUUID(); origem.current = lerOrigem(); }, []);
+  const [montado, setMontado] = useState(false);
+
+  // Rascunho só com as escolhas (sem nome nem WhatsApp, como diz a política de privacidade):
+  // o navegador do Instagram costuma recarregar a página quando a pessoa volta do WhatsApp.
+  useEffect(() => {
+    id.current = crypto.randomUUID();
+    origem.current = lerOrigem();
+    try {
+      const r = JSON.parse(sessionStorage.getItem(RASCUNHO) || 'null');
+      if (r && typeof r.id === 'string') {
+        id.current = r.id;
+        setResp({...vazio, ...r.resp});
+        if (Number.isInteger(r.passo) && r.passo > 0 && r.passo < TOTAL) setPasso(r.passo);
+      }
+    } catch { /* sem rascunho */ }
+    setMontado(true);
+  }, []);
+  useEffect(() => {
+    if (!montado) return;
+    try {
+      if (estado === 'enviado') sessionStorage.removeItem(RASCUNHO);
+      else sessionStorage.setItem(RASCUNHO, JSON.stringify({id: id.current, passo, resp}));
+    } catch { /* armazenamento bloqueado */ }
+  }, [montado, passo, resp, estado]);
   useEffect(() => {
     if (primeiraVez.current) { primeiraVez.current = false; return; }
     setTravado(true);
@@ -70,14 +99,12 @@ export default function Avaliacao() {
   }, [passo, estado === 'enviado']);
 
   const faltando = (campos: Pergunta[]) => campos.filter(c => !resp[c]);
-  const contatoInvalido = (k: keyof Contato) => {
-    const v = contato[k].trim();
-    if (k === 'whatsapp') { const n = v.replace(/\D/g, ''); return n.length < 10 || n.length > 13; }
-    return v.length < 2;
-  };
+  const contatoInvalido = (k: keyof Contato) => !envioSchema.shape[k].safeParse(limpar(k, contato[k])).success;
+  const focarErro = () => requestAnimationFrame(() =>
+    document.querySelector<HTMLInputElement>('.cl-form .cl-campo--erro input, .cl-form .cl-aceite.cl-campo--erro input')?.focus());
 
   function avancar() {
-    if (faltando(passos[passo].campos).length) { setMostrarErros(true); return; }
+    if (faltando(passos[passo].campos).length) { setMostrarErros(true); focarErro(); return; }
     setMostrarErros(false);
     irPara(passo + 1);
   }
@@ -87,20 +114,28 @@ export default function Avaliacao() {
     if (travado || Date.now() < travaAte.current) return;
     if (passo < passos.length) { avancar(); return; }
     if (estado === 'enviando') return;
-    const corpo = {id: id.current, ...resp, ...Object.fromEntries(Object.entries(contato).map(([k, v]) => [k, v.trim()])),
+    const corpo = {id: id.current, ...resp,
+      ...Object.fromEntries((Object.keys(contato) as (keyof Contato)[]).map(k => [k, limpar(k, contato[k])])),
       consentimento: aceite, website: armadilha.current?.value || '', origem: origem.current};
-    if (!envioSchema.safeParse(corpo).success) { setMostrarErros(true); return; }
+    if (!aceite || !envioSchema.safeParse(corpo).success) {
+      setMostrarErros(true);
+      const algumCampo = !aceite || (Object.keys(contato) as (keyof Contato)[]).some(contatoInvalido);
+      if (!algumCampo) { setEstado('erro'); setMensagem('Revise as respostas e tente de novo.'); }
+      focarErro();
+      return;
+    }
     setEstado('enviando');
     setMensagem('');
     try {
-      const r = await fetch('/api/leads', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(corpo)});
+      const r = await fetch('/api/leads', {method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(corpo), signal: AbortSignal.timeout(15_000)});
       const dados = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(dados.error || '');
+      if (!r.ok) throw new ErroServidor(typeof dados.error === 'string' ? dados.error : falhaEnvio);
       setEstado('enviado');
       (window as Window & {fbq?: (...a: unknown[]) => void}).fbq?.('track', 'Lead');
     } catch (erro) {
       setEstado('erro');
-      setMensagem((erro instanceof Error && erro.message) || 'Não conseguimos enviar agora. Suas respostas continuam aqui: tente de novo.');
+      setMensagem(erro instanceof ErroServidor ? erro.message : falhaEnvio);
     }
   }
 
@@ -109,7 +144,8 @@ export default function Avaliacao() {
       <span className="cl-form__ok-icone"><Icon name="check" size={28} /></span>
       <h3 ref={titulo} tabIndex={-1}>Recebido, {contato.nome.trim().split(' ')[0]}.</h3>
       <p>Vamos chamar você no WhatsApp {contato.whatsapp.trim()} para marcar a avaliação da {contato.clinica.trim()}.</p>
-      <p className="cl-form__nota">Se o número estiver errado, é só preencher de novo com o certo.</p>
+      <button type="button" className="cl-btn cl-btn--ghost cl-form__corrigir"
+        onClick={() => { id.current = crypto.randomUUID(); setEstado('preenchendo'); irPara(TOTAL - 1); }}>Corrigir meus dados</button>
     </div>;
   }
 
@@ -126,12 +162,12 @@ export default function Avaliacao() {
         <legend>{perguntas[c].titulo}</legend>
         <div className="cl-opcoes">
           {perguntas[c].opcoes.map(([valor, texto]) => <label key={valor} className="cl-opcao">
-            <input type="radio" name={c} value={valor} checked={resp[c] === valor}
+            <input type="radio" name={c} value={valor} checked={resp[c] === valor} aria-invalid={erro || undefined}
               onChange={() => setResp(r => ({...r, [c]: valor}))} />
             <span>{texto}</span>
           </label>)}
         </div>
-        {erro && <p id={`${c}-erro`} className="cl-erro">Escolha uma opção.</p>}
+        {erro && <p id={`${c}-erro`} className="cl-erro" role="alert">Escolha uma opção.</p>}
       </fieldset>;
     })}
 
@@ -142,10 +178,10 @@ export default function Avaliacao() {
         return <div key={k} className={`cl-campo${erro ? ' cl-campo--erro' : ''}`}>
           <label htmlFor={`cl-${k}`}>{rotulo}</label>
           <input id={`cl-${k}`} name={k} type={tipo} autoComplete={auto} inputMode={k === 'whatsapp' ? 'tel' : undefined}
-            maxLength={k === 'whatsapp' ? 22 : 120} value={contato[k]} aria-invalid={erro || undefined}
+            maxLength={maximo[k]} value={contato[k]} aria-invalid={erro || undefined}
             aria-describedby={erro ? `cl-${k}-erro` : undefined}
             onChange={e => { const v = e.target.value; setContato(c => ({...c, [k]: v})); }} />
-          {erro && <p id={`cl-${k}-erro`} className="cl-erro">{erroContato[k]}</p>}
+          {erro && <p id={`cl-${k}-erro`} className="cl-erro" role="alert">{erroContato[k]}</p>}
         </div>;
       })}
       <div className="cl-armadilha" aria-hidden="true">
@@ -156,7 +192,7 @@ export default function Avaliacao() {
         <input type="checkbox" checked={aceite} onChange={e => setAceite(e.target.checked)} />
         <span>Concordo que a InovaSensor use estes dados para falar comigo sobre a avaliação, como explica a <a href="/privacidade" target="_blank" rel="noopener">política de privacidade</a>.</span>
       </label>
-      {mostrarErros && !aceite && <p className="cl-erro">Marque a concordância para enviar.</p>}
+      {mostrarErros && !aceite && <p className="cl-erro" role="alert">Marque a concordância para enviar.</p>}
     </>}
 
     {estado === 'erro' && <p className="cl-erro cl-erro--geral" role="alert">{mensagem}</p>}
@@ -164,8 +200,8 @@ export default function Avaliacao() {
     <div className="cl-form__acoes">
       {passo > 0 && <button type="button" className="cl-btn cl-btn--ghost" onClick={() => { setMostrarErros(false); irPara(passo - 1); }}>Voltar</button>}
       {etapa
-        ? <button type="submit" className="cl-btn cl-btn--primary">Continuar<Icon name="seta" size={18} /></button>
-        : <button type="submit" className="cl-btn cl-btn--primary" disabled={estado === 'enviando'} data-cta="avaliacao" data-cta-pos="envio">
+        ? <button type="submit" className="cl-btn cl-btn--primary" disabled={!montado}>Continuar<Icon name="seta" size={18} /></button>
+        : <button type="submit" className="cl-btn cl-btn--primary" disabled={!montado || estado === 'enviando'} data-cta="avaliacao" data-cta-pos="envio">
             {estado === 'enviando' ? 'Enviando…' : CTA}
           </button>}
     </div>

@@ -27,7 +27,6 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-sec{padding-block:clamp(64px,9vw,112px)}
 .cl-h2{font-size:clamp(28px,3.6vw,44px);line-height:1.15;letter-spacing:-.025em;max-width:22ch}
 .cl-texto{margin-top:14px;max-width:58ch;color:var(--texto);font-size:clamp(17px,1.4vw,19px)}
-.cl-eyebrow{font:600 13px/1.4 var(--f-texto);letter-spacing:.06em;text-transform:uppercase;color:var(--acento)}
 .cl-pular{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .cl-pular:focus{position:fixed;left:16px;top:12px;z-index:60;width:auto;height:auto;clip-path:none;background:var(--sup);padding:12px 16px;border-radius:10px}
 
@@ -52,7 +51,7 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 /* 01 início */
 .cl-inicio{padding-block:clamp(32px,6vw,72px) clamp(56px,7vw,96px)}
 .cl-inicio__grid{display:grid;grid-template-columns:1.6fr .75fr;gap:clamp(32px,5vw,72px);align-items:center}
-.cl-inicio h1{margin-top:18px;font-size:clamp(32px,2.9vw,42px);line-height:1.08;letter-spacing:-.035em}
+.cl-inicio h1{margin-top:0;font-size:clamp(32px,2.9vw,42px);line-height:1.08;letter-spacing:-.035em}
 .cl-inicio h1{text-wrap:wrap}
 .cl-inicio h1 span{display:block}
 .cl-inicio h1 span+span{color:var(--acento)}
@@ -96,7 +95,7 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-chips{display:flex;flex-wrap:wrap;gap:8px}
 .cl-chips li{border:1px solid var(--linha);background:var(--fundo);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--tinta)}
 .cl-semana{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.cl-semana div{background:var(--fundo);border-radius:10px;padding:12px 14px}
+.cl-semana div{background:var(--fundo);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between}
 .cl-semana dt{font-size:13px;color:var(--texto)}
 .cl-semana dd{font:600 26px/1.2 var(--f-titulo);color:var(--tinta)}
 
@@ -111,13 +110,13 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-passos h3{font-size:19px}
 .cl-passos p{color:var(--texto);font-size:16px;margin-top:4px;max-width:50ch}
 .cl-como__preco{margin-top:20px;padding:16px 18px;border-left:3px solid var(--acento);background:var(--fundo);border-radius:0 10px 10px 0;font-size:16px}
-.cl-como__confianca{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
-.cl-prova{background:var(--ameixa);color:var(--ameixa-texto);border-radius:var(--raio);padding:clamp(24px,3vw,36px)}
+.cl-como__confianca{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(24px,4vw,56px)}
+.cl-prova{color:var(--texto);padding-top:24px;border-top:3px solid var(--acento)}
 .cl-prova h3,.cl-nao h3{font-size:20px;margin-bottom:12px}
-.cl-prova h3{color:#fff}
+.cl-prova h3{color:var(--tinta)}
 .cl-prova p{font-size:17px;max-width:48ch}
-.cl-prova__quem{margin-top:16px!important;font-size:15px!important;color:#c9b3bf}
-.cl-nao{border:1px solid var(--linha);border-radius:var(--raio);padding:clamp(24px,3vw,36px)}
+.cl-prova__quem{margin-top:16px!important;font-size:15px!important;color:var(--texto)}
+.cl-nao{padding-top:24px;border-top:1px solid var(--linha)}
 .cl-nao li{display:flex;gap:12px;align-items:flex-start;padding-block:7px;font-size:16px}
 .cl-nao svg{flex:none;margin-top:3px;color:var(--acento)}
 
@@ -137,11 +136,11 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-opcoes{display:flex;flex-wrap:wrap;gap:8px}
 .cl-opcao{position:relative}
 .cl-opcao input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.cl-opcao span{display:inline-flex;align-items:center;min-height:46px;padding:10px 16px;border:1px solid #d9c3ce;border-radius:999px;font-size:15px;background:var(--sup);transition:background .15s,border-color .15s}
+.cl-opcao span{display:inline-flex;align-items:center;min-height:46px;padding:10px 16px;border:1px solid #a0838f;border-radius:999px;font-size:15px;background:var(--sup);transition:background .15s,border-color .15s}
 .cl-opcao input:hover+span{border-color:var(--texto)}
 .cl-opcao input:checked+span{background:var(--acento);border-color:var(--acento);color:#fff}
 .cl-opcao input:focus-visible+span{outline:3px solid var(--acento);outline-offset:2px}
-.cl-campo input[type=text],.cl-campo input[type=tel]{width:100%;min-height:52px;padding:12px 16px;border:1px solid #cdb5c1;border-radius:12px;font:400 17px/1.3 var(--f-texto);color:var(--tinta);background:var(--sup)}
+.cl-campo input[type=text],.cl-campo input[type=tel]{width:100%;min-height:52px;padding:12px 16px;border:1px solid #a0838f;border-radius:12px;font:400 17px/1.3 var(--f-texto);color:var(--tinta);background:var(--sup)}
 .cl-campo input:focus{border-color:var(--acento);outline:3px solid rgba(194,30,86,.25);outline-offset:0}
 .cl-campo--erro legend,.cl-campo--erro>label{color:var(--acento-hover)}
 .cl-campo--erro input[type=text],.cl-campo--erro input[type=tel]{border-color:var(--acento)}
@@ -187,7 +186,7 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
   .cl-marca img{width:124px}
   .cl-topo .cl-btn--sm{display:none}
   .cl-inicio{padding-top:28px}
-  .cl-eyebrow{font-size:12px}
+
   .cl-inicio__acoes .cl-btn{width:100%}
   .cl-inicio__foto img{aspect-ratio:4/3;object-position:50% 30%}
   .cl-bento{grid-template-columns:1fr}
@@ -211,3 +210,4 @@ html:has(.clinicas),html:has(.clinicas) body{background:#fbf7f8}
 .cl-garantia{font-size:15px;color:var(--texto);max-width:30ch;line-height:1.45}
 .cl-form__apoio{margin-top:6px!important;color:var(--texto);font-size:15px}
 @media (max-width:640px){.cl-garantia{max-width:none}}
+.cl-form__corrigir{margin-top:20px}

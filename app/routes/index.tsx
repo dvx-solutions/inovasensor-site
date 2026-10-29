@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import Landing from '../components/clinicas/Landing';
 
+const SITE = 'https://www.inovasensor.com.br';
 const titulo = 'IA na operação da sua clínica | InovaSensor';
 const descricao = 'A IA tira o trabalho repetitivo da recepção: agenda, pacientes sumidos, orçamentos, pós-consulta e números da semana. Peça a avaliação gratuita.';
 
@@ -14,10 +15,12 @@ export const Route = createFileRoute('/')({
       {property: 'og:description', content: 'IA trabalhando na sua clínica. As pessoas mantêm o comando.'},
       {property: 'og:type', content: 'website'},
       {property: 'og:locale', content: 'pt_BR'},
-      {property: 'og:image', content: '/clinicas-assets/recepcao-896.webp'},
+      {property: 'og:url', content: `${SITE}/`},
+      {property: 'og:image', content: `${SITE}/clinicas-assets/recepcao-896.webp`},
       {name: 'twitter:card', content: 'summary_large_image'},
     ],
     links: [
+      {rel: 'canonical', href: `${SITE}/`},
       {rel: 'icon', type: 'image/webp', href: '/mentoria-assets/brand/logo-inova.webp'},
       {rel: 'preload', as: 'image', href: '/clinicas-assets/recepcao-560.webp', media: '(max-width: 760px)', fetchPriority: 'high'},
       {rel: 'preload', as: 'image', href: '/clinicas-assets/recepcao-896.webp', media: '(min-width: 761px)', fetchPriority: 'high'},

@@ -12,7 +12,6 @@ export function Inicio() {
   return <section id="inicio" className="cl-sec cl-inicio" aria-labelledby="inicio-titulo">
     <div className="cl-wrap cl-inicio__grid">
       <div className="cl-inicio__texto">
-        <p className="cl-eyebrow">Uma recepcionista. Dez funções.</p>
         <h1 id="inicio-titulo"><span>IA trabalhando na sua clínica.</span> <span>As pessoas mantêm o comando.</span></h1>
         <p className="cl-lead">A IA prepara o trabalho repetitivo da recepção. Quem fala com o paciente e decide continua sendo a sua equipe.</p>
         <div className="cl-inicio__acoes">
@@ -46,7 +45,7 @@ const porTras = [
 export function Rotina() {
   return <section id="rotina" className="cl-sec cl-rotina" aria-labelledby="rotina-titulo">
     <div className="cl-wrap">
-      <h2 id="rotina-titulo" className="cl-h2 rv">Tudo passa pelo balcão.</h2>
+      <h2 id="rotina-titulo" className="cl-h2 rv">Uma recepcionista. Dez funções.</h2>
       <p className="cl-texto rv">Ela recebe quem chega, atende o telefone, responde o WhatsApp, marca, remarca e ainda tenta lembrar quem sumiu. Tudo com paciente esperando no balcão.</p>
       <div className="cl-rotina__lados">
         <div className="cl-rotina__lado cl-rotina__lado--ela rv">
@@ -74,7 +73,7 @@ const exemplos: Exemplo[] = [
 ];
 
 const respostas = ['Valor da limpeza', 'Convênios aceitos', 'Endereço e estacionamento', 'Preparo do exame'];
-const semana = [['Consultas', '41'], ['Faltas', '3'], ['Orçamentos em aberto', '7']];
+const semana = [['Consultas', '41'], ['Faltas', '3'], ['Orçamentos abertos', '7']];
 
 function Extra({id}: {id: string}) {
   if (id === 'respostas') return <div className="cl-demo" aria-label="Exemplo de respostas prontas">
@@ -127,7 +126,7 @@ export function Como() {
           <ol className="cl-passos">
             {passos.map(([t, d]) => <li key={t} className="rv"><h3>{t}</h3><p>{d}</p></li>)}
           </ol>
-          <p className="cl-como__preco rv">É um serviço mensal. O investimento é combinado depois da avaliação, conforme o tamanho da operação. Você só decide depois de ver onde a IA entra na sua recepção.</p>
+          <p className="cl-como__preco rv">Serviço mensal, com valor combinado depois da avaliação conforme o tamanho da operação. Você só decide depois de ver onde a IA entra.</p>
         </div>
       </div>
       <div className="cl-como__confianca">

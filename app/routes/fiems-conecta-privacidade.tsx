@@ -9,6 +9,19 @@ import { createFileRoute } from "@tanstack/react-router";
  */
 
 export const Route = createFileRoute("/fiems-conecta-privacidade")({
+  // As fontes do Google só servem a esta página (saíram do root para não pesar na home).
+  head: () => ({
+    links: [
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href:
+          "https://fonts.googleapis.com/css2?" +
+          "family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&" +
+          "family=JetBrains+Mono:wght@400;500&display=swap",
+      },
+    ],
+  }),
   component: Privacidade,
 });
 

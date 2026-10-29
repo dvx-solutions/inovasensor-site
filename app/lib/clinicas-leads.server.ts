@@ -1,7 +1,7 @@
 import {createHash, timingSafeEqual} from 'node:crypto';
 import {appendFile, mkdir, readFile} from 'node:fs/promises';
 import {get, list, put} from '@vercel/blob';
-import {envioSchema, type Lead} from '../components/clinicas/model';
+import {envioSchema, VERSAO_POLITICA, type Lead} from '../components/clinicas/model';
 
 // Cada envio vira um JSON privado no Vercel Blob (leads/<id>.json). O agente CMO,
 // num servidor sem acesso público, busca os novos com GET /api/leads?desde=<ISO>.
@@ -49,13 +49,18 @@ async function lerLocal(): Promise<Lead[]> {
 }
 
 async function lerBlob(desde: number): Promise<Lead[]> {
-  const caminhos: string[] = [];
+  const achados: {caminho: string; em: number}[] = [];
   let cursor: string | undefined;
   do {
     const pagina = await list({prefix: PREFIXO, cursor, limit: 1000});
-    for (const b of pagina.blobs) if (b.uploadedAt.getTime() >= desde - FOLGA_MS) caminhos.push(b.pathname);
+    for (const b of pagina.blobs) {
+      const em = b.uploadedAt.getTime();
+      if (em >= desde - FOLGA_MS) achados.push({caminho: b.pathname, em});
+    }
     cursor = pagina.hasMore ? pagina.cursor : undefined;
   } while (cursor);
+  // Só baixa o necessário: os mais antigos primeiro, até o limite (com margem da folga).
+  const caminhos = achados.sort((a, b) => a.em - b.em).slice(0, MAX_LEADS + 50).map(a => a.caminho);
 
   const leads: Lead[] = [];
   for (let i = 0; i < caminhos.length; i += 8) {
@@ -78,7 +83,12 @@ export async function receberLead(request: Request): Promise<Response> {
   try {
     const texto = await request.text();
     if (texto.length > LIMITE) return json({error: 'Formulário muito extenso.'}, 413);
-    envio = envioSchema.safeParse(JSON.parse(texto));
+    const bruto = JSON.parse(texto);
+    // Armadilha preenchida: é robô. Responde como se tivesse gravado e não grava.
+    if (bruto && typeof bruto.website === 'string' && bruto.website !== '') {
+      return json({recebido: typeof bruto.id === 'string' ? bruto.id.slice(0, 40) : 'ok'}, 201);
+    }
+    envio = envioSchema.safeParse(bruto);
   } catch {
     return json({error: 'Revise o formulário e tente de novo.'}, 400);
   }
@@ -86,7 +96,8 @@ export async function receberLead(request: Request): Promise<Response> {
   if (!armazenamentoOk()) return json({error: falha}, 503);
 
   const {consentimento: _c, website: _w, ...dados} = envio.data;
-  const lead: Lead = {...dados, criado_em: new Date().toISOString()};
+  const agora = new Date().toISOString();
+  const lead: Lead = {...dados, criado_em: agora, consentimento_em: agora, consentimento_versao: VERSAO_POLITICA};
   try {
     await gravar(lead);
   } catch {
@@ -111,12 +122,12 @@ export async function listarLeads(request: Request): Promise<Response> {
   if (Number.isNaN(desde)) return json({error: 'Use desde=<data ISO 8601>.'}, 400);
   if (!armazenamentoOk()) return json({error: 'Armazenamento não configurado.'}, 503);
   try {
-    const todos = usaBlob() ? await lerBlob(desde) : await lerLocal();
-    const leads = todos
+    const todos = (usaBlob() ? await lerBlob(desde) : await lerLocal())
       .filter(l => Date.parse(l.criado_em) >= desde)
-      .sort((a, b) => a.criado_em.localeCompare(b.criado_em))
-      .slice(0, MAX_LEADS);
-    return json({leads, total: leads.length, mais: todos.length > MAX_LEADS && leads.length === MAX_LEADS});
+      .sort((a, b) => a.criado_em.localeCompare(b.criado_em));
+    const leads = todos.slice(0, MAX_LEADS);
+    // mais=true: chame de novo com desde = criado_em do último lead (o leitor descarta id repetido).
+    return json({leads, total: leads.length, mais: todos.length > MAX_LEADS});
   } catch {
     return json({error: 'Não foi possível ler os leads agora.'}, 503);
   }

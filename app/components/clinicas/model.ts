@@ -54,4 +54,8 @@ export const envioSchema = z.object({
 export type Envio = z.infer<typeof envioSchema>;
 
 // O que fica guardado e o que GET /api/leads devolve.
-export type Lead = Omit<Envio, 'consentimento' | 'website'> & {criado_em: string};
+// consentimento_versao é a data da política de privacidade aceita no envio.
+export const VERSAO_POLITICA = '2026-10-28';
+export type Lead = Omit<Envio, 'consentimento' | 'website'> & {
+  criado_em: string; consentimento_em: string; consentimento_versao: string;
+};
