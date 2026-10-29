@@ -35,6 +35,26 @@ jobs:
       - name: Instalar a CLI da Vercel
         run: npm install --global vercel@64.7.0
 
+      # Mesmo segredo do preview (scripts/definir-segredo-leads.sh): o agente CMO
+      # usa para ler GET /api/leads da produção. Nunca aparece no log.
+      - name: Gravar SITE_LEADS_TOKEN na produção da Vercel
+        env:
+          SEGREDO: ${{ secrets.SITE_LEADS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$SEGREDO" ]; then
+            echo "::warning::Sem SITE_LEADS_TOKEN no GitHub: o CMO não vai conseguir ler os leads do site."
+            exit 0
+          fi
+          echo "::add-mask::$SEGREDO"
+          jq -n --arg v "$SEGREDO" '{key:"SITE_LEADS_TOKEN",value:$v,type:"encrypted",target:["production"]}' > corpo.json
+          status=$(curl -sS -o resposta.json -w '%{http_code}' -X POST \
+            "https://api.vercel.com/v10/projects/$VERCEL_PROJECT_ID/env?upsert=true&teamId=$VERCEL_ORG_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" -H 'Content-Type: application/json' --data @corpo.json)
+          rm -f corpo.json
+          if [ "$status" -ge 300 ]; then jq -r '.error.message // "erro"' resposta.json; exit 1; fi
+          echo "SITE_LEADS_TOKEN atualizado na produção."
+
       - name: Puxar a configuração de produção
         run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
 
