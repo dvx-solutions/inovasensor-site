@@ -105,7 +105,7 @@ jobs:
           URL: ${{ steps.deploy.outputs.url }}
         run: |
           set -u
-          chamar() { vercel curl --token="$VERCEL_TOKEN" --deployment "$URL" --yes "$1" -- --silent --write-out '\n%{http_code}' "${@:2}"; }
+          chamar() { vercel curl --deployment "$URL" --yes "$1" -- --silent --write-out '\n%{http_code}' "${@:2}"; }
           status() { tail -n1; }
           [ "$(chamar / | status)" = 200 ] || { echo "home não respondeu 200"; exit 1; }
           [ "$(chamar /privacidade | status)" = 200 ] || { echo "/privacidade não respondeu 200"; exit 1; }
