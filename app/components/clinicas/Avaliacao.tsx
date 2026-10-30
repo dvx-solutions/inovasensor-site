@@ -132,7 +132,7 @@ export default function Avaliacao() {
       const dados = await r.json().catch(() => ({}));
       if (!r.ok) throw new ErroServidor(typeof dados.error === 'string' ? dados.error : falhaEnvio);
       setEstado('enviado');
-      (window as Window & {fbq?: (...a: unknown[]) => void}).fbq?.('track', 'Lead');
+      (window as Window & {fbq?: (...a: unknown[]) => void}).fbq?.('track', 'Lead', {}, {eventID: id.current});
     } catch (erro) {
       setEstado('erro');
       setMensagem(erro instanceof ErroServidor ? erro.message : falhaEnvio);

@@ -72,6 +72,15 @@ export default function Privacy() {
           previstas na LGPD.
         </p>
 
+        <h2>Cookies e pixel da Meta</h2>
+        <p>
+          Este site usa o pixel da Meta, um código que registra as páginas visitadas e o envio do formulário, ligados a
+          cookies do seu navegador. Usamos isso para medir os nossos anúncios e mostrá-los a quem já conhece a
+          InovaSensor. O pixel não recebe as respostas do formulário nem os seus dados de contato. Você pode bloquear
+          esses cookies no navegador ou ajustar os anúncios que vê nas configurações da sua conta do Facebook ou do
+          Instagram.
+        </p>
+
         <h2>Por quanto tempo guardamos</h2>
         <p>
           Se você não se tornar cliente, guardamos os dados por até 12 meses após o último contato e depois os
