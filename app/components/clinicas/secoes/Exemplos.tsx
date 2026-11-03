@@ -24,17 +24,17 @@ function Ic({nome, size = 22}: {nome: string; size?: number}) {
 type Item = {id: string; aba: string; icone: string; tela: string; frase: string; Demo: (p: DemoProps) => React.JSX.Element};
 const ITENS: Item[] = [
   {id: 'agenda', aba: 'Agenda', icone: 'agenda', tela: 'Agenda de amanhã', Demo: DemoAgenda,
-    frase: 'Confirmação e lembrete da véspera e do dia saem prontos. Vaga que abre vai direto para a lista de encaixe, e a cadeira não fica vazia.'},
+    frase: 'A gente monta no WhatsApp da clínica a confirmação da véspera. Desmarcou: a vaga vai para a lista de encaixe e a recepção chama quem está esperando. Quem sumiu recebe o convite de retorno.'},
+  {id: 'orcamentos', aba: 'Orçamento parado', icone: 'orcamento', tela: 'Orçamentos', Demo: DemoOrcamentos,
+    frase: 'A anotação do doutor vira um orçamento claro. E quem não respondeu entra no acompanhamento, com a mensagem pronta para a equipe enviar.'},
+  {id: 'numeros', aba: 'Números da semana', icone: 'numeros', tela: 'Números da semana', Demo: DemoNumeros,
+    frase: 'A gente monta com vocês um resumo simples da semana: consultas, faltas, orçamentos em aberto e faturamento, sem planilha complicada.'},
   {id: 'sumidos', aba: 'Pacientes sumidos', icone: 'volta', tela: 'Pacientes sumidos', Demo: DemoSumidos,
     frase: 'Quem não vem há 6 ou 12 meses aparece numa lista, com a mensagem de limpeza, manutenção ou revisão já escrita.'},
-  {id: 'orcamentos', aba: 'Orçamentos', icone: 'orcamento', tela: 'Orçamentos', Demo: DemoOrcamentos,
-    frase: 'A anotação do doutor vira um orçamento claro. E quem não respondeu entra no acompanhamento sem ninguém precisar lembrar.'},
   {id: 'pos', aba: 'Pós-consulta', icone: 'coracao', tela: 'Pós-consulta', Demo: DemoPos,
     frase: 'Cuidados, lembrete do retorno e pedido de avaliação no Google ficam prontos. A recepção confere e envia.'},
   {id: 'respostas', aba: 'Respostas prontas', icone: 'conversa', tela: 'WhatsApp', Demo: DemoRespostas,
     frase: 'Preço, convênio, endereço e preparo viram resposta pronta. A recepcionista escolhe e envia com um clique.'},
-  {id: 'numeros', aba: 'Números da semana', icone: 'numeros', tela: 'Números da semana', Demo: DemoNumeros,
-    frase: 'Consultas, faltas, orçamentos em aberto e faturamento num resumo simples toda semana, sem montar planilha.'},
 ];
 // Um erro de animação ou da cena nunca derruba a página: o conteúdo continua legível.
 function seguro(f: () => void | (() => void)) {
@@ -231,7 +231,7 @@ export default function Exemplos() {
       <div className="ex-corpo">
         <div className="ex-esq">
           <header className="ex-cabeca">
-            <h2 id="exemplos-titulo" className="cl-h2">O que sai das costas <em>da recepção</em></h2>
+            <h2 id="exemplos-titulo" className="cl-h2">Primeiro a agenda. <em>Depois o resto.</em></h2>
             <p className="cl-lead">{modo3d ? 'Gire o anel ou escolha um exemplo.' : 'Escolha um exemplo.'} Cada um mostra o que a IA deixa pronto e o que continua na mão da sua equipe.</p>
           </header>
           <div className={`ex-palco${modo3d ? ' is-3d' : ''}`} ref={palcoRef}>

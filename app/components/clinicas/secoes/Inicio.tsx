@@ -10,8 +10,8 @@ const WHATS = 'M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1
 const Svg = ({d, size = 16}: {d: string; size?: number}) =>
   <svg width={size} height={size} viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d={d} /></svg>;
 
-const LINHA1 = 'IA trabalhando na sua clínica.';
-const LINHA2 = 'As pessoas mantêm o comando.';
+const LINHA1 = 'Cada falta é uma cadeira vazia.';
+const LINHA2 = 'E cadeira vazia custa todo dia.';
 
 // Cada palavra numa máscara; a subida é CSS (roda no primeiro paint, sem esperar a hidratação).
 function Palavras({texto, de}: {texto: string; de: number}) {
@@ -132,15 +132,16 @@ export default function Inicio() {
 
     <div className="cl-wrap ini-grade">
       <div className="ini-texto">
-        <p className="cl-kicker ini-kicker">Para clínicas com a recepção sobrecarregada</p>
+        <p className="cl-kicker ini-kicker">Para clínicas com faltas e buracos na agenda</p>
         <h1 id="inicio-titulo" className="ini-h1">
           <span className="ini-l1"><Palavras texto={LINHA1} de={0} /></span>{' '}
-          <span className="ini-l2"><Palavras texto={LINHA2} de={5} /></span>
+          <span className="ini-l2"><Palavras texto={LINHA2} de={LINHA1.split(' ').length} /></span>
         </h1>
-        <p className="cl-lead ini-lead">Sua recepção faz tudo ao mesmo tempo. A IA deixa pronto o repetitivo: confirmações, respostas, orçamentos e retornos. Sua equipe revisa e envia.</p>
+        <p className="cl-lead ini-lead">A gente monta no WhatsApp da sua clínica a confirmação da véspera, o encaixe quando alguém desmarca e o retorno de quem sumiu. A IA cuida do repetitivo, sua equipe mantém o comando e a recepção para de correr atrás da agenda.</p>
         <div className="ini-acao">
           <a className="cl-btn ini-cta" href="#avaliacao" data-cta="avaliacao" data-cta-pos="hero">{CTA}<Icon name="seta" size={20} /></a>
           <p className="ini-garantia"><span className="ini-garantia__ic" aria-hidden="true"><Icon name="check" size={14} /></span>Odonto, médica, estética e fisio. Avaliação gratuita, sem compromisso.</p>
+          <a className="ini-calc" href="#faltas">Calcule quanto as faltas custam para você<Icon name="seta" size={16} /></a>
         </div>
       </div>
 

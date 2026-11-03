@@ -2,13 +2,14 @@ import {useEffect, useRef, useState, type CSSProperties, type FormEvent} from 'r
 import {Icon} from './icons';
 import {envioSchema, ordemPerguntas, perguntas, type Pergunta} from './model';
 import {CTA} from './cta';
+import {EVENTOS, medir, reais, useCalculo} from './medir';
 
 type Respostas = Record<Pergunta, string>;
 type Contato = {nome: string; whatsapp: string; cidade: string; clinica: string};
 type Estado = 'preenchendo' | 'enviando' | 'enviado' | 'erro';
 
 const passos: {titulo: string; apoio: string; campos: Pergunta[]}[] = [
-  {titulo: 'Sua clínica', apoio: 'Com isso a avaliação já chega focada na rotina da sua recepção.', campos: ['tipo_clinica', 'papel', 'profissionais', 'recepcao']},
+  {titulo: 'Sua clínica', apoio: 'Com isso a avaliação já chega focada na rotina da sua recepção.', campos: ['tipo_clinica', 'papel', 'profissionais', 'consultas_dia', 'recepcao']},
   {titulo: 'Sua prioridade', apoio: 'Começamos pelo que mais pesa. Você não paga nada para descobrir.', campos: ['dor', 'quando']},
 ];
 const TOTAL = passos.length + 1;
@@ -66,6 +67,7 @@ export default function Avaliacao() {
   const irPara = (n: number) => { travaAte.current = Date.now() + 450; setPasso(n); };
 
   const [montado, setMontado] = useState(false);
+  const calculo = useCalculo();
 
   // Rascunho só com as escolhas (sem nome nem WhatsApp, como diz a política de privacidade):
   // o navegador do Instagram costuma recarregar a página quando a pessoa volta do WhatsApp.
@@ -76,8 +78,12 @@ export default function Avaliacao() {
       const r = JSON.parse(sessionStorage.getItem(RASCUNHO) || 'null');
       if (r && typeof r.id === 'string') {
         id.current = r.id;
-        setResp({...vazio, ...r.resp});
-        if (Number.isInteger(r.passo) && r.passo > 0 && r.passo < TOTAL) setPasso(r.passo);
+        const salvo = {...vazio, ...r.resp} as Respostas;
+        setResp(salvo);
+        // Rascunho de antes de uma pergunta nova: volta para o passo que ficou incompleto.
+        const incompleto = passos.findIndex(p => p.campos.some(c => !salvo[c]));
+        const alvo = incompleto < 0 ? r.passo : Math.min(r.passo, incompleto);
+        if (Number.isInteger(alvo) && alvo > 0 && alvo < TOTAL) setPasso(alvo);
       }
     } catch { /* sem rascunho */ }
     setMontado(true);
@@ -106,6 +112,7 @@ export default function Avaliacao() {
   function avancar() {
     if (faltando(passos[passo].campos).length) { setMostrarErros(true); focarErro(); return; }
     setMostrarErros(false);
+    medir(passo === 0 ? EVENTOS.passo2 : EVENTOS.passo3);
     irPara(passo + 1);
   }
 
@@ -116,7 +123,8 @@ export default function Avaliacao() {
     if (estado === 'enviando') return;
     const corpo = {id: id.current, ...resp,
       ...Object.fromEntries((Object.keys(contato) as (keyof Contato)[]).map(k => [k, limpar(k, contato[k])])),
-      consentimento: aceite, website: armadilha.current?.value || '', origem: origem.current};
+      consentimento: aceite, website: armadilha.current?.value || '', origem: origem.current,
+      ...(calculo ? {calculo_faltas: calculo} : {})};
     if (!aceite || !envioSchema.safeParse(corpo).success) {
       setMostrarErros(true);
       const algumCampo = !aceite || (Object.keys(contato) as (keyof Contato)[]).some(contatoInvalido);
@@ -132,7 +140,7 @@ export default function Avaliacao() {
       const dados = await r.json().catch(() => ({}));
       if (!r.ok) throw new ErroServidor(typeof dados.error === 'string' ? dados.error : falhaEnvio);
       setEstado('enviado');
-      (window as Window & {fbq?: (...a: unknown[]) => void}).fbq?.('track', 'Lead', {}, {eventID: id.current});
+      medir(EVENTOS.lead, calculo ? {value: calculo.perda_mes, currency: 'BRL'} : {}, {eventID: id.current});
     } catch (erro) {
       setEstado('erro');
       setMensagem(erro instanceof ErroServidor ? erro.message : falhaEnvio);
@@ -169,6 +177,8 @@ export default function Avaliacao() {
         <p className="cl-form__passo">Passo {passo + 1} de {TOTAL}</p>
         <h3 ref={titulo} tabIndex={-1}>{etapa ? etapa.titulo : 'Para onde a gente responde'}</h3>
         <p className="cl-form__apoio">{etapa ? etapa.apoio : 'A gente chama você no WhatsApp para marcar um horário.'}</p>
+        {calculo && calculo.perda_mes > 0 && <p className="cl-form__conta"><Icon name="agenda" size={16} />
+          <span>Sua conta de faltas vai junto: <b>{reais(calculo.perda_mes)} por mês</b></span></p>}
       </div>
 
     {etapa && etapa.campos.map(c => {

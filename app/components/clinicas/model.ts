@@ -15,6 +15,9 @@ export const perguntas = {
   recepcao: {titulo: 'Quantas pessoas trabalham na recepção?', opcoes: [
     ['r1', '1'], ['r2', '2'], ['r3', '3 ou mais'],
   ]},
+  consultas_dia: {titulo: 'Quantas consultas a clínica faz por dia?', opcoes: [
+    ['c20', 'Até 20'], ['c21_50', '21 a 50'], ['c50', 'Mais de 50'],
+  ]},
   dor: {titulo: 'O que mais pesa hoje?', opcoes: [
     ['faltas', 'Faltas e agenda com buracos'], ['orcamento', 'Orçamento que não fecha'],
     ['sumido', 'Paciente que sumiu'], ['recepcao', 'Recepção sobrecarregada'], ['numeros', 'Não enxergo os números'],
@@ -40,6 +43,8 @@ export const envioSchema = z.object({
   papel: opcao('papel'),
   profissionais: opcao('profissionais'),
   recepcao: opcao('recepcao'),
+  // Opcional: envios antigos (rascunho de antes desta pergunta) continuam válidos.
+  consultas_dia: opcao('consultas_dia').optional(),
   dor: opcao('dor'),
   quando: opcao('quando'),
   nome: z.string().trim().min(2).max(100),
@@ -49,6 +54,15 @@ export const envioSchema = z.object({
   consentimento: z.literal(true),
   website: z.string().max(0),
   origem: z.record(z.string().max(160)).default({}),
+  // Conta da calculadora de faltas, se a pessoa usou. resumo é a frase pronta para a nota do lead.
+  calculo_faltas: z.object({
+    consultas_dia: z.number().int().min(1).max(1000),
+    faltas_pct: z.number().min(0).max(100),
+    ticket: z.number().min(0).max(100_000),
+    dias: z.number().int().min(1).max(31),
+    perda_mes: z.number().min(0).max(1e9),
+    resumo: z.string().max(300),
+  }).strict().optional(),
 }).strict();
 
 export type Envio = z.infer<typeof envioSchema>;
