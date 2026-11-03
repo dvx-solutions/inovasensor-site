@@ -37,6 +37,10 @@
 .s-inicio .ini-cta{min-height:60px;padding:18px 30px;font-size:18px}
 .s-inicio .ini-cta::after{content:'';position:absolute;inset:-6px;border-radius:inherit;border:1px solid rgba(255,45,120,.45);opacity:0;animation:ini-aura 2.8s 1.6s ease-out infinite;pointer-events:none}
 .s-inicio .ini-garantia{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.45;color:var(--luz-2)}
+.s-inicio .ini-calc{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:600;color:var(--luz);text-decoration:underline;text-decoration-color:var(--rosa);text-underline-offset:5px}
+.s-inicio .ini-calc svg{color:var(--rosa)}
+/* no celular a calculadora já vem logo abaixo; o link sairia da primeira tela com a demo */
+@media (max-width:760px){.s-inicio .ini-calc{display:none}}
 .s-inicio .ini-garantia__ic{flex:none;display:grid;place-items:center;width:22px;height:22px;margin-top:-1px;border-radius:50%;background:rgba(47,211,138,.14);color:var(--ok)}
 
 /* ---------- palco (cena 3D + cartão vivo) ---------- */

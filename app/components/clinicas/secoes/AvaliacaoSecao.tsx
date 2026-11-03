@@ -2,16 +2,28 @@ import {useEffect, useRef, type CSSProperties} from 'react';
 import Avaliacao from '../Avaliacao';
 import {Icon, type IconName} from '../icons';
 import {gsap, reduzido, aoVisivel} from '../motion';
+import {EVENTOS, medir} from '../medir';
 import './avaliacao.css';
 
 const depois: {icone: IconName; tag: string; texto: string}[] = [
   {icone: 'conversa', tag: 'No WhatsApp', texto: 'A gente chama você no WhatsApp para marcar um horário.'},
-  {icone: 'agenda', tag: 'Na avaliação', texto: 'Mapeamos a rotina da recepção e mostramos onde a IA entra primeiro.'},
+  {icone: 'agenda', tag: 'Na avaliação', texto: 'Olhamos como a agenda e o WhatsApp funcionam hoje e mostramos onde estão as faltas e os buracos.'},
   {icone: 'orcamento', tag: 'A proposta', texto: 'Se fizer sentido, você recebe a proposta mensal para o tamanho da sua clínica.'},
 ];
 
 export default function AvaliacaoSecao() {
   const ref = useRef<HTMLElement>(null);
+
+  // ViewContent quando o formulário aparece na tela (uma vez por visita à página).
+  useEffect(() => {
+    const form = ref.current?.querySelector('.s-avaliacao__cartao-form');
+    if (!form || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { medir(EVENTOS.formulario, {content_name: 'avaliacao'}); io.disconnect(); }
+    }, {threshold: .35});
+    io.observe(form);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -76,8 +88,8 @@ export default function AvaliacaoSecao() {
     <div className="cl-wrap s-avaliacao__grade">
       <header className="s-avaliacao__cab">
         <p className="cl-kicker s-avaliacao__kicker">Avaliação gratuita</p>
-        <h2 id="avaliacao-titulo" className="cl-h2 s-avaliacao__titulo">Veja o que dá para tirar <em>das costas da sua recepção</em></h2>
-        <p className="cl-lead s-avaliacao__lead">A avaliação é gratuita e leva uns 2 minutos para pedir. Sem compromisso. O valor do serviço mensal só é combinado depois, se fizer sentido para você.</p>
+        <h2 id="avaliacao-titulo" className="cl-h2 s-avaliacao__titulo">Descubra quanto a sua agenda <em>está deixando na mesa</em></h2>
+        <p className="cl-lead s-avaliacao__lead">A avaliação é gratuita e leva uns 2 minutos para pedir. Se você usou a calculadora, a sua conta vai junto. Sem compromisso. O valor do serviço mensal só é combinado depois, se fizer sentido para você.</p>
       </header>
 
       <div className="s-avaliacao__linha">

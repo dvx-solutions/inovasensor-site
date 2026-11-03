@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import Landing from '../components/clinicas/Landing';
 
 const SITE = 'https://www.inovasensor.com.br';
-const titulo = 'IA na operação da sua clínica | InovaSensor';
-const descricao = 'A IA tira o trabalho repetitivo da recepção: agenda, pacientes sumidos, orçamentos, pós-consulta e números da semana. Peça a avaliação gratuita.';
+const titulo = 'Menos faltas e buracos na agenda da sua clínica | InovaSensor';
+const descricao = 'Cada falta é uma cadeira vazia. Confirmação da véspera, encaixe e retorno de pacientes montados no WhatsApp da sua clínica, com IA e a sua equipe no comando. Calcule a perda e peça a avaliação gratuita.';
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/')({
       {name: 'description', content: descricao},
       {name: 'theme-color', content: '#14070f'},
       {property: 'og:title', content: titulo},
-      {property: 'og:description', content: 'IA trabalhando na sua clínica. As pessoas mantêm o comando.'},
+      {property: 'og:description', content: 'Cada falta é uma cadeira vazia. Veja quanto isso custa e como encher a agenda.'},
       {property: 'og:type', content: 'website'},
       {property: 'og:locale', content: 'pt_BR'},
       {property: 'og:url', content: `${SITE}/`},

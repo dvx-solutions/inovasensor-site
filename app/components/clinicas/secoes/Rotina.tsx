@@ -289,7 +289,7 @@ export default function Rotina() {
     </ul>
 
     <div className="rt-fecho cl-wrap">
-      <p className="rt-fecho__frase"><span>Não é robô falando com paciente.</span> <em>É a IA preparando o trabalho para a sua equipe.</em></p>
+      <p className="rt-fecho__frase"><span>A IA responde o básico.</span> <em>Tudo que é delicado fica com a sua equipe.</em></p>
     </div>
     <div className="rt-costura-fim" aria-hidden="true" />
   </section>;

@@ -4,6 +4,7 @@ import {CTA} from './cta';
 import {Icon} from './icons';
 import {ScrollTrigger} from './motion';
 import Inicio from './secoes/Inicio';
+import Faltas from './secoes/Faltas';
 import Rotina from './secoes/Rotina';
 import Exemplos from './secoes/Exemplos';
 import Como from './secoes/Como';
@@ -68,6 +69,7 @@ export default function Landing() {
           <img src="/mentoria-assets/brand/logo-inova.webp" alt="InovaSensor" width={150} height={30} />
         </a>
         <nav className="cl-nav" aria-label="Seções">
+          <a href="#faltas">Calculadora</a>
           <a href="#rotina">A recepção</a>
           <a href="#exemplos">O que muda</a>
           <a href="#como">Como funciona</a>
@@ -78,6 +80,7 @@ export default function Landing() {
 
     <main>
       <Inicio />
+      <Faltas />
       <Rotina />
       <Exemplos />
       <Como />

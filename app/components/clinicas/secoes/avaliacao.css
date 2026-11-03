@@ -135,6 +135,9 @@
 .s-avaliacao .cl-form__cab{display:grid;gap:8px}
 .s-avaliacao .cl-form__passo{font:500 12px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--rosa-forte)}
 .s-avaliacao .cl-form__apoio{font-size:16px;line-height:1.5;color:var(--tinta-2)}
+.s-avaliacao .cl-form__conta{display:flex;align-items:center;gap:8px;margin-top:4px;padding:10px 14px;border-radius:var(--raio-sm);background:var(--rosa-claro);color:var(--tinta);font-size:15px;line-height:1.35}
+.s-avaliacao .cl-form__conta svg{flex:none;color:var(--rosa-forte)}
+.s-avaliacao .cl-form__conta b{color:var(--rosa-forte);white-space:nowrap}
 
 /* Perguntas de escolha: chips grandes */
 .s-avaliacao .cl-campo{border:0;margin:0;padding:0;min-width:0}

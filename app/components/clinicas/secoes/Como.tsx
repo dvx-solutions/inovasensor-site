@@ -69,13 +69,13 @@ function VisCapacitar() {
 
 const PASSOS = [
   {n: '01', titulo: 'Mapear a operação', texto: 'A gente acompanha a rotina da recepção e lista onde o tempo some: o que se repete todo dia, o que trava, o que sempre fica para depois.', lado: 'e', Vis: VisMapa},
-  {n: '02', titulo: 'Aplicar IA nos processos', texto: 'A IA entra nos processos repetitivos, um de cada vez. Começa pelo que mais pesa na recepção, e o próximo só entra quando esse estiver rodando.', lado: 'd', Vis: VisAplicar},
+  {n: '02', titulo: 'Implantar a central e a IA', texto: 'A gente implanta a Central de Atendimento da Devex: o WhatsApp da clínica num número só, com várias pessoas atendendo, funil de pacientes e painel de primeira resposta. A IA responde o básico com as informações da clínica e passa para a equipe o que precisa de gente. Começamos pela agenda: confirmação, encaixe e retorno.', lado: 'd', Vis: VisAplicar},
   {n: '03', titulo: 'Capacitar o time na rotina', texto: 'A gente treina o time para usar no dia a dia, dentro da rotina da clínica. A IA prepara; a pessoa revisa e aprova.', lado: 'e', Vis: VisCapacitar},
 ] as const;
 
 const NAO = [
   {risco: 'Trocar a sua equipe', diz: 'A recepção continua com as pessoas de sempre. A IA tira o repetitivo das costas delas.'},
-  {risco: 'Colocar robô falando com paciente', diz: 'Quem fala com o paciente é a sua equipe. A IA só deixa a mensagem pronta para ela enviar.'},
+  {risco: 'Deixar a IA decidir sozinha', diz: 'A IA responde o básico, como horário, endereço e preparo, e passa para a sua equipe tudo que é delicado.'},
   {risco: 'Pedir dados de pacientes', diz: 'Para mapear a operação, a gente olha o processo. Não pedimos a ficha de ninguém.'},
   {risco: 'Amarrar você a um sistema novo', diz: 'Ninguém precisa trocar de sistema para começar. A gente parte da rotina que vocês já têm.'},
 ];
