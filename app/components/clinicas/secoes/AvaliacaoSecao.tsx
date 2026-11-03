@@ -14,13 +14,15 @@ const depois: {icone: IconName; tag: string; texto: string}[] = [
 export default function AvaliacaoSecao() {
   const ref = useRef<HTMLElement>(null);
 
-  // ViewContent quando o formulário aparece na tela (uma vez por visita à página).
+  // ViewContent quando o topo do formulário passa de 65% da altura da tela (uma vez por visita).
+  // Threshold 0: o cartão tem ~1.900 px no celular e nunca chega a uma fração alta visível.
+  const formRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const form = ref.current?.querySelector('.s-avaliacao__cartao-form');
+    const form = formRef.current;
     if (!form || typeof IntersectionObserver === 'undefined') return;
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { medir(EVENTOS.formulario, {content_name: 'avaliacao'}); io.disconnect(); }
-    }, {threshold: .35});
+    }, {threshold: 0, rootMargin: '0px 0px -35% 0px'});
     io.observe(form);
     return () => io.disconnect();
   }, []);
@@ -110,7 +112,7 @@ export default function AvaliacaoSecao() {
       <div className="s-avaliacao__palco">
         <span className="s-avaliacao__placa" aria-hidden="true" />
         <span className="s-avaliacao__selo s-avaliacao__selo--a" aria-hidden="true"><Icon name="check" size={14} />Sem compromisso</span>
-        <div className="s-avaliacao__cartao-form">
+        <div className="s-avaliacao__cartao-form" ref={formRef}>
           <span className="s-avaliacao__anel" aria-hidden="true" />
           <div className="s-avaliacao__miolo"><Avaliacao /></div>
         </div>
