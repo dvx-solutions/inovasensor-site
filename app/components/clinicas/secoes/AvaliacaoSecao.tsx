@@ -6,7 +6,7 @@ import {EVENTOS, medir} from '../medir';
 import './avaliacao.css';
 
 const depois: {icone: IconName; tag: string; texto: string}[] = [
-  {icone: 'conversa', tag: 'No WhatsApp', texto: 'A gente chama você no WhatsApp para marcar um horário.'},
+  {icone: 'conversa', tag: 'No WhatsApp', texto: 'Você manda a mensagem pronta para o Gustavo e ele marca um horário com você.'},
   {icone: 'agenda', tag: 'Na avaliação', texto: 'Olhamos como a agenda e o WhatsApp funcionam hoje e mostramos onde estão as faltas e os buracos.'},
   {icone: 'orcamento', tag: 'A proposta', texto: 'Se fizer sentido, você recebe a proposta mensal para o tamanho da sua clínica.'},
 ];

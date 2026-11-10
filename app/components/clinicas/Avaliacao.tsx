@@ -2,7 +2,7 @@ import {useEffect, useRef, useState, type CSSProperties, type FormEvent} from 'r
 import {Icon} from './icons';
 import {envioSchema, ordemPerguntas, perguntas, type Pergunta} from './model';
 import {CTA} from './cta';
-import {EVENTOS, medir, reais, useCalculo} from './medir';
+import {EVENTOS, medir, reais, useCalculo, type Calculo} from './medir';
 
 type Respostas = Record<Pergunta, string>;
 type Contato = {nome: string; whatsapp: string; cidade: string; clinica: string};
@@ -26,6 +26,21 @@ const limpar = (k: keyof Contato, v: string) => (k === 'whatsapp' ? v.replace(/\
 const RASCUNHO = 'cl-avaliacao';
 const falhaEnvio = 'Não conseguimos enviar agora. Suas respostas continuam aqui: confira a internet e tente de novo.';
 class ErroServidor extends Error {}
+
+// O lead fala primeiro: depois do envio, ele abre o WhatsApp do Gustavo com a dor e a conta já escritas.
+const WHATSAPP_GUSTAVO = '5512996496687';
+const papelNaFrase: Record<string, string> = {dono: 'dono(a)', gestor: 'gestor(a)', recepcao: 'da recepção'};
+function mensagemWhatsApp(resp: Respostas, contato: Contato, calculo: Calculo | null) {
+  const nome = contato.nome.trim().split(' ')[0];
+  const papel = papelNaFrase[resp.papel];
+  const dor = perguntas.dor.opcoes.find(([v]) => v === resp.dor)?.[1].toLowerCase();
+  const partes = [`Oi, Gustavo! Sou ${nome}, ${papel ? `${papel} ` : ''}da ${contato.clinica.trim()}, em ${contato.cidade.trim()}.`,
+    'Pedi a avaliação gratuita no site.'];
+  if (dor) partes.push(`O que mais pesa hoje: ${dor}.`);
+  if (calculo && calculo.perda_mes > 0) partes.push(`Pela calculadora, as faltas custam ${reais(calculo.perda_mes)} por mês para a clínica.`);
+  partes.push('Quando podemos conversar?');
+  return `https://wa.me/${WHATSAPP_GUSTAVO}?text=${encodeURIComponent(partes.join(' '))}`;
+}
 
 const erroContato: Record<keyof Contato, string> = {
   nome: 'Escreva seu nome.',
@@ -154,9 +169,14 @@ export default function Avaliacao() {
         {Array.from({length: 8}, (_, i) => <span key={i} className="cl-form__ok-faisca" style={{'--i': i} as CSSProperties} />)}
         <Icon name="check" size={44} />
       </span>
-      <p className="cl-form__ok-rotulo">Pedido enviado</p>
-      <h3 ref={titulo} tabIndex={-1}>Recebido, {contato.nome.trim().split(' ')[0]}.</h3>
-      <p className="cl-form__ok-texto">Vamos chamar você no WhatsApp <span className="cl-form__ok-num">{limpar('whatsapp', contato.whatsapp)}</span> para marcar a avaliação da {contato.clinica.trim()}.</p>
+      <p className="cl-form__ok-rotulo">Pedido recebido · falta 1 passo</p>
+      <h3 ref={titulo} tabIndex={-1}>Agora é só mandar a mensagem, {contato.nome.trim().split(' ')[0]}.</h3>
+      {calculo && calculo.perda_mes > 0 && <p className="cl-form__ok-perda">As faltas custam <b>{reais(calculo.perda_mes)} por mês</b> para a {contato.clinica.trim()}.</p>}
+      <p className="cl-form__ok-texto">A mensagem para o Gustavo já está escrita, com a sua prioridade{calculo && calculo.perda_mes > 0 ? ' e a sua conta' : ''}. Toque no botão, envie, e ele responde para marcar a avaliação.</p>
+      <a className="cl-btn cl-form__whats" href={mensagemWhatsApp(resp, contato, calculo)} target="_blank" rel="noopener"
+        data-cta="whatsapp" onClick={() => medir(EVENTOS.whatsapp, {}, {eventID: `${id.current}-wa`})}>
+        <Icon name="conversa" size={20} />Mandar mensagem no WhatsApp
+      </a>
       <button type="button" className="cl-form__voltar cl-form__corrigir"
         onClick={() => { id.current = crypto.randomUUID(); setEstado('preenchendo'); irPara(TOTAL - 1); }}>Corrigir meus dados</button>
     </div>;
@@ -176,9 +196,11 @@ export default function Avaliacao() {
       <div className="cl-form__cab">
         <p className="cl-form__passo">Passo {passo + 1} de {TOTAL}</p>
         <h3 ref={titulo} tabIndex={-1}>{etapa ? etapa.titulo : 'Para onde a gente responde'}</h3>
-        <p className="cl-form__apoio">{etapa ? etapa.apoio : 'A gente chama você no WhatsApp para marcar um horário.'}</p>
+        <p className="cl-form__apoio">{etapa ? etapa.apoio : 'Depois de enviar, você manda a mensagem pronta para o Gustavo no WhatsApp e ele marca a avaliação.'}</p>
         {calculo && calculo.perda_mes > 0 && <p className="cl-form__conta"><Icon name="agenda" size={16} />
           <span>Sua conta de faltas vai junto: <b>{reais(calculo.perda_mes)} por mês</b></span></p>}
+        {!etapa && !(calculo && calculo.perda_mes > 0) && <p className="cl-form__conta"><Icon name="agenda" size={16} />
+          <span>Ainda não fez a conta? <a href="#faltas">Veja quanto as faltas custam por mês</a> e volte aqui.</span></p>}
       </div>
 
     {etapa && etapa.campos.map(c => {

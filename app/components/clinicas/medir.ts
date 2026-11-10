@@ -11,6 +11,7 @@ export const EVENTOS = {
   passo3: 'AvaliacaoPasso3',
   calculadora: 'CalculadoraUsada',
   lead: 'Lead',
+  whatsapp: 'WhatsAppAberto',
 } as const;
 
 const jaFoi = new Set<string>();
