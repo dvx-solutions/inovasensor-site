@@ -239,6 +239,11 @@
 .s-avaliacao .cl-form--ok h3{font-size:clamp(30px,3.6vw,40px)}
 .s-avaliacao .cl-form__ok-texto{max-width:36ch;font-size:17px;line-height:1.55;color:var(--tinta-2)}
 .s-avaliacao .cl-form__corrigir{margin-top:8px}
+.s-avaliacao .cl-form__ok-perda{max-width:34ch;padding:12px 16px;border-radius:var(--raio-sm);background:var(--rosa-claro);color:var(--tinta);font-size:18px;line-height:1.4}
+.s-avaliacao .cl-form__ok-perda b{color:var(--rosa-forte);white-space:nowrap}
+.s-avaliacao .cl-form__whats{width:100%;max-width:420px;justify-content:center;gap:10px;background:#1fa855;box-shadow:0 12px 30px rgba(31,168,85,.35)}
+.s-avaliacao .cl-form__whats:hover{background:#178c46}
+.s-avaliacao .cl-form__conta a{color:var(--rosa-forte);font-weight:600;text-decoration:underline;text-underline-offset:2px}
 
 /* Movimento reduzido: tudo parado e completo */
 @media (prefers-reduced-motion:reduce){
