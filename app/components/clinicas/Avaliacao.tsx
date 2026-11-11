@@ -169,10 +169,10 @@ export default function Avaliacao() {
         {Array.from({length: 8}, (_, i) => <span key={i} className="cl-form__ok-faisca" style={{'--i': i} as CSSProperties} />)}
         <Icon name="check" size={44} />
       </span>
-      <p className="cl-form__ok-rotulo">Pedido recebido · falta 1 passo</p>
-      <h3 ref={titulo} tabIndex={-1}>Agora é só mandar a mensagem, {contato.nome.trim().split(' ')[0]}.</h3>
+      <p className="cl-form__ok-rotulo">Falta só 1 passo</p>
+      <h3 ref={titulo} tabIndex={-1}>{contato.nome.trim().split(' ')[0]}, você está a 1 passo de mudar a realidade da sua clínica.</h3>
       {calculo && calculo.perda_mes > 0 && <p className="cl-form__ok-perda">As faltas custam <b>{reais(calculo.perda_mes)} por mês</b> para a {contato.clinica.trim()}.</p>}
-      <p className="cl-form__ok-texto">A mensagem para o Gustavo já está escrita, com a sua prioridade{calculo && calculo.perda_mes > 0 ? ' e a sua conta' : ''}. Toque no botão, envie, e ele responde para marcar a avaliação.</p>
+      <p className="cl-form__ok-texto">Toque no botão e envie a mensagem que já está escrita para o Gustavo, com a sua prioridade{calculo && calculo.perda_mes > 0 ? ' e a sua conta' : ''}. A avaliação só é marcada depois que ela chega.</p>
       <a className="cl-btn cl-form__whats" href={mensagemWhatsApp(resp, contato, calculo)} target="_blank" rel="noopener"
         data-cta="whatsapp" onClick={() => medir(EVENTOS.whatsapp, {}, {eventID: `${id.current}-wa`})}>
         <Icon name="conversa" size={20} />Mandar mensagem no WhatsApp
